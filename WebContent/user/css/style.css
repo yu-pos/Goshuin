@@ -1,0 +1,2361 @@
+/* ===========================
+   ベース設定
+   =========================== */
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at center, #e5d7c6, #c7b6a4);
+  font-family: "Noto Serif JP", "Yu Mincho", serif;
+}
+
+/* ===========================
+   仮想スマホ枠
+   =========================== */
+.phone-frame {
+  position: relative;
+  width: 300px;
+  height: 600px;
+  border: 10px solid #2b2b2b;
+  border-radius: 30px;
+  background: #000;
+  box-shadow: 0 0 25px rgba(0,0,0,0.4);
+  overflow: hidden;
+}
+
+.phone-notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 20px;
+  background: #000;
+  border-radius: 0 0 14px 14px;
+  z-index: 10;
+}
+
+/* ===========================
+   和風背景（鳥居＋和紙風）
+   =========================== */
+.phone-screen {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(255,255,255,0.75), rgba(255,255,255,0.85)),
+    url("images/1.jpg");
+  background-size: cover, cover, auto;
+  background-position: center center;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+body,
+.phone-screen,
+.main-content {
+  scrollbar-width: thin;           /* Firefox対応：細く */
+  scrollbar-color: rgba(0,0,0,0.15) transparent; /* うっすらグレー */
+}
+
+/* Chrome, Edge, Safari用 */
+body::-webkit-scrollbar,
+.phone-screen::-webkit-scrollbar,
+.main-content::-webkit-scrollbar {
+  width: 6px;                      /* 細くする */
+}
+
+body::-webkit-scrollbar-track,
+.phone-screen::-webkit-scrollbar-track,
+.main-content::-webkit-scrollbar-track {
+  background: transparent;          /* 背景なし */
+}
+
+body::-webkit-scrollbar-thumb,
+.phone-screen::-webkit-scrollbar-thumb,
+.main-content::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.15);  /* 透明度を高くして控えめに */
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+body::-webkit-scrollbar-thumb:hover,
+.phone-screen::-webkit-scrollbar-thumb:hover,
+.main-content::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.25); /* ホバー時だけ少し濃く */
+}
+
+/* ===========================
+   ヘッダー全体
+   =========================== */
+.app-header {
+  height: 52px;
+  background: rgba(180, 75, 52, 0.9);
+  color: #fff;
+  display: flex;
+  align-items: flex-end; /* ⬅ タイトルを少し下寄せ */
+  justify-content: space-between;
+  padding: 0 12px 6px;
+  border-bottom: 2px solid #843424;
+}
+
+/* ===========================
+   タイトル
+   =========================== */
+.header-title {
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  flex: 1;
+  margin-bottom: 2px;
+}
+
+/* ===========================
+   ボタン
+   =========================== */
+.header-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===========================
+   ボタン内の画像調整
+   =========================== */
+.header-btn img {
+  width: 22px;           /* ← アイコンサイズを統一 */
+  height: 22px;          /* ← 正方形に */
+  object-fit: contain;   /* ← 歪み防止 */
+  opacity: 0.75;         /* ← 少し透過して背景になじませる */
+  filter: drop-shadow(0 0 2px rgba(0,0,0,0.2)); /* ← 輪郭を柔らかく */
+  transition: opacity 0.2s ease;
+}
+
+.header-btn img:hover {
+  opacity: 1;            /* ← ホバー時にくっきり */
+}
+
+/* ===========================
+   QRアイコン設定（和風テイスト）
+   =========================== */
+.qr-icon {
+  width: 26px;               /* サイズ調整 */
+  height: 26px;
+  object-fit: contain;       /* 歪み防止 */
+  opacity: 0.75;             /* 透過して柔らかく */
+  filter: brightness(0) saturate(100%)
+          invert(10%) sepia(15%) saturate(50%) hue-rotate(0deg)
+          contrast(90%) drop-shadow(0 0 3px rgba(0,0,0,0.3));
+  transition: opacity 0.25s ease, transform 0.2s ease;
+}
+
+.qr-icon:hover {
+  opacity: 1;
+  transform: scale(1.05);    /* ホバーで少し拡大 */
+}
+
+
+/* ===========================
+   メインコンテンツ
+   =========================== */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(5px);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+  border: 1px solid #e2d4c3;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+h1 {
+  font-size: 1.1rem;
+  margin: 0 0 8px;
+  color: #5a2d17;
+  text-align: center;
+}
+
+.btn {
+  width: 100%;
+  background: #c88a58;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+.rank-section h2 {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;                /* 文字と画像の間隔 */
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #4b2e05;          /* 和風の落ち着いた茶色 */
+  border-bottom: 2px solid rgba(75,46,5,0.2);
+  padding-bottom: 4px;
+}
+
+/* ランクアイコン */
+/* ===========================
+   ランクセクション
+   =========================== */
+.rank-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+}
+
+/* ランクタイトル部分 */
+.rank-section h2 {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1.4rem;            /* 大きめの文字 */
+  font-weight: 700;
+  color: #3a1f04;               /* 和風の濃茶 */
+  margin: 0;
+  gap: 60px;                    /* ← ここを広めにして空間を作る（推奨値 16〜28px） */
+  padding-left: 4px;            /* ← 左の余白も少し追加でバランスUP */
+}
+
+/* ランクアイコン */
+.rank-icon {
+  width: 80px;                  /* ← 大きめに設定 */
+  height: 80px;
+  object-fit: contain;
+  align-self: flex-end;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 3px rgba(0,0,0,0.25));
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.rank-icon:hover {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+/* ボタン */
+.rank-section .btn {
+  align-self: center;         /* ← ボタンを右寄せ */
+  padding: 8px 14px;            /* ← 少し細め */
+  font-size: 0.9rem;
+  border-radius: 8px;
+  width: auto;                  /* ← 幅を自動調整 */
+  background: linear-gradient(90deg, #c48b4c, #b3752b);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.rank-section .btn:hover {
+  background: linear-gradient(90deg, #dba85f, #c98538);
+}
+/* ===========================
+   おみくじボタン
+   =========================== */
+.omikuji {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: left;
+  justify-content: left;
+}
+
+/* ===========================
+   ボタン内の画像調整
+   =========================== */
+.omikuji img {
+  width: 40px;           /* ← アイコンサイズを統一 */
+  height: 40px;          /* ← 正方形に */
+  object-fit: contain;   /* ← 歪み防止 */
+  opacity: 0.75;         /* ← 少し透過して背景になじませる */
+  filter: drop-shadow(0 0 2px rgba(0,0,0,0.2)); /* ← 輪郭を柔らかく */
+  transition: opacity 0.2s ease;
+}
+
+.omikuji img:hover {
+  opacity: 1;            /* ← ホバー時にくっきり */
+}
+
+/* ===========================
+   おみくじアイコン設定（和風テイスト）
+   =========================== */
+.-icon {
+  width: 26px;               /* サイズ調整 */
+  height: 26px;
+  object-fit: contain;       /* 歪み防止 */
+  opacity: 0.75;             /* 透過して柔らかく */
+  filter: brightness(0) saturate(100%)
+          invert(10%) sepia(15%) saturate(50%) hue-rotate(0deg)
+          contrast(90%) drop-shadow(0 0 3px rgba(0,0,0,0.3));
+  transition: opacity 0.25s ease, transform 0.2s ease;
+}
+
+.omikuji-icon:hover {
+  opacity: 1;
+  transform: scale(1.05);    /* ホバーで少し拡大 */
+}
+
+/* ===========================
+   イベントセクション
+   =========================== */
+.event-section {
+  margin-top: 20px;
+  padding: 0 14px;
+}
+
+.event-section h2 {
+  font-size: 1.2rem;
+  color: #3a1f04;
+  margin-bottom: 10px;
+  border-left: 4px solid #b3752b;
+  padding-left: 6px;
+}
+
+/* 横並びスクロール */
+.event-list {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  padding-bottom: 10px;
+  scroll-snap-type: x mandatory;
+}
+
+.event-list::-webkit-scrollbar {
+  height: 6px;
+}
+.event-list::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+/* カード全体 */
+.event-card {
+  flex: 0 0 220px;                /* カード幅 */
+  background: #fffaf5;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+  text-decoration: none;
+  color: #333;
+  scroll-snap-align: start;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+/* 画像 */
+.event-img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+}
+
+/* 情報部分 */
+.event-info {
+  padding: 8px 10px;
+}
+
+.event-info h3 {
+  font-size: 1rem;
+  margin: 0 0 4px 0;
+  color: #5b2c0b;
+  font-weight: 600;
+}
+
+.event-info p {
+  font-size: 0.85rem;
+  color: #6b5a45;
+  margin: 0;
+}
+
+
+/* ===========================
+   フッターナビ
+   =========================== */
+.footer-nav {
+  background: rgba(255, 250, 245, 0.95);
+  border-top: 2px solid #d9cbb8;
+  padding: 4px 0;
+  height: 60px;
+}
+
+/* ===========================
+   フッターナビリンク共通設定
+   =========================== */
+.footer-nav nav {
+  display: flex;
+  justify-content: space-around;
+  background: #fff;
+  border-top: 1px solid #ddd;
+}
+
+.nav-btn {
+  flex: 1;
+  text-align: center;
+  font-size: 1.2rem; /* ← 以前1.4remから少し小さく */
+  color: #444;
+  text-decoration: none;
+  background: none;
+  padding: 4px 0;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-btn span {
+  display: block;
+  font-size: 0.65rem; /* ← ラベル部分も小さめに */
+}
+
+.nav-btn:hover {
+  color: #b87333; /* 和風の銅色アクセント */
+  transform: scale(1.05);
+}
+
+.nav-btn.active {
+  color: hsl(42, 61%, 49%); /* 選択中を金色で強調 */
+}
+
+/* ===============================
+   御朱印スワイプギャラリー（トリミングなし）
+   =============================== */
+.goshuin-gallery {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background: #000; /* 背景が透けないように黒 */
+  margin: 0;
+  padding: 0;
+}
+
+.gallery-track {
+  display: flex;
+  transition: transform 0.4s ease-in-out;
+  width: 100%;
+  height: 100%;
+  align-items: center; /* 画像を上下中央に */
+  justify-content: center;
+}
+
+.gallery-track img {
+  width: 100%;
+  height: auto; /* ← トリミングせず縦横比を維持 */
+  flex-shrink: 0;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+  background: #000;
+  display: block;
+  object-fit: contain; /* ← トリミングなし・黒背景で調整 */
+}
+
+.gallery-track {
+  cursor: grab; /* ← PCでマウス操作の見た目を自然に */
+}
+
+.gallery-track:active {
+  cursor: grabbing;
+}
+.kasutamubtn-row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 18px auto 25px;
+  padding: 0 20px;
+  max-width: 360px; /* 📱 スマホ中央寄せ */
+}
+
+/* 🟡 丸ボタン設定 */
+.kasutamubtn-row .nav-btn {
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle at 30% 30%, #f9e18d, #e0b44c);
+  color: #4a3a00;
+  border-radius: 50%;
+  font-size: 1.6rem;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* 🪶 押したときの動き */
+.kasutamubtn-row .nav-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+}
+
+/* 🔹 小さい画面対応 */
+@media (max-width: 380px) {
+  .kasutamubtn-row .nav-btn {
+    width: 52px;
+    height: 52px;
+    font-size: 1.4rem;
+  }
+}
+
+/* 🔍 検索フォーム */
+.search-section {
+  margin: 15px 0;
+  text-align: center;
+}
+
+.search-section label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 5px;
+  color: #3b2f0b;
+  font-weight: bold;
+}
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.search-box input {
+  width: 70%;
+  padding: 8px 10px;
+  border: 1px solid #cbb56c;
+  border-radius: 8px;
+  background-color: #fffdf5;
+  font-size: 1.2rem;
+}
+
+.search-btn {
+  background: linear-gradient(135deg, #e6c46b, #d4a33b);
+  color: #4a3a00;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* 🏷️ タグセレクト検索 */
+.tag-select-section {
+  margin: 15px 0;
+  text-align: center;
+}
+
+.tag-select-section h2 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: #3b2f0b;
+  font-weight: bold;
+}
+
+.tag-search-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.tag-search-box select {
+  width: 80%;
+  padding: 8px 10px;
+  border: 1px solid #c8a755;
+  border-radius: 8px;
+  background-color: #fffdf5;
+  font-size: 1rem;
+  color: #3b2f0b;
+}
+
+.tag-search-box .search-btn {
+  background: linear-gradient(135deg, #e6c46b, #d4a33b);
+  color: #4a3a00;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 40%;
+  transition: all 0.2s ease;
+}
+
+.tag-search-box .search-btn:hover {
+  background: #f7d98b;
+  transform: scale(1.05);
+}
+
+/* 小画面対応（横並び） */
+@media (min-width: 480px) {
+  .tag-search-box {
+    flex-direction: row;
+    justify-content: center;
+  }
+  .tag-search-box select {
+    width: 40%;
+  }
+}
+
+.search-btn {
+  background: linear-gradient(to bottom, #dcb64a, #cfa23e);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: 0.2s;
+  text-align: center;
+}
+
+.search-btn:hover {
+  background: linear-gradient(to bottom, #cfa23e, #b98c31);
+}
+
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 15px;
+}
+
+.page-title {
+  font-size: 1.2rem;
+  color: #4b2c0d;
+  font-weight: bold;
+}
+
+/* 💾 小さめ保存ボタン */
+.save-btn {
+  background: linear-gradient(135deg, #d4af37, #f8e58c);
+  border: 1px solid #bfa130;
+  border-radius: 15px;
+  padding: 4px 10px;  /* ← サイズを少し小さく */
+  font-size: 0.8rem;  /* ← 文字サイズ小さめ */
+  color: #4b2c0d;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+  transition: 0.2s;
+}
+
+.save-btn:hover {
+  background: linear-gradient(135deg, #f0d060, #fff2b2);
+  transform: scale(1.05);
+}
+/* 🖼️ 表紙画像 */
+.cover-img {
+  width: 85%;
+  max-width: 280px;
+  height: auto;
+  margin: 10px auto;
+  display: block;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* 🌸 ステッカー選択 */
+.sticker-section {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.sticker-section h2 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: #4b382a;
+}
+
+/* 横スクロール */
+.sticker-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  padding: 10px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sticker-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+.sticker-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(180, 150, 80, 0.4);
+  border-radius: 3px;
+}
+
+/* ステッカーアイコン */
+.sticker-item {
+  flex: 0 0 auto;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff8e7;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.sticker-item:hover {
+  transform: scale(1.08);
+}
+
+.sticker-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 5px;
+}
+
+.goshuin-cover {
+  position: relative;
+  width: 85%;
+  margin: 20px auto;
+}
+
+.cover-img {
+  width: 100%;
+  border-radius: 10px;
+  display: block;
+}
+
+.sticker-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ステッカー選択メニュー */
+.sticker-menu {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  margin: 10px;
+  scroll-snap-type: x mandatory;
+}
+
+.sticker-option {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  cursor: grab;
+  scroll-snap-align: center;
+}
+
+/* 貼られたステッカー */
+.sticker {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  cursor: move;
+  user-select: none;
+  touch-action: none;
+}
+
+.goshuin-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  padding: 10px;
+}
+
+.goshuin-item {
+  text-align: center;
+  width: 130px;
+}
+
+.goshuin-item img {
+  width: 120px;
+  height: 140px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.add-btn {
+  margin-top: 8px;
+  padding: 6px 10px;
+  background-color: #ffd54f;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.add-btn:hover {
+  background-color: #ffca28;
+}
+
+.add-btn.added {
+  background-color: #4CAF50;
+  color: #fff;
+  cursor: default;
+}
+
+
+/* 🏯 検索結果カード */
+.result-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.temple-card {
+  display: flex;
+  background: #fffdf8;
+  border: 1px solid #e8d5b7;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.temple-img {
+  width: 35%;
+  object-fit: cover;
+}
+
+.temple-info {
+  padding: 10px;
+  flex: 1;
+}
+
+.temple-info h3 {
+  margin: 0 0 6px;
+  color: #a06a00;
+  font-size: 1rem;
+}
+
+.temple-info p {
+  margin: 2px 0;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.detail-btn {
+  display: inline-block;
+  margin-top: 6px;
+  background: linear-gradient(to bottom, #dcb64a, #cfa23e);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.detail-btn:hover {
+  background: linear-gradient(to bottom, #cfa23e, #b98c31);
+}
+
+
+/* 🔙 戻るボタン付きタイトル */
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+/* タイトル */
+.page-title {
+  font-size: 1.2rem;
+  color: #a06a00;
+  margin: 0;
+  flex: 1;
+}
+
+/* 戻るボタン */
+.back-btn {
+  background: linear-gradient(to bottom, #f0e2c4, #e2c88f);
+  border: 1px solid #cfa23e;
+  border-radius: 20px;
+  color: #5c4400;
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+  transition: 0.2s;
+}
+
+.back-btn:hover {
+  background: linear-gradient(to bottom, #e2c88f, #d3b071);
+}
+
+/* 🏯 神社画像を大きく */
+.temple-img-large {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* 📖 神社情報 */
+.temple-info p {
+  margin: 6px 0;
+  font-size: 0.9rem;
+  color: #4a3b1b;
+}
+
+/* 💬 口コミセクション */
+.review-section {
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+/* タイトルとボタンを横並び */
+.review-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.review-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* 🧭 横スライドエリア */
+.review-slider {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  gap: 12px;
+  padding-bottom: 10px;
+}
+
+.review-item {
+  flex: 0 0 85%;
+  scroll-snap-align: start;
+  background: #fff8e7;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: flex-start;
+}
+
+.user-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.review-content h4 {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #8b5e00;
+}
+
+.review-content p {
+  margin-top: 3px;
+  font-size: 0.85rem;
+  color: #333;
+  line-height: 1.4;
+}
+
+/* スクロールバー非表示 */
+.review-slider::-webkit-scrollbar {
+  display: none;
+}
+
+/* ✨ 小さめ投稿ボタン（左寄せ） */
+.tuokou-btn {
+  display: inline-block;
+  background: linear-gradient(to bottom, #f0e2c4, #e2c88f);
+  border: 1px solid #cfa23e;
+  border-radius: 16px;
+  padding: 4px 10px;
+  color: #5c4400;
+  font-weight: bold;
+  font-size: 0.8rem;
+  text-decoration: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: 0.2s;
+}
+
+.tuokou-btn:hover {
+  background: linear-gradient(to bottom, #e2c88f, #d3b071);
+}
+
+.event2-section {
+  margin-top: 20px;
+  padding: 0 14px;
+}
+
+.event2-section h2 {
+  font-size: 1.2rem;
+  color: #3a1f04;
+  margin-bottom: 10px;
+  border-left: 4px solid #b3752b;
+  padding-left: 6px;
+}
+
+/* 横並びスクロール */
+.event-list {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  padding-bottom: 10px;
+  scroll-snap-type: x mandatory;
+}
+
+.event-list::-webkit-scrollbar {
+  height: 6px;
+}
+.event-list::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+/* カード全体 */
+.event-card {
+  flex: 0 0 220px;                /* カード幅 */
+  background: #fffaf5;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+  text-decoration: none;
+  color: #333;
+  scroll-snap-align: start;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+/* 画像 */
+.event-img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+}
+
+/* 情報部分 */
+.event-info {
+  padding: 8px 10px;
+}
+
+.event-info h3 {
+  font-size: 1rem;
+  margin: 0 0 4px 0;
+  color: #5b2c0b;
+  font-weight: 600;
+}
+
+.event-info p {
+  font-size: 0.85rem;
+  color: #6b5a45;
+  margin: 0;
+}
+
+/* 🔵 選択ボタンエリア */
+.sentaku {
+  display: flex;
+  flex-direction: row; /* 横並び */
+  justify-content: center;
+  gap: 20px;
+}
+
+/* 🔴 神社・お寺ボタン */
+.sentaku-btn {
+  display: inline-block;
+  width: 140px;
+  text-align: center;
+  background: linear-gradient(to bottom, #f7e6b2, #e0c073);
+  color: #4a3600;
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-decoration: none;
+  padding: 14px 0;
+  border-radius: 40px;
+  border: 4px solid #c8a14d;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  margin-left: 60px;
+  margin-top: 60px;
+}
+
+/* 🟠 ホバー・クリック時のアニメーション */
+.sentaku-btn:hover {
+  background: linear-gradient(to bottom, #f2d680, #d6b35f);
+  transform: scale(1.05);
+}
+
+.sentaku-btn:active {
+  transform: scale(0.95);
+}
+
+
+/* 🟦 ログインフォーム */
+.login {
+  background: rgba(255, 255, 255, 0.85);
+  border: 2px solid #d4b16a;
+  border-radius: 20px;
+  padding: 30px 20px;
+  width: 85%;
+  max-width: 350px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+
+}
+
+.login h1 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #3a2b0e;
+  border-bottom: 1px solid #c4a15a;
+  padding-bottom: 10px;
+}
+
+/* 入力欄 */
+.login label {
+  display: block;
+  text-align: left;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.login input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 9px;
+  border: 1px solid #cbb88f;
+  font-size: 1rem;
+  margin-right: 10px;
+}
+
+/* ログインボタン */
+.login-btn {
+  display: block;
+  margin-top: 25px;
+  background: linear-gradient(to bottom, #f5d67d, #d6b55c);
+  color: #4a3600;
+  font-weight: bold;
+  padding: 10px 0;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: all 0.2s ease;
+  margin-right: 10px;
+  margin-left: 10px;
+  padding-left: 75px;
+}
+
+.login-btn:hover {
+  background: linear-gradient(to bottom, #f2cf60, #cda24e);
+  transform: scale(1.05);
+}
+
+
+form {
+  background: rgba(255, 255, 255, 0.85);
+  border: 2px solid #d4b16a;
+  border-radius: 20px;
+  padding: 25px;
+  width: 90%;
+  max-width: 380px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  padding-right: 10px;
+}
+
+table {
+  width: 90%;
+  border-collapse: collapse;
+}
+
+td {
+  padding: 10px 5px;
+  text-align: left;
+  font-weight: bold;
+  color: #4a3600;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #cbb88f;
+  border-radius: 8px;
+  font-size: 0.6rem;
+  background-color: #fffef9;
+}
+
+/* 登録ボタン */
+.sinki-btn {
+  display: block;
+  margin: 20px auto 0;
+  background: linear-gradient(to bottom, #f5d67d, #d6b55c);
+  color: #4a3600;
+  font-weight: bold;
+  padding: 10px 0;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 1.1rem;
+  width: 70%;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.sinki-btn:hover {
+  background: linear-gradient(to bottom, #f2cf60, #cda24e);
+  transform: scale(1.05);
+}
+
+/* ⭐ お気に入りボタン */
+.title-with-fav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.fav-btn {
+  font-size: 1.0rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ccc;
+  transition: color 0.3s;
+}
+
+/* ❤️ いいねボタン */
+.like-btn {
+  margin-top: 6px;
+  background: #fff;
+  border: 1px solid #e0a0a0;
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #c44;
+}
+.like-btn.liked {
+  background: #ffb6c1;
+  color: #fff;
+  border-color: #ff8aa2;
+}
+
+/* 💬 いいねメッセージ */
+.like-message {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 0.95rem;
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+.like-message.show {
+  opacity: 1;
+}
+
+/* 🌟 ポイントページ */
+.point-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 15px;
+}
+
+.user-point {
+  font-size: 14px;
+  background: #f9f9f9;
+  padding: 6px 10px;
+  border-radius: 10px;
+  color: #333;
+}
+
+.point-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 10px 15px;
+}
+
+.point-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s;
+}
+
+.point-card:hover {
+  transform: scale(1.02);
+}
+
+.reward-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-right: 1px solid #eee;
+}
+
+.point-info {
+  padding: 10px 15px;
+  flex: 1;
+}
+
+.exchange-btn {
+  display: inline-block;
+  margin-top: 8px;
+  background-color: #f4b400;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.exchange-btn:hover {
+  background-color: #e09a00;
+}
+
+/* 🌸 ポイント交換カテゴリタイトル */
+.point-category {
+  margin-bottom: 25px;
+  padding-left: 15px;
+}
+
+.point-category h2 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* 🎠 横スクロールエリア */
+.scroll-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  padding: 10px 15px 15px;
+  scroll-snap-type: x mandatory;
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none; /* スクロールバー非表示 */
+}
+
+/* 🧧 アイテムカード（整った比率） */
+.point-card {
+  flex: 0 0 140px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  scroll-snap-align: start;
+  overflow: hidden;
+  transition: transform 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.point-card:hover {
+  transform: translateY(-3px);
+}
+
+/* 🖼️ 画像を統一サイズ・角丸 */
+.reward-img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+
+/* 📘 情報部分 */
+.point-info {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.point-info h4 {
+  font-size: 13px;
+  margin: 6px 0 2px;
+  color: #222;
+}
+
+.point-info p {
+  font-size: 12px;
+  color: #777;
+  margin-bottom: 6px;
+}
+
+/* 🎟️ 交換ボタン */
+.exchange-btn {
+  display: inline-block;
+  background-color: #f4b400;
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-size: 12px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.exchange-btn:hover {
+  background-color: #e09a00;
+}
+
+/* 🟡 ポイント交換確認ページ */
+.point-confirm {
+  text-align: center;
+  padding: 20px;
+}
+
+.point-confirm h1 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.point-confirm p {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* 商品画像と説明 */
+.confirm-item {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 15px;
+  margin: 0 auto 25px;
+  width: 80%;
+}
+
+.confirm-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.confirm-item h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.need-point {
+  font-weight: bold;
+  color: #e67e22;
+}
+
+/* ボタン配置 */
+.confirm-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.btn {
+  flex: 1;
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 20px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  margin: 0 5px;
+}
+
+
+
+.exchange-btn {
+  background: #f4b400;
+}
+
+.exchange-btn:hover {
+  background: #e09a00;
+}
+
+/* 🟣 口コミ投稿フォーム */
+
+
+.form-group {
+  margin-bottom: 14px;
+  margin-right: 5px;
+  padding-right: 5px;
+  border-right: 5px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+input[type="text"],
+textarea,
+input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: none;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.cancel-btn,
+.submit-btn {
+  flex: 1;
+  margin: 0 5px;
+  padding: 10px 0;
+  border-radius: 20px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+  color: #f4b400;
+}
+
+
+
+.submit-btn {
+  background-color: #f4b400;
+}
+
+.submit-btn:hover {
+  background-color: #e09a00;
+}
+
+/* 🟢 プロフィール */
+.profile-section {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  margin: 15px;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.profile-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.profile-info h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+
+
+/* 💖 お気に入り */
+.favorite-section {
+  margin: 20px 15px;
+}
+
+.favorite-section h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.favorite-slider {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 10px;
+}
+
+.favorite-item {
+  flex: 0 0 auto;
+  width: 120px;
+  text-align: center;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  scroll-snap-align: start;
+}
+
+.favorite-item img {
+  width: 100%;
+  border-radius: 10px 10px 0 0;
+}
+
+.favorite-item p {
+  margin: 5px 0;
+  font-size: 13px;
+}
+
+/* 📖 御朱印帳 */
+.goshuin-section {
+  margin: 20px 15px;
+  text-align: center;
+  background: #fff;
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.goshuin-img {
+  width: 150px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 10px 15px;
+}
+
+.page-title {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.edit-btn {
+  background-color: #ffd700;
+  color: #333;
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 0.9em;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.edit-btn:hover {
+  background-color: #ffcc00;
+  transform: scale(1.05);
+}
+
+/* 🔸 プロフィール編集画面 */
+.edit-profile {
+  text-align: center;
+}
+
+.edit-profile h2 {
+  font-size: 1.3em;
+  margin-bottom: 15px;
+}
+
+.edit-profile-img {
+  position: relative;
+  margin: 10px auto 20px;
+}
+
+.edit-profile-img img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.change-btn {
+  display: inline-block;
+  background-color: #ffd700;
+  color: #333;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 0.9em;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.change-btn:hover {
+  background-color: #ffcc00;
+}
+
+.form-group {
+  text-align: left;
+  margin: 10px 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1em;
+}
+
+.btn-area {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.save-btn,
+.cancel-btn {
+  padding: 8px 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.save-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+}
+
+.save-btn:hover {
+  background-color: #45a049;
+}
+
+.cancel-btn {
+  background-color: #ccc;
+  color: #333;
+}
+
+.cancel-btn:hover {
+  background-color: #bbb;
+}
+
+/* 🔘 スイッチデザイン */
+.toggle-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 20px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.3s;
+  border-radius: 26px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #4CAF50;
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+
+.my-goshuin-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.goshuin-preview {
+  width: 100px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+}
+
+.clear-btn {
+  padding: 5px 10px;
+  background: #f55;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.clear-btn:hover {
+  background: #d33;
+}
+
+.coupon-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.coupon-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  padding: 10px;
+}
+
+.coupon-img {
+  width: 35%;
+  border-radius: 8px;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.coupon-info {
+  flex: 1;
+}
+
+.coupon-info h3 {
+  font-size: 16px;
+  margin: 0 0 5px;
+}
+
+.use-btn {
+  background: #ff9800;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.use-btn.used {
+  background: #999;
+  cursor: default;
+}
+
+.note {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+
+.goshuin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 16px;
+}
+
+.goshuin-item {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 12px;
+  text-align: center;
+}
+
+.goshuin-item img {
+  width: 100%;
+  height: 160px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.goshuin-name {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 8px 0;
+}
+
+.use-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.use-btn:hover {
+  background-color: #45a049;
+}
+
+
+.coupon-note {
+  font-size: 15px;
+  color: #444;
+  text-align: center;
+  margin: 10px 0 20px;
+  line-height: 1.6;
+}
+
+.coupon-detail {
+  text-align: center;
+  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  margin-bottom: 25px;
+}
+
+.coupon-detail-img {
+  width: 80%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.coupon-detail h2 {
+  font-size: 18px;
+  margin: 5px 0;
+}
+
+.use-btn-area {
+  text-align: center;
+}
+
+.use-btn-large {
+  display: inline-block;
+  background: #ff9800;
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 12px 60px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.use-btn-large:hover {
+  background: #e68900;
+}
+
+.goshuin-purchase {
+  text-align: center;
+  padding: 15px;
+}
+
+.goshuin-purchase h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.goshuin-image-area {
+  margin: 10px 0;
+}
+
+.goshuin-img {
+  width: 85%;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.goshuin-desc {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+  margin: 15px 0 25px;
+}
+
+.purchase-btn-area {
+  text-align: center;
+}
+
+.purchase-btn {
+  display: inline-block;
+  background: #ff9800;
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 12px 60px;
+  border-radius: 8px;
+  font-size: 18px;
+  transition: background 0.3s;
+}
+
+.purchase-btn:hover {
+  background: #e68a00;
+}
+
+.goshuin-confirm {
+  text-align: center;
+  padding: 20px;
+}
+
+.goshuin-confirm h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.goshuin-img {
+  width: 85%;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  margin: 10px 0 20px;
+}
+
+.confirm-message {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.confirm-details {
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 25px;
+  font-size: 15px;
+  color: #333;
+  text-align: left;
+  display: inline-block;
+}
+
+.purchase-btn-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.purchase-btn,
+.cancel-btn {
+  display: inline-block;
+  width: 80%;
+  padding: 12px 0;
+  text-decoration: none;
+  font-size: 17px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.purchase-btn {
+  background: #ff9800;
+  color: #fff;
+}
+
+.purchase-btn:hover {
+  background: #e68a00;
+}
+
+.cancel-btn {
+  background: #ccc;
+  color: #333;
+}
+
+.cancel-btn:hover {
+  background: #bbb;
+}
+
+.favorite-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.favorite-item {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  padding: 10px;
+  text-align: center;
+}
+
+.favorite-img {
+  width: 100%;
+  height: 120px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.favorite-name {
+  font-weight: bold;
+  margin: 8px 0;
+}
+
+.replace-btn {
+  background: #fff;
+  color: #2e7d32;
+  border: 2px solid #4caf50;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.replace-btn:hover {
+  background: #4caf50;
+  color: #fff;
+}
+
+.new-favorite {
+  margin-top: 20px;
+  text-align: center;
+}
+.new-favorite img {
+  width: 90%;
+  border-radius: 10px;
+  margin-top: 8px;
+}
+.new-name {
+  margin-top: 4px;
+  font-weight: bold;
+}
+
+.btn-area {
+  text-align: center;
+  margin-top: 20px;
+}
+.cancel-btn {
+  color: #555;
+  text-decoration: underline;
+  font-size: 14px;
+}
+
+.omikuji-content {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.omikuji-box {
+  background: #fffbe6;
+  border: 3px solid #d4af37;
+  border-radius: 16px;
+  padding: 24px;
+  margin: 0 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.omikuji-result {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #c59b00;
+}
+
+.omikuji-message {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.6;
+}
+
+.close-btn {
+  display: inline-block;
+  background: #d4af37;
+  color: white;
+  border-radius: 24px;
+  padding: 10px 24px;
+  font-size: 1rem;
+  margin-top: 30px;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.close-btn:hover {
+  background: #b8902f;
+}
+
+
+/* ===========================
+   サイドメニュー
+   =========================== */
+.side-menu {
+  position: absolute;
+  top: 0;
+  left: -200px;
+  width: 180px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  border-right: 2px solid #d9cbb8;
+  transition: left 0.3s ease;
+  z-index: 60;
+  padding-top: 60px;
+}
+.side-menu.active { left: 0; }
+
+.side-menu h2 {
+  margin: 0 0 10px 16px;
+  font-size: 1rem;
+  color: #a04832;
+}
+
+.side-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.side-menu li {
+  border-bottom: 1px solid #e0d3c2;
+}
+.side-menu a {
+  display: block;
+  padding: 10px 16px;
+  color: #4a3b2f;
+  text-decoration: none;
+}
+.side-menu a:hover {
+  background: #f2e6d8;
+}
+
+.nara, .tensin, .kamakura, .edo {
+  background: #fffdf7;
+  border: 2px solid #e0c58c;
+  border-radius: 20px;
+  padding: 15px;
+  margin: 15px auto;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.nara p,
+.tensin p,
+.kamakura p,
+.edo p {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #7a5a00;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #d8b566;
+  display: inline-block;
+  padding-bottom: 4px;
+}
+
+/* ボタン */
+.choose-btn {
+  display: inline-block;
+  margin: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(to bottom, #f8e49d, #e1c46c);
+  border: 1px solid #c4a654;
+  border-radius: 25px;
+  text-decoration: none;
+  color: #3a2b0e;
+  font-weight: bold;
+  font-size: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  transition: all 0.2s ease;
+}
+
+.choose-btn:hover {
+  background: linear-gradient(to bottom, #f2d06b, #d1a945);
+  transform: scale(1.05);
+}
+
+/* ===========================
+   オーバーレイ
+   =========================== */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+  z-index: 50;
+}
+.overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+.app-header {
+  height: 52px;
+  background: rgba(180, 75, 52, 0.9); /* 錆朱色 */
+  color: #fff;
+  display: flex;
+  align-items: flex-end; /* ⬅️ 下寄せに変更 */
+  justify-content: space-between;
+  padding: 0 12px 6px; /* ⬅️ 下に余白を追加 */
+  border-bottom: 2px solid #843424;
+}
+
+/* タイトルの位置微調整 */
+.header-title {
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  flex: 1;
+  margin-bottom: 2px; /* ⬅️ 少し下に寄せる */
+}
+
