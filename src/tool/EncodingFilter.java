@@ -28,7 +28,7 @@ public class EncodingFilter implements Filter {
 
 	public void init(FilterConfig filterConfig) {
 	}
-
+zzz
 	public void destroy() {
 	}
 }
