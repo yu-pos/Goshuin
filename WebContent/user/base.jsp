@@ -9,7 +9,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>ポケ御朱帳 in 山形</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="/goshuin/user/css/style.css">
 </head>
 
 
