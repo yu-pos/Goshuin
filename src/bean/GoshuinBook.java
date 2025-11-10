@@ -5,9 +5,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class GoshuinBook implements Serializable {
-	private RegdGoshuinBookDesign goshuinBookDesign; //設定された表紙デザイン
-	private List<GoshuinBookStickerAttachment> AttachedStickerList; //張り付けられたステッカーリスト
-	private List<RegdGoshuin> goshuinList; //御朱印帳に登録されている御朱印リスト
+	private int id; //御朱印帳ID
+	private RegdGoshuinBookDesign goshuinBookDesign; //設定された表紙デザイン(外部)
+	private List<GoshuinBookStickerAttachment> AttachedStickerList; //張り付けられたステッカーリスト(外部)
+	private List<RegdGoshuin> goshuinList; //御朱印帳に登録されている御朱印リスト(外部)
 	private LocalDateTime updatedAt; //データ更新日時
 	private LocalDateTime createdAt; //データ登録日時
 
