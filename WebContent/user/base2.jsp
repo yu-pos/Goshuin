@@ -26,8 +26,9 @@
 
 
 	  <main class="main-content"> ${param.content} </main>
+	 </div>
 
-  </div>
+	</div>
 
 
   <script src="/goshuin/user/scripts/script.js"></script>
