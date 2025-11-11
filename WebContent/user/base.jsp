@@ -55,5 +55,3 @@
 
 
   <script src="/goshuin/user/scripts/script.js"></script>
-</body>
-</html>
