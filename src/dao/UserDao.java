@@ -21,14 +21,14 @@ public class UserDao extends Dao {
 	 */
 
 	/**
-	 * SearchByIdメソッド 教員IDを指定して教員インスタンスを1件取得する
+	 * Getメソッド 利用者IDを指定して利用者インスタンスを1件取得する
 	 *
-	 * @param id:String
-	 *            教員ID
-	 * @return 教員クラスのインスタンス 存在しない場合はnull
+	 * @param id:int
+	 *            利用者ID
+	 * @return 利用者クラスのインスタンス 存在しない場合はnull
 	 * @throws Exception
 	 */
-	public User SearchById(int id) throws Exception {
+	public User Get(int id) throws Exception {
 		// 教員インスタンスを初期化
 		User user = new User();
 		// コネクションを確立
