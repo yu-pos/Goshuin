@@ -15,6 +15,16 @@ html, body {
    仮想スマホ枠
    =========================== */
 
+   .phone-frame {
+  position: relative;
+  width: 300px;
+  height: 600px;
+  border-radius: 30px;
+  background: #000;
+
+  overflow: hidden;
+}
+
 
 /* ===========================
    和風背景（鳥居＋和紙風）
