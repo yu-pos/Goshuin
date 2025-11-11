@@ -14,8 +14,7 @@ html, body {
 /* ===========================
    仮想スマホ枠
    =========================== */
-
-   .phone-frame {
+.phone-frame {
   position: relative;
   width: 300px;
   height: 600px;
