@@ -12,4 +12,47 @@ public class RegdGoshuin implements Serializable {
 	private String imagePath; //画像パス
 	private LocalDateTime updatedAt; //更新日時
 	private LocalDateTime createdAt; //作成日時
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public ShrineAndTemple getShrineAndTemple() {
+		return shrineAndTemple;
+	}
+	public void setShrineAndTemple(ShrineAndTemple shrineAndTemple) {
+		this.shrineAndTemple = shrineAndTemple;
+	}
+	public String getSaleStartDate() {
+		return saleStartDate;
+	}
+	public void setSaleStartDate(String saleStartDate) {
+		this.saleStartDate = saleStartDate;
+	}
+	public String getSaleEndDate() {
+		return saleEndDate;
+	}
+	public void setSaleEndDate(String saleEndDate) {
+		this.saleEndDate = saleEndDate;
+	}
+	public String getImagePath() {
+		return imagePath;
+	}
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
 }
