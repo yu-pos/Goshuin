@@ -8,7 +8,8 @@ public class Operator implements Serializable {
 	private int id;
 	private  String password;
 	private  boolean isAdmin;
-	private boolean firstLoginCompleted;
+	private boolean isFirstLoginCompleted;
+	private boolean isEnable;
 	private LocalDateTime updatedAt;
 	private LocalDateTime createdAt;
 	public int getId() {
@@ -30,10 +31,16 @@ public class Operator implements Serializable {
 		this.isAdmin = isAdmin;
 	}
 	public boolean isFirstLoginCompleted() {
-		return firstLoginCompleted;
+		return isFirstLoginCompleted;
 	}
-	public void setFirstLoginCompleted(boolean firstLoginCompleted) {
-		this.firstLoginCompleted = firstLoginCompleted;
+	public void setFirstLoginCompleted(boolean isFirstLoginCompleted) {
+		this.isFirstLoginCompleted = isFirstLoginCompleted;
+	}
+	public boolean isEnable() {
+		return isEnable;
+	}
+	public void setEnable(boolean isEnable) {
+		this.isEnable = isEnable;
 	}
 	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
