@@ -3,6 +3,66 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:import url="../base.jsp">
 	<c:param name="content">
+		<div class="page-header">
+          <a href="name.html" class="back-btn">← <span>戻る</span></a>
+          <div class="title-with-fav">
+            <h1 class="page-title">上杉神社</h1>
+            <button id="fav-btn" class="fav-btn" aria-label="お気に入り">💖</button>
+          </div>
+        </div>
+
+        <!-- 📸 神社画像 -->
+        <img src="images/126.jpg" alt="上杉神社" class="temple-img-large">
+
+        <!-- 📖 情報 -->
+        <section class="temple-info">
+          <p><strong>所在地：</strong>山形県米沢市丸の内1丁目4-13</p>
+          <p><strong>ご利益：</strong>勝負運・出世・学業成就</p>
+          <p><strong>タグ：</strong>⛩️ 神社 / 🌸 山形市 / 🪷 学業成就</p>
+          <p><strong>紹介：</strong>上杉謙信を祀る神社として知られ、学問や勝負運にご利益があります。</p>
+          <p><strong>周辺状況：</strong>近くに上杉博物館がある</p>
+        </section>
+
+        <!-- 🗣️ 口コミセクション -->
+       <section class="review-section">
+		  <div class="review-header">
+		    <h2>口コミ</h2>
+		    <a href="kutikomi.html" class="tuokou-btn">＋ 投稿</a>
+		  </div>
+
+		  <div class="review-slider">
+		    <div class="review-item">
+		      <img src="images/134.png" alt="ユーザー1" class="user-icon">
+		      <div class="review-content">
+		        <h4><a href="profile2.html">ゆみこ さん</a></h4>
+		        <p>紅葉の時期に訪れました🍁 とても綺麗で心が洗われました！</p>
+		        <button class="like-btn">♡ <span class="like-count">0</span></button>
+		      </div>
+		    </div>
+
+		    <div class="review-item">
+		      <img src="images/user2.png" alt="ユーザー2" class="user-icon">
+		      <div class="review-content">
+		        <h4>ゆみこ さん</h4>
+		        <p>御朱印も素敵で、学業成就のお守りも購入しました✨</p>
+		        <button class="like-btn">♡ <span class="like-count">0</span></button>
+		      </div>
+		    </div>
+
+		    <div class="review-item">
+		      <img src="images/user3.png" alt="ユーザー3" class="user-icon">
+		      <div class="review-content">
+		        <h4>けんじ さん</h4>
+		        <p>アクセスもよく、境内が広くて気持ちよかったです！</p>
+		        <button class="like-btn">♡ <span class="like-count">0</span></button>
+		      </div>
+		    </div>
+		  </div>
+		</section>
+
+		<div id="like-message" class="like-message">いいねしました！</div>
+
+		<img src="images/132.png" alt="上杉神社" class="temple-img-large">
 
 	</c:param>
 </c:import>
