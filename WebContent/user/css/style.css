@@ -37,7 +37,6 @@ html, body {
   z-index: 10;
 }
 
-
 /* ===========================
    和風背景（鳥居＋和紙風）
    =========================== */
@@ -46,7 +45,7 @@ html, body {
   inset: 0;
   background:
     linear-gradient(rgba(255,255,255,0.75), rgba(255,255,255,0.85)),
-    url("images/1.jpg");
+    url("images/1.png");
   background-size: cover, cover, auto;
   background-position: center center;
   border-radius: 24px;
@@ -2128,114 +2127,6 @@ input:checked + .slider:before {
   background: #bbb;
 }
 
-.favorite-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 12px;
-}
-
-.favorite-item {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  padding: 10px;
-  text-align: center;
-}
-
-.favorite-img {
-  width: 100%;
-  height: 120px;
-  border-radius: 10px;
-  object-fit: cover;
-}
-
-.favorite-name {
-  font-weight: bold;
-  margin: 8px 0;
-}
-
-.replace-btn {
-  background: #fff;
-  color: #2e7d32;
-  border: 2px solid #4caf50;
-  border-radius: 20px;
-  padding: 6px 14px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.replace-btn:hover {
-  background: #4caf50;
-  color: #fff;
-}
-
-.new-favorite {
-  margin-top: 20px;
-  text-align: center;
-}
-.new-favorite img {
-  width: 90%;
-  border-radius: 10px;
-  margin-top: 8px;
-}
-.new-name {
-  margin-top: 4px;
-  font-weight: bold;
-}
-
-.btn-area {
-  text-align: center;
-  margin-top: 20px;
-}
-.cancel-btn {
-  color: #555;
-  text-decoration: underline;
-  font-size: 14px;
-}
-
-.omikuji-content {
-  text-align: center;
-  margin-top: 40px;
-}
-
-.omikuji-box {
-  background: #fffbe6;
-  border: 3px solid #d4af37;
-  border-radius: 16px;
-  padding: 24px;
-  margin: 0 20px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.omikuji-result {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #c59b00;
-}
-
-.omikuji-message {
-  font-size: 1rem;
-  color: #444;
-  line-height: 1.6;
-}
-
-.close-btn {
-  display: inline-block;
-  background: #d4af37;
-  color: white;
-  border-radius: 24px;
-  padding: 10px 24px;
-  font-size: 1rem;
-  margin-top: 30px;
-  text-decoration: none;
-  transition: background 0.3s;
-}
-
-.close-btn:hover {
-  background: #b8902f;
-}
 
 
 /* ===========================

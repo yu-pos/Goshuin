@@ -29,19 +29,19 @@
 
 
 
-	<main class="main-content"> ${param.content} </main>
+	  <main class="main-content"> ${param.content} </main>
 
-    <footer class="footer-nav">
-        <nav>
-            <a href="menu.html" class="nav-btn active">🏠<br><span>ホーム</span></a>
-            <a href="goshuin.html" class="nav-btn">📙<br><span>御朱印帳</span></a>
-            <a href="temples.html" class="nav-btn">⛩️<br><span>神社仏閣<br>情報</span></a>
-            <a href="points.html" class="nav-btn">🦃<br><span>ポイント交換</span></a>
-            <a href="profile.html" class="nav-btn">👤<br><span>プロフィール</span></a>
-        </nav>
-    </footer>
-      <aside id="side-menu" class="side-menu">
-            <h2>メニュー</h2>
+	  <footer class="footer-nav">
+	     	<nav>
+	        	<a href="menu.html" class="nav-btn active">🏠<br><span>ホーム</span></a>
+	            <a href="goshuin.html" class="nav-btn">📙<br><span>御朱印帳</span></a>
+	            <a href="temples.html" class="nav-btn">⛩️<br><span>神社仏閣<br>情報</span></a>
+	            <a href="points.html" class="nav-btn">🦃<br><span>ポイント交換</span></a>
+	            <a href="profile.html" class="nav-btn">👤<br><span>プロフィール</span></a>
+	        </nav>
+	   </footer>
+       <aside id="side-menu" class="side-menu">
+       		<h2>メニュー</h2>
             <ul>
             <li><a href="event.html">📄 イベント一覧</a></li>
             <li><a href="sanpai.html">🙏 参拝方法</a></li>
@@ -53,6 +53,7 @@
     </div>
   </div>
 
-  <script src="scripts/script.js"></script>
+
+  <script src="/goshuin/user/scripts/script.js"></script>
 </body>
 </html>
