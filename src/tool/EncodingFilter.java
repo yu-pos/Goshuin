@@ -28,10 +28,7 @@ public class EncodingFilter implements Filter {
 
 	public void init(FilterConfig filterConfig) {
 	}
-<<<<<<< HEAD
-=======
 
->>>>>>> branch 'master' of https://github.com/yu-pos/Goshuin.git
 	public void destroy() {
 	}
 }
