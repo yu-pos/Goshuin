@@ -84,21 +84,59 @@ public class RegdGoshuinDao extends Dao {
     }
 
     /**
-     * 御朱印情報を保存するメソッド
+     * 御朱印情報を登録(保存)するメソッド
      * @param regdgoshuin 保存対象の RegdGoshuin オブジェクト
      * @return boolean 保存成功なら true、失敗なら false
      */
-    public boolean save(RegdGoshuin regdoshuin) throws Exception{
-    	//コネクションを確立
-    	Connection connection = getConnection();
-    	//プリペアードステートメント
-    	PreparedStatement statement = null;
-    	//実行件数
-    	int count = 0;
+    public boolean save(RegdGoshuin regdgoshuin) throws Exception {
+        // コネクションを確立
+        Connection connection = getConnection();
+        // プリペアードステートメント
+        PreparedStatement statement = null;
+        // 実行件数
+        int count = 0;
 
-    	try {
+        try {
+            // SQL文を準備
+            String sql = "INSERT INTO regd_goshuin " +
+                         "(shrine_and_temple_id, sale_start_date, sale_end_date, image_path, created_at, updated_at) " +
+                         "VALUES (?, ?, ?, ?, ?, ?)";
 
+            statement = connection.prepareStatement(sql);
 
-    	}
+            // プレースホルダに値をバインド
+            statement.setInt(1, regdgoshuin.getShrineAndTemple().getId());
+            statement.setString(2, regdgoshuin.getSaleStartDate());
+            statement.setString(3, regdgoshuin.getSaleEndDate());
+            statement.setString(4, regdgoshuin.getImagePath());
+            statement.setTimestamp(5, java.sql.Timestamp.valueOf(regdgoshuin.getCreatedAt()));
+            statement.setTimestamp(6, java.sql.Timestamp.valueOf(regdgoshuin.getUpdatedAt()));
+
+            // SQLを実行
+            count = statement.executeUpdate();
+
+            // 1件以上登録できれば true
+            return count > 0;
+        } catch (Exception e) {
+            throw e; // 呼び出し元に例外を投げる
+        } finally {
+            // ステートメントを閉じる
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException sqle) {
+                    throw sqle;
+                }
+            }
+            // コネクションを閉じる
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException sqle) {
+                    throw sqle;
+                }
+            }
+        }
     }
+
 }
