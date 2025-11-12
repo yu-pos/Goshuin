@@ -5,6 +5,7 @@
 	<c:param name="content">
 		 <div class="profile-header">
           <h1 class="page-title">○○さんのプロフィール</h1>
+          <a href="profile2.html" class="edit-btn" aria-label="プロフィール編集">✏️ 編集</a>
         </div>
 
         <!-- 👤 ユーザー情報 -->
