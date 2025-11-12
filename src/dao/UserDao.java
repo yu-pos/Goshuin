@@ -32,7 +32,7 @@ public class UserDao extends Dao {
 	 * @throws Exception
 	 */
 	public User getById(int id) throws Exception {
-		// 教員インスタンスを初期化
+		// 利用者インスタンスを初期化
 		User user = new User();
 		// コネクションを確立
 		Connection connection = getConnection();
@@ -53,7 +53,7 @@ public class UserDao extends Dao {
 
 			if (resultSet.next()) {
 				// リザルトセットが存在する場合
-				// 教員インスタンスに検索結果をセット
+				// 利用者インスタンスに検索結果をセット
 				user.setId(resultSet.getInt("id"));
 				user.setUserName(resultSet.getString("user_name"));
 				user.setRealName(resultSet.getString("real_name"));
