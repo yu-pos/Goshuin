@@ -112,7 +112,6 @@ public class GoshuinBookDao extends Dao {
 		List<GoshuinBook> list = new ArrayList<>();
 
 		//御朱印帳ID格納リスト
-		List<Integer> goshuinBookIds = new ArrayList<>();
 		Map<Integer, GoshuinBook> goshuinBookMap = new HashMap<>();
 
 		// コネクションを確立
@@ -128,8 +127,8 @@ public class GoshuinBookDao extends Dao {
 													+ " goshuin_book_sticker_attachment.goshuin_book_sticker_id, goshuin_book_sticker_attachment.x_pos, goshuin_book_sticker_attachment.y_pos, goshuin_book_sticker_attachment.rotation, goshuin_book_sticker_attachment.name, goshuin_book_sticker_attachment.image_path,"
 													+ " goshuin_book.updated_at, goshuin_book.created_at"
 													+ " FROM goshuin_book "
-													+ " LEFT JOIN (SELECT goshuin_book_id, goshuin_book_sticker_id, x_pos, y_pos, rotation, name, image_path FROM goshuin_book_sticker_attachment JOIN regd_goshuin_book_sticker ON goshuin_book_sticker_attachment.goshuin_book_sticker_id = regd_goshuin_book_sticker.id) as goshuin_book_sticker_attachment  ON goshuin_book.id = goshuin_book_sticker_attachment.goshuin_book_id"
-													+ " LEFT JOIN regd_goshuin_book_design ON goshuin_book.goshuin_book_design_id = regd_goshuin_book_design.id"
+													+ " JOIN (SELECT goshuin_book_id, goshuin_book_sticker_id, x_pos, y_pos, rotation, name, image_path FROM goshuin_book_sticker_attachment JOIN regd_goshuin_book_sticker ON goshuin_book_sticker_attachment.goshuin_book_sticker_id = regd_goshuin_book_sticker.id) as goshuin_book_sticker_attachment  ON goshuin_book.id = goshuin_book_sticker_attachment.goshuin_book_id"
+													+ " JOIN regd_goshuin_book_design ON goshuin_book.goshuin_book_design_id = regd_goshuin_book_design.id"
 													+ " WHERE user_id = ?"
 													+ " ORDER BY goshuin_book.id desc"
 													);

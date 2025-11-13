@@ -46,7 +46,7 @@ public class GoshuinBookStickerAttachmentDao extends Dao {
 				GoshuinBookStickerAttachment goshuinBookStickerAttachment = new GoshuinBookStickerAttachment();
 
 				goshuinBookStickerAttachment.setGoshuinBookId(resultSet.getInt("goshuin_book_id"));
-				goshuinBookStickerAttachment.setGoshuinBookSticker(regdGoshuinBookStickerDao.getById("goshuin_book_sticker_id"));
+				goshuinBookStickerAttachment.setGoshuinBookSticker(regdGoshuinBookStickerDao.getById(resultSet.getInt("goshuin_book_sticker_id")));
 				goshuinBookStickerAttachment.setxPos(resultSet.getDouble("x_pos"));
 				goshuinBookStickerAttachment.setyPos(resultSet.getDouble("y_pos"));
 				goshuinBookStickerAttachment.setRotation(resultSet.getDouble("rotation"));

@@ -61,12 +61,12 @@ public class UserDao extends Dao {
 				user.setAddress(resultSet.getString("address"));
 				user.setTelNumber(resultSet.getString("tel_number"));
 				user.setPassword(resultSet.getString("password"));
-				user.setActiveGoshuinBook(goshuinBookDao.GetById(resultSet.getInt("active_goshuin_book_id")));
+				user.setActiveGoshuinBook(goshuinBookDao.getById(resultSet.getInt("active_goshuin_book_id")));
 				user.setPoint(resultSet.getInt("point"));
 				user.setRank(resultSet.getInt("rank"));
 				user.setGoshuinCount(resultSet.getInt("goshuin_count"));
 				user.setProfileImagePath(resultSet.getString("profile_image_path"));
-				user.setMyGoshuinBook(goshuinBookDao.GetById(resultSet.getInt("my_goshuin_book_id")));
+				user.setMyGoshuinBook(goshuinBookDao.getById(resultSet.getInt("my_goshuin_book_id")));
 				user.setMyGoshuinBookPublic(resultSet.getBoolean("is_my_goshuin_book_public"));
 				user.setLastLoginAt(resultSet.getTimestamp("last_login_at").toLocalDateTime());
 				user.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
@@ -138,12 +138,12 @@ public class UserDao extends Dao {
 				user.setAddress(resultSet.getString("address"));
 				user.setTelNumber(resultSet.getString("tel_number"));
 				user.setPassword(resultSet.getString("password"));
-				user.setActiveGoshuinBook(goshuinBookDao.GetById(resultSet.getInt("active_goshuin_book_id")));
+				user.setActiveGoshuinBook(goshuinBookDao.getById(resultSet.getInt("active_goshuin_book_id")));
 				user.setPoint(resultSet.getInt("point"));
 				user.setRank(resultSet.getInt("rank"));
 				user.setGoshuinCount(resultSet.getInt("goshuin_count"));
 				user.setProfileImagePath(resultSet.getString("profile_image_path"));
-				user.setMyGoshuinBook(goshuinBookDao.GetById(resultSet.getInt("my_goshuin_book_id")));
+				user.setMyGoshuinBook(goshuinBookDao.getById(resultSet.getInt("my_goshuin_book_id")));
 				user.setMyGoshuinBookPublic(resultSet.getBoolean("is_my_goshuin_book_public"));
 				user.setLastLoginAt(resultSet.getTimestamp("last_login_at").toLocalDateTime());
 				user.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
@@ -202,7 +202,7 @@ public class UserDao extends Dao {
 			// 御朱印帳DAOを初期化
 			GoshuinBookDao goshuinBookDao = new GoshuinBookDao();
 			// 御朱印帳登録
-			Pair<Boolean, Integer> pair = goshuinBookDao.insert();
+			Pair<Boolean, Integer> pair = goshuinBookDao.insert(user.getId());
 			// 登録に失敗した場合、例外を発生させる
 			if (!pair.getLeft()) {
 				throw new Exception();
