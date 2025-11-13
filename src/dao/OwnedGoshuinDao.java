@@ -383,7 +383,7 @@ public List<OwnedGoshuin> SearchByGoshuinBook(int GoshuinBookId) {
 			}
 		}
 	}
-}
+
 	return list;
 }
 }
