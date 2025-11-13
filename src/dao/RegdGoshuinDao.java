@@ -16,8 +16,10 @@ public class RegdGoshuinDao extends Dao {
 
     /**
      * 神社仏閣IDから御朱印情報を検索するメソッド
+     *
      * @param shrineAndTempleId 神社仏閣ID（外部キー）
      * @return RegdGoshuin 該当する御朱印情報（見つからない場合は null）
+     * @throws Exception
      */
     public RegdGoshuin searchByShrineAndTempleId(int shrineAndTempleId) throws Exception{
 
@@ -85,10 +87,11 @@ public class RegdGoshuinDao extends Dao {
 
     /**
      * 御朱印情報を登録(保存)するメソッド
+     *
      * @param regdgoshuin 保存対象の RegdGoshuin オブジェクト
      * @return boolean 保存成功なら true、失敗なら false
      */
-    public boolean save(RegdGoshuin regdgoshuin) throws Exception {
+    public boolean insert(RegdGoshuin regdgoshuin) throws Exception {
         // コネクションを確立
         Connection connection = getConnection();
         // プリペアードステートメント
@@ -99,8 +102,8 @@ public class RegdGoshuinDao extends Dao {
         try {
             // SQL文を準備
             String sql = "INSERT INTO regd_goshuin " +
-                         "(shrine_and_temple_id, sale_start_date, sale_end_date, image_path, created_at, updated_at) " +
-                         "VALUES (?, ?, ?, ?, ?, ?)";
+                         "(shrine_and_temple_id, sale_start_date, sale_end_date, image_path, created_at) " +
+                         "VALUES (?, ?, ?, ?, ?)";
 
             statement = connection.prepareStatement(sql);
 
@@ -110,7 +113,6 @@ public class RegdGoshuinDao extends Dao {
             statement.setString(3, regdgoshuin.getSaleEndDate());
             statement.setString(4, regdgoshuin.getImagePath());
             statement.setTimestamp(5, java.sql.Timestamp.valueOf(regdgoshuin.getCreatedAt()));
-            statement.setTimestamp(6, java.sql.Timestamp.valueOf(regdgoshuin.getUpdatedAt()));
 
             // SQLを実行
             count = statement.executeUpdate();
@@ -137,6 +139,72 @@ public class RegdGoshuinDao extends Dao {
                 }
             }
         }
+    }
+
+
+    /**
+     * getByIdメソッド 御朱印IDを指定して、登録御朱印インスタンスを一件取得する
+     *
+     * @param id:int
+     * @return 登録御朱印クラスのインスタンス 存在しない場合はnull
+     * @throws Exception
+     */
+    public RegdGoshuin getById(int id) throws Exception{
+    	// 登録御朱印インスタンスを初期化
+    	RegdGoshuin rg = new RegdGoshuin();
+    	// コネクションを確立
+    	Connection connection = getConnection();
+    	// プリペアードステートメント
+    	PreparedStatement statement = null;
+
+    	try {
+    		// プリペアードステートメントにSQL文をセット
+    		statement = connection.prepareStatement("SELECT id, shrine_and_temple_id, sale_start_date, sale_end_date, image_path, updated_at, created_at"
+    				+ "FROM regd_goshuin where id = ?");
+    		//プリペアードステートメントに御朱印IDをバインド
+    		statement.setInt(1, id);
+    		// プリペアードステートメントを実行
+    		ResultSet resultSet = statement.executeQuery();
+
+    		//
+    		if (resultSet.next()) {
+    			// リザルトセットが存在する場合
+    			rg.setId(resultSet.getInt("id"));
+
+    			// ShrineAndTempleオブジェクトを生成してIDをセット
+                ShrineAndTemple sat = new ShrineAndTemple();
+                sat.setId(resultSet.getInt("shrine_and_temple_id"));
+                rg.setShrineAndTemple(sat);
+
+    			// その他のフィールド
+    			rg.setSaleStartDate(resultSet.getString("sale_start_date"));
+                rg.setSaleEndDate(resultSet.getString("sale_end_date"));
+                rg.setImagePath(resultSet.getString("image_path"));
+                rg.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
+                rg.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
+
+    		}
+    	} catch (Exception e) {
+            throw e; // 呼び出し元に例外を投げる
+        } finally {
+            // ステートメントを閉じる
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException sqle) {
+                    throw sqle;
+                }
+            }
+            // コネクションを閉じる
+            if (connection != null) {
+                try {
+                   connection.close();
+                } catch (SQLException sqle) {
+                    throw sqle;
+                }
+            }
+        }
+    	return rg; // 見つからなければ null、見つかれば RegdGoshuin インスタンス
     }
 
 }
