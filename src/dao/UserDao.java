@@ -178,14 +178,14 @@ public class UserDao extends Dao {
 	}
 
 	/**
-	 * saveメソッド 利用者情報を登録または更新 登録時は御朱印帳発行も自動で行う
+	 * insertメソッド 利用者情報を登録 御朱印帳発行も自動で行う
 	 *
 	 * @param user:User
 	 *            利用者情報
-	 * @return Boolean
+	 * @return 成功可否
 	 * @throws Exception
 	 */
-	public boolean save(User user) throws Exception {
+	public boolean insert(User user) throws Exception {
 		// コネクションを確立
 		Connection connection = getConnection();
 		// プリペアードステートメント
@@ -195,50 +195,32 @@ public class UserDao extends Dao {
 		int count = 0;
 
 		try {
-			// データベースから利用者を取得
-			User old = getById(user.getId());
 
-			if (old == null) {
-				// 利用者が存在しなかった場合、利用者を新規作成
+			// 利用者を新規作成
 
-				// 新たな御朱印帳を発行
-				// 御朱印帳DAOを初期化
-				GoshuinBookDao goshuinBookDao = new GoshuinBookDao();
-				// 御朱印帳登録
-				Pair<Boolean, Integer> pair = goshuinBookDao.save();
-
-				// 登録に失敗した場合、例外を発生させる
-				if (!pair.getLeft()) {
-					throw new Exception();
-				}
-
-
-				// プリペアードステートメントにINSERT文をセット
-				statement = connection.prepareStatement("INSERT INTO user(user_name, real_name, birth_date, address, tel_number, password, active_goshuin_book_id, my_goshuin_book_id, last_login_at) VALUES(?, ?, ?, ?, ?, ?, ?, ?, CURRENT_DATETIME)");
-				// プリペアードステートメントに値をバインド
-				statement.setString(1, user.getUserName());
-				statement.setString(2, user.getRealName());
-				statement.setTimestamp(3, Timestamp.valueOf(user.getBirthDate()));
-				statement.setString(4, user.getAddress());
-				statement.setString(5, user.getTelNumber());
-				statement.setString(6, user.getPassword());
-				statement.setInt(7, pair.getRight());
-				statement.setInt(8, pair.getRight());
-
-			} else {
-				// 利用者が存在した場合、情報を更新
-				// プリペアードステートメントにUPDATE文をセット
-				statement = connection.prepareStatement("UPDATE user SET user_name = ?, active_goshuin_book_id = ?, rank = ?, goshuin_count = ?, profile_image_path = ?, my_goshuin_book_id = ?, is_my_goshuin_book_public = ?, updated_at = CURRENT_DATETIME WHERE id = ?");
-				// プリペアードステートメントに値をバインド
-				statement.setString(1, user.getUserName());
-				statement.setInt(2, user.getActiveGoshuinBook().getId());
-				statement.setInt(3, user.getRank());
-				statement.setInt(4, user.getGoshuinCount());
-				statement.setString(5, user.getProfileImagePath());
-				statement.setInt(6, user.getMyGoshuinBook().getId());
-				statement.setBoolean(7, user.isMyGoshuinBookPublic());
-				statement.setInt(8, user.getId());
+			// 新たな御朱印帳を発行
+			// 御朱印帳DAOを初期化
+			GoshuinBookDao goshuinBookDao = new GoshuinBookDao();
+			// 御朱印帳登録
+			Pair<Boolean, Integer> pair = goshuinBookDao.insert();
+			// 登録に失敗した場合、例外を発生させる
+			if (!pair.getLeft()) {
+				throw new Exception();
 			}
+
+
+			// プリペアードステートメントにINSERT文をセット
+			statement = connection.prepareStatement("INSERT INTO user(user_name, real_name, birth_date, address, tel_number, password, active_goshuin_book_id, my_goshuin_book_id, last_login_at) VALUES(?, ?, ?, ?, ?, ?, ?, ?, CURRENT_DATETIME)");
+			// プリペアードステートメントに値をバインド
+			statement.setString(1, user.getUserName());
+			statement.setString(2, user.getRealName());
+			statement.setTimestamp(3, Timestamp.valueOf(user.getBirthDate()));
+			statement.setString(4, user.getAddress());
+			statement.setString(5, user.getTelNumber());
+			statement.setString(6, user.getPassword());
+			statement.setInt(7, pair.getRight());
+			statement.setInt(8, pair.getRight());
+
 
 			// プリペアードステートメントを実行
 			count = statement.executeUpdate();
@@ -275,13 +257,78 @@ public class UserDao extends Dao {
 
 
 	/**
+	 * updateメソッド 利用者情報を更新
+	 *
+	 * @param user:User
+	 *            利用者情報
+	 * @return 成功可否
+	 * @throws Exception
+	 */
+	public boolean update(User user) throws Exception {
+		// コネクションを確立
+		Connection connection = getConnection();
+		// プリペアードステートメント
+		PreparedStatement statement = null;
+
+		// 実行件数
+		int count = 0;
+
+		try {
+
+			// 利用者が存在した場合、情報を更新
+			// プリペアードステートメントにUPDATE文をセット
+			statement = connection.prepareStatement("UPDATE user SET user_name = ?, active_goshuin_book_id = ?, rank = ?, goshuin_count = ?, profile_image_path = ?, my_goshuin_book_id = ?, is_my_goshuin_book_public = ?, updated_at = CURRENT_DATETIME WHERE id = ?");
+			// プリペアードステートメントに値をバインド
+			statement.setString(1, user.getUserName());
+			statement.setInt(2, user.getActiveGoshuinBook().getId());
+			statement.setInt(3, user.getRank());
+			statement.setInt(4, user.getGoshuinCount());
+			statement.setString(5, user.getProfileImagePath());
+			statement.setInt(6, user.getMyGoshuinBook().getId());
+			statement.setBoolean(7, user.isMyGoshuinBookPublic());
+			statement.setInt(8, user.getId());
+
+			// プリペアードステートメントを実行
+			count = statement.executeUpdate();
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			// プリペアードステートメントを閉じる
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+			// コネクションを閉じる
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+		}
+
+		if (count == 1) {
+			// 実行件数1件の場合
+			return true;
+		} else {
+			// 実行件数がそれ以外の場合
+			return false;
+		}
+	}
+
+	/**
 	 * addPointメソッド ポイントを付与
 	 *
 	 * @param user:User
 	 *            利用者情報
 	 *        point:Int
 	 *            付与するポイント量
-	 * @return Boolean
+	 * @return 成功可否
 	 * @throws Exception
 	 */
 	public boolean addPoint(User user, int point) throws Exception {
@@ -351,7 +398,7 @@ public class UserDao extends Dao {
 	 *            利用者情報
 	 *        point:Int
 	 *            消費するポイント量
-	 * @return Boolean
+	 * @return 成功可否
 	 * @throws Exception
 	 */
 	public boolean subPoint(User user, int point) throws Exception {

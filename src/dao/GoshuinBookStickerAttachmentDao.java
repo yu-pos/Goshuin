@@ -38,7 +38,7 @@ public class GoshuinBookStickerAttachmentDao extends Dao {
 
 			// Daoを初期化
 			RegdGoshuinBookStickerDao regdGoshuinBookStickerDao = new RegdGoshuinBookStickerDao();
-			GoshuinBookStickerAttachmentDao goshuinBookStickerAttachmentDao = new GoshuinBookStickerAttachmentDao();
+			OwnedGoshuinDao ownedGoshuinDao = new OwnedGoshuinDao();
 
 			while(resultSet.next())  {
 				// リザルトセットが存在する場合
