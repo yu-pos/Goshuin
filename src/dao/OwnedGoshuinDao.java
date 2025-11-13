@@ -194,8 +194,8 @@ public class OwnedGoshuinDao extends Dao {
 		}
 
 
-}
 
+}
 
 
 
@@ -298,7 +298,7 @@ public class OwnedGoshuinDao extends Dao {
 //
 
 
-public List<OwnedGoshuin> SearchByGoshuinBook(int GoshuinBookId) {
+public List<OwnedGoshuin> SearchByGoshuinBook(int GoshuinBookId) throws Exception {
 
 
 
@@ -354,6 +354,7 @@ public List<OwnedGoshuin> SearchByGoshuinBook(int GoshuinBookId) {
 
 
 
+
             // 御朱印詳細データ取得
             ownedGoshuin.setGoshuin(regdGoshuinDao.getById(resultSet.getInt("id")));
 
@@ -367,25 +368,25 @@ public List<OwnedGoshuin> SearchByGoshuinBook(int GoshuinBookId) {
 		throw e;
 	} finally {
 		// プリペアードステートメントを閉じる
-		if (statement != null) {
-			try {
-				statement.close();
-			} catch (SQLException sqle) {
-				throw sqle;
+	// プリペアードステートメントを閉じる
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+			// コネクションを閉じる
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
 			}
 		}
-		// コネクションを閉じる
-		if (connection != null) {
-			try {
-				connection.close();
-			} catch (SQLException sqle) {
-				throw sqle;
-			}
+      return list;
+
 		}
-	}
 
-	return list;
 }
-}
-
-
