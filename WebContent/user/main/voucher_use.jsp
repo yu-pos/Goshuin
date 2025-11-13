@@ -18,7 +18,7 @@
 
         <!-- 使用ボタン -->
         <div class="use-btn-area">
-          <a href="ken3.html" class="use-btn-large">使用する</a>
+          <a href="" class="use-btn-large">使用する</a>
         </div>
 	</c:param>
 </c:import>

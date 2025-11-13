@@ -12,17 +12,7 @@
             <div class="coupon-info">
               <h3>山形商品券（500円）</h3>
               <p>利用期限：2025年12月31日</p>
-              <a href="ken2.html" class="nav-btn">使用する</a>
-            </div>
-          </div>
-
-          <!-- 🧧 商品券カード2 -->
-          <div class="coupon-card">
-            <img src="images/coupon2.jpg" alt="商品券2" class="coupon-img">
-            <div class="coupon-info">
-              <h3>おみやげ割引券（10%OFF）</h3>
-              <p>利用期限：2026年3月31日</p>
-              <button class="use-btn" data-id="2">使用する</button>
+              <a href="voucherUseAction" class="nav-btn">使用する</a>
             </div>
           </div>
         </section>
