@@ -102,8 +102,8 @@ public class RegdGoshuinDao extends Dao {
         try {
             // SQL文を準備
             String sql = "INSERT INTO regd_goshuin " +
-                         "(shrine_and_temple_id, sale_start_date, sale_end_date, image_path, created_at, updated_at) " +
-                         "VALUES (?, ?, ?, ?, ?, ?)";
+                         "(shrine_and_temple_id, sale_start_date, sale_end_date, image_path, created_at) " +
+                         "VALUES (?, ?, ?, ?, ?)";
 
             statement = connection.prepareStatement(sql);
 
@@ -113,7 +113,6 @@ public class RegdGoshuinDao extends Dao {
             statement.setString(3, regdgoshuin.getSaleEndDate());
             statement.setString(4, regdgoshuin.getImagePath());
             statement.setTimestamp(5, java.sql.Timestamp.valueOf(regdgoshuin.getCreatedAt()));
-            statement.setTimestamp(6, java.sql.Timestamp.valueOf(regdgoshuin.getUpdatedAt()));
 
             // SQLを実行
             count = statement.executeUpdate();
