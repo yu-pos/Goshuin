@@ -13,7 +13,7 @@ public class Event implements Serializable {
 
 	private String imagePath;
 
-	private LocalDateTime updateAt;
+	private LocalDateTime updatedAt;
 
 	private LocalDateTime createdAt;
 
@@ -50,11 +50,11 @@ public class Event implements Serializable {
 	}
 
 	public LocalDateTime getUpdateAt() {
-		return updateAt;
+		return updatedAt;
 	}
 
-	public void setUpdateAt(LocalDateTime updateAt) {
-		this.updateAt = updateAt;
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
 	public LocalDateTime getCreatedAt() {

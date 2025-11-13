@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class OwnedGoshuin implements Serializable {
-	
+
 	private RegdGoshuin goshuin; //御朱印情報(外部)
 	private int userId; //所持利用者
 	private int goshuinBookId; //登録御朱印帳ID(外部キー)
@@ -41,6 +41,6 @@ public class OwnedGoshuin implements Serializable {
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
-	
-	
+
+
 }

@@ -38,7 +38,7 @@ public class GoshuinBookStickerAttachmentDao extends Dao {
 
 			// Daoを初期化
 			RegdGoshuinBookStickerDao regdGoshuinBookStickerDao = new RegdGoshuinBookStickerDao();
-			GoshuinBookStickerAttachmentDao goshuinBookStickerAttachmentDao = new GoshuinBookStickerAttachmentDao();
+			OwnedGoshuinDao ownedGoshuinDao = new OwnedGoshuinDao();
 
 			while(resultSet.next())  {
 				// リザルトセットが存在する場合
@@ -46,7 +46,7 @@ public class GoshuinBookStickerAttachmentDao extends Dao {
 				GoshuinBookStickerAttachment goshuinBookStickerAttachment = new GoshuinBookStickerAttachment();
 
 				goshuinBookStickerAttachment.setGoshuinBookId(resultSet.getInt("goshuin_book_id"));
-				goshuinBookStickerAttachment.setGoshuinBookSticker(regdGoshuinBookStickerDao.getById("goshuin_book_sticker_id"));
+				goshuinBookStickerAttachment.setGoshuinBookSticker(regdGoshuinBookStickerDao.getById(resultSet.getInt("goshuin_book_sticker_id")));
 				goshuinBookStickerAttachment.setxPos(resultSet.getDouble("x_pos"));
 				goshuinBookStickerAttachment.setyPos(resultSet.getDouble("y_pos"));
 				goshuinBookStickerAttachment.setRotation(resultSet.getDouble("rotation"));
@@ -80,5 +80,89 @@ public class GoshuinBookStickerAttachmentDao extends Dao {
 		return list;
 	}
 
+	/**
+	 * updateメソッド ステッカー貼付情報を更新
+	 *
+	 * @param goshuinBook:GoshuinBook
+	 *            御朱印帳情報
+	 * @return 成功可否
+	 * @throws Exception
+	 */
+	public boolean update(GoshuinBook goshuinBook) throws Exception {
+		// コネクションを確立
+		Connection connection = getConnection();
+		// プリペアードステートメント
+		PreparedStatement statement = null;
+
+		// 実行件数
+		int count = 0;
+
+
+		try {
+
+			// 情報を更新
+
+			// 一度DBに保存されている対象御朱印帳のステッカー情報を削除
+			// プリペアードステートメントにDELETE文をセット
+			statement = connection.prepareStatement("DELETE FROM goshuin_book_sticker_attachment WHERE goshuin_book_id = ?");
+			// プリペアードステートメントに値をバインド
+			statement.setInt(1, goshuinBook.getId());
+
+			// プリペアードステートメントを実行
+			statement.executeUpdate();
+
+			statement.close();
+
+			// goshuinBookに保存されているステッカー貼付情報を登録
+			for ( GoshuinBookStickerAttachment goshuinBookStickerAttachment : goshuinBook.getAttachedStickerList()) {
+				// プリペアードステートメントにDELETE文をセット
+				statement = connection.prepareStatement("INSERT INTO goshuin_book_sticker_attachment(goshuin_book_id, goshuin_book_sticker_id, x_pos, y_pos, rotation) values(?, ?, ?, ?, ?)");
+
+				// プリペアードステートメントに値をバインド
+				statement.setInt(1, goshuinBook.getId());
+				statement.setInt(2, goshuinBookStickerAttachment.getGoshuinBookSticker().getId());
+				statement.setDouble(3, goshuinBookStickerAttachment.getxPos());
+				statement.setDouble(4, goshuinBookStickerAttachment.getyPos());
+				statement.setDouble(5, goshuinBookStickerAttachment.getRotation());
+
+				// プリペアードステートメントを実行
+				count += statement.executeUpdate();
+				statement.close();
+			}
+
+
+
+
+
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			// プリペアードステートメントを閉じる
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+			// コネクションを閉じる
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+		}
+
+		if (count == goshuinBook.getAttachedStickerList().size()) {
+			// 実行件数がステッカー情報数と同数の場合
+			return true;
+		} else {
+			// 実行件数がそれ以外の場合
+			return false;
+		}
+	}
 }
 
