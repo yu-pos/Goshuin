@@ -335,6 +335,8 @@ public class GoshuinBookDao extends Dao {
 		// 実行件数
 		int count = 0;
 
+		GoshuinBookStickerAttachmentDao goshuinBookStickerAttachmentDao = new GoshuinBookStickerAttachmentDao();
+
 		try {
 
 			// 情報を更新
@@ -348,9 +350,13 @@ public class GoshuinBookDao extends Dao {
 			// プリペアードステートメントを実行
 			count = statement.executeUpdate();
 
-			statement.close();
+			//ステッカー情報を登録
+			goshuinBookStickerAttachmentDao.update(goshuinBook);
 
-			//ステッカー貼付情報を更新
+
+
+
+
 
 		} catch (Exception e) {
 			throw e;
