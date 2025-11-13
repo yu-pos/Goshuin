@@ -117,8 +117,6 @@ public class RegdGoshuinDao extends Dao {
             // SQLを実行
             count = statement.executeUpdate();
 
-            // 1件以上登録できれば true
-            return count > 0;
         } catch (Exception e) {
             throw e; // 呼び出し元に例外を投げる
         } finally {
@@ -139,6 +137,8 @@ public class RegdGoshuinDao extends Dao {
                 }
             }
         }
+        // 1件以上登録できれば true
+        return count > 0;
     }
 
 
