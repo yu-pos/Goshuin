@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import bean.RegdGoshuinBookDesignGroup;
 
 public class RegdGoshuinBookDesignGroupDao extends Dao {
@@ -154,12 +156,15 @@ public class RegdGoshuinBookDesignGroupDao extends Dao {
 	 * @throws
 	 */
 
-	public boolean insert(RegdGoshuinBookDesignGroup regdGoshuinBookDesignGroup) throws Exception {
+	public Pair<Boolean, Integer> insert(RegdGoshuinBookDesignGroup regdGoshuinBookDesignGroup) throws Exception {
 
         // コネクションを取得
         Connection connection = getConnection();
         PreparedStatement statement = null;
         int count = 0;
+
+        Pair<Boolean, Integer> pair;
+        int designGroupId;
 
         try {
             // SQL文を準備（created_at / updated_at はDB側で現在時刻をセット）
@@ -173,6 +178,22 @@ public class RegdGoshuinBookDesignGroupDao extends Dao {
 
             // 実行（INSERTなので executeUpdate）
             count = statement.executeUpdate();
+
+            statement.close();
+
+            //登録したグループのidを取得
+            statement = connection.prepareStatement(
+            		"SELECT id FROM regd_goshuin_book_design_group"
+            		+ "WHERE name = ?"
+            		);
+            // パラメータをバインド
+            statement.setString(1, regdGoshuinBookDesignGroup.getName());
+
+			// プリペアードステートメントを実行
+			ResultSet resultSet = statement.executeQuery();
+			// 検索結果をセット
+			designGroupId = resultSet.getInt("id");
+
 
         } catch (Exception e) {
             throw e;
@@ -198,11 +219,13 @@ public class RegdGoshuinBookDesignGroupDao extends Dao {
 
 		if (count == 1) {
 			// 実行件数1件の場合
-			return true;
+			pair = Pair.of(Boolean.TRUE, Integer.valueOf(designGroupId));
 		} else {
 			// 実行件数がそれ以外の場合
-			return false;
+			pair = Pair.of(Boolean.FALSE, null);
 		}
+
+		return pair;
     }
 
 }

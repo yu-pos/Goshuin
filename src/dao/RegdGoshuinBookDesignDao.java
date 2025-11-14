@@ -91,8 +91,8 @@ public class RegdGoshuinBookDesignDao extends Dao{
         try {
             statement = connection.prepareStatement(
                 "INSERT INTO regd_goshuin_book_design " +
-                "(id, goshuin_book_design_group_id, name, image_path, updated_at, created_at) " +
-                "VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)"
+                "(id, goshuin_book_design_group_id, name, image_path) " +
+                "VALUES (?, ?, ?, ?)"
             );
 
             statement.setInt(1, design.getId());
