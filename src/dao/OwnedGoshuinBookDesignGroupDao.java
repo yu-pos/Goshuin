@@ -19,7 +19,14 @@ public class OwnedGoshuinBookDesignGroupDao extends Dao {
 	 *
 	 */
 
-
+	/**
+	 * getByUserIdメソッド 利用者の所持デザイングループ情報を取得
+	 *
+	 * @param userId:int
+	 *            利用者ID
+	 * @return 所持デザイングループリスト
+	 * @throws Exception
+	 */
 	public List<OwnedGoshuinBookDesignGroup> getByUserId(int userId) throws Exception {
 		// リストを初期化
 		List<OwnedGoshuinBookDesignGroup> list = new ArrayList<>();
