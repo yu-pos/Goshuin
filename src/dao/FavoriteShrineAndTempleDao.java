@@ -4,57 +4,46 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-import bean.ShrineAndTemple;
+import bean.FavoriteShrineAndTemple;
+import bean.RegdGoshuinBookSticker;
 
-public class FavoriteShrineAndTempleDao {
+public class FavoriteShrineAndTempleDao extends Dao {
 
-	//利用者のお気に入り神社仏閣情報を取得:(shrineAndTempleId:int)list<FavoriteShrineAndTemple>
+	//利用者のお気に入り神社仏閣情報を取得:(userId:int)list<FavoriteShrineAndTemple>
 	//対象のお気に入り神社仏閣を削除する(favoriteShrineAndTemple:FavoriteShrineAndTemple):boolean
 	//神社仏閣情報を登録(favoriteShrineAndTemple:FavoriteShrineAndTemple):boolean
-	//利用者のお気に入り神社仏閣ID一覧を取得():list<int>
-	/**
-	 * getByIdメソッド 利用者IDを指定して利用者インスタンスを1件取得する
-	 *
-	 * @param id:int
-	 *            利用者ID
-	 * @return 利用者クラスのインスタンス 存在しない場合はnull
-	 * @throws Exception
-	 */
-	public ShrineAndTemple getById(int id) throws Exception {
-		//shrineAndTempleDao.getById(取得したい神社仏閣のID)
-		// 利用者インスタンスを初期化
-		ShrineAndTemple shrineAndTemple = new ShrineAndTemple();
-		// コネクションを確立
+
+	public List<FavoriteShrineAndTemple> searchBy(int userId) throws Exception {
+		// リストを初期化
+		List<FavoriteShrineAndTemple> list = new ArrayList<>();
+		// データベースへのコネクションを確立
 		Connection connection = getConnection();
 		// プリペアードステートメント
 		PreparedStatement statement = null;
 
 		try {
 			// プリペアードステートメントにSQL文をセット
-			statement = connection.prepareStatement("SELECT * FROM shrine_and_temple WHERE id=?");
-			// プリペアードステートメントに神社仏閣IDをバインド
-			statement.setInt(1, id);
+			statement = connection.prepareStatement("SELECT * from favorite_shrine_and_temple");
+
 			// プリペアードステートメントを実行
 			ResultSet resultSet = statement.executeQuery();
 
 
-			if (resultSet.next()) {
+			while(resultSet.next())  {
 				// リザルトセットが存在する場合
-				// 利用者インスタンスに検索結果をセット
+				// 御朱印帳インスタンスに検索結果をセット
+				FavoriteShrineAndTemple favoriteShrineAndTemple = new FavoriteShrineAndTemple();
 
-				favoriteshrineAndTemple.setShrine_and_temple_id(resultSet.getString("setshrine_and_temple_id"));
-				favoriteshrineAndTemple.setUser_id(resultSet.getString("setuser_id"));
+				favoriteShrineAndTemple.setShrineAndTempleId(resultSet.getInt("shrine_and_temple_id"));
+				favoriteShrineAndTemple.setUserId(resultSet.getInt("user_id"));
+				favoriteShrineAndTemple.setUpdatedAt(resultSet.getTimestamp("updated_atuser_id").toLocalDateTime());
+				favoriteShrineAndTemple.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
 
-				favoriteshrineAndTemple.setUpdatedAtuserId(resultSet.getTimestamp("updated_atuser_id").toLocalDateTime());
-				favoriteshrineAndTemple.setCreatedt(resultSet.getTimestamp("created_at").toLocalDateTime());
+				list.add(favoriteShrineAndTemple);
 
-			} else {
-				// リザルトセットが存在しない場合
-				// 利用者インスタンスにnullを
-
-
-		favoriteshrineandtemple = null;
 			}
 		} catch (Exception e) {
 			throw e;
@@ -77,7 +66,113 @@ public class FavoriteShrineAndTempleDao {
 			}
 		}
 
-		return favoriteshrineandtemple;
+
+		return list;
 	}
+
+
+    public boolean insert(FavoriteShrineAndTemple favoriteShrineAndTemple) throws Exception {
+
+        // コネクションを取得
+        Connection connection = getConnection();
+        PreparedStatement statement = null;
+        int count = 0;
+
+        try {
+            // SQL文を準備（created_at / updated_at はDB側で現在時刻をセット）
+            statement = connection.prepareStatement(
+                "INSERT INTO favorite_shrine_and_temple(shrine_and_temple_id, user_id) " +
+                "VALUES (?, ?)"
+            );
+
+            // パラメータをバインド
+            statement.setInt(1, favoriteShrineAndTemple.getShrineAndTempleId());
+            statement.setInt(2, favoriteShrineAndTemple.getUserId());
+
+            // 実行（INSERTなので executeUpdate）
+            count = statement.executeUpdate();
+
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            // PreparedStatement を閉じる
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException sqle) {
+                    throw sqle;
+                }
+            }
+
+            // Connection を閉じる
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException sqle) {
+                    throw sqle;
+                }
+            }
+        }
+
+		if (count == 1) {
+			// 実行件数1件の場合
+			return true;
+		} else {
+			// 実行件数がそれ以外の場合
+			return false;
+		}
+    }
+
+    public boolean delete(FavoriteShrineAndTemple favoriteShrineAndTemple) throws Exception {
+
+        // コネクションを取得
+        Connection connection = getConnection();
+        PreparedStatement statement = null;
+        int count = 0;
+
+        try {
+            // SQL文を準備（created_at / updated_at はDB側で現在時刻をセット）
+            statement = connection.prepareStatement(
+                "DELETE FROM favorite_shrine_and_temple " +
+                "WHERE shrine_and_temple_id = ?, user_id = ?"
+            );
+
+            // パラメータをバインド
+            statement.setInt(1, favoriteShrineAndTemple.getShrineAndTempleId());
+            statement.setInt(2, favoriteShrineAndTemple.getUserId());
+
+            // 実行
+            count = statement.executeUpdate();
+
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            // PreparedStatement を閉じる
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException sqle) {
+                    throw sqle;
+                }
+            }
+
+            // Connection を閉じる
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException sqle) {
+                    throw sqle;
+                }
+            }
+        }
+
+		if (count == 1) {
+			// 実行件数1件の場合
+			return true;
+		} else {
+			// 実行件数がそれ以外の場合
+			return false;
+
+
 
 }
