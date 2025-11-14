@@ -56,6 +56,8 @@ public class ShrineAndTempleTagDao extends Dao {
 
 	        		list.add(shrineAndTempleTag);
 
+
+
 				}
 			} catch (Exception e) {
 				throw e;
