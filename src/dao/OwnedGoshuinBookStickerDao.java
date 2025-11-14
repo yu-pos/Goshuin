@@ -80,5 +80,60 @@ public class OwnedGoshuinBookStickerDao extends Dao {
 	}
 
 	//所持御朱印帳ステッカー情報を登録():boolean
+	/**
+	 *
+	 *
+	 * @param
+	 *
+	 * @return
+	 * @throws
+	 */
+
+	public boolean insert(OwnedGoshuinBookSticker ownedGoshuinBookSticker) throws Exception {
+
+		// コネクションを取得
+        Connection connection = getConnection();
+        PreparedStatement statement = null;
+        int count = 0;
+
+        try {
+        	// SQL文を準備
+            statement = connection.prepareStatement("INSERT INTO owned_goshuin_book_sticker "
+            		+ "(goshuin_book_sticker_id, user_id) VALUES (?, ?)");
+
+            // パラメータをバインド
+            statement.setInt(1, ownedGoshuinBookSticker.getGoshuinBookSticker().getId());
+            statement.setInt(2, ownedGoshuinBookSticker.getUserId());
+
+            // 実行（INSERTなので executeUpdate）
+            count = statement.executeUpdate();
+
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            // PreparedStatement を閉じる
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException sqle) {
+                    throw sqle;
+                }
+            }
+
+            // Connection を閉じる
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException sqle) {
+                    throw sqle;
+                }
+            }
+        }
+
+        // 成功したら true を返す
+        return count > 0;
+
+	}
+
 
 }
