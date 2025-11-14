@@ -86,7 +86,7 @@ public class RegdGoshuinBookStickerDao extends Dao{
 	 * @return 全登録ステッカーのリスト
 	 * @throws Exception
 	 */
-	public List<RegdGoshuinBookSticker> getall() throws Exception {
+	public List<RegdGoshuinBookSticker> getAll() throws Exception {
 
 
 		// リストを初期化
