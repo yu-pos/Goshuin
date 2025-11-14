@@ -295,7 +295,7 @@ public class OwnedGoshuinDao extends Dao {
 //	        }
 
 
-//
+
 
 
 public List<OwnedGoshuin> SearchByGoshuinBook(int GoshuinBookId) throws Exception {
