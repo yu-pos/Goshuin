@@ -142,21 +142,20 @@ public class VoucherDao extends Dao {
 	     * @return 登録成功なら true
 	     * @throws Exception
 	     */
-	    public boolean insert(int id, int userId, String description, String imagePath) throws Exception {
+	    public boolean insert(Voucher voucher) throws Exception {
 	        Connection connection = getConnection();
 	        PreparedStatement statement = null;
 	        int count = 0;
 
 	        try {
 	            statement = connection.prepareStatement(
-	            		"INSERT INTO voucher (id, user_id, description, image_path, created_at) " +
-	            	    "VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)"
+	            		"INSERT INTO voucher (user_id, description, image_path) " +
+	            	    "VALUES (?, ?, ?)"
 	            );
 
-	            statement.setInt(1, id);
-	            statement.setInt(2, userId);
-	            statement.setString(3, description);
-	            statement.setString(4, imagePath);
+	            statement.setInt(1, voucher.getUserId());
+	            statement.setString(2, voucher.getDescription());
+	            statement.setString(3, voucher.getImagePath());
 
 	            count = statement.executeUpdate();
 	            return count > 0;

@@ -18,7 +18,7 @@ public class GoshuinBookStickerAttachmentDao extends Dao {
 	 * ・指定したIDの御朱印帳のステッカー貼付情報一覧を取得() : GoshuinBook - GetById(id:int) : GoshuinBook
 	 */
 
-	public List<GoshuinBookStickerAttachment> searchByGoshuinBook(GoshuinBook goshuinBook) throws Exception {
+	public List<GoshuinBookStickerAttachment> searchByGoshuinBook(int goshuinBookId) throws Exception {
 		// 御朱印帳ステッカー貼付インスタンスリストを初期化
 		List<GoshuinBookStickerAttachment> list = new ArrayList<>();
 		// コネクションを確立
@@ -31,7 +31,7 @@ public class GoshuinBookStickerAttachmentDao extends Dao {
 			statement = connection.prepareStatement("SELECT goshuin_book_id, goshuin_book_sticker_id, x_pos, y_pos, rotation, updated_at, created_at"
 					+ "FROM user WHERE goshuin_book_id = ?");
 			// プリペアードステートメントに御朱印帳IDをバインド
-			statement.setInt(1, goshuinBook.getId());
+			statement.setInt(1, goshuinBookId);
 			// プリペアードステートメントを実行
 			ResultSet resultSet = statement.executeQuery();
 
@@ -50,8 +50,8 @@ public class GoshuinBookStickerAttachmentDao extends Dao {
 				goshuinBookStickerAttachment.setxPos(resultSet.getDouble("x_pos"));
 				goshuinBookStickerAttachment.setyPos(resultSet.getDouble("y_pos"));
 				goshuinBookStickerAttachment.setRotation(resultSet.getDouble("rotation"));
-				goshuinBook.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
-				goshuinBook.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
+				goshuinBookStickerAttachment.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
+				goshuinBookStickerAttachment.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
 
 				list.add(goshuinBookStickerAttachment);
 

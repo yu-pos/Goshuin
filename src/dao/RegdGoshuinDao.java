@@ -21,7 +21,7 @@ public class RegdGoshuinDao extends Dao {
      * @return RegdGoshuin 該当する御朱印情報（見つからない場合は null）
      * @throws Exception
      */
-    public RegdGoshuin searchByShrineAndTempleId(int shrineAndTempleId) throws Exception{
+    public RegdGoshuin searchByShrineAndTemple(int shrineAndTempleId) throws Exception{
 
     	// 登録御朱印インスタンスを初期化
     	RegdGoshuin regdgoshuin = new RegdGoshuin();

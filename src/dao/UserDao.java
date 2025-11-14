@@ -321,145 +321,145 @@ public class UserDao extends Dao {
 		}
 	}
 
-	/**
-	 * addPointメソッド ポイントを付与
-	 *
-	 * @param user:User
-	 *            利用者情報
-	 *        point:Int
-	 *            付与するポイント量
-	 * @return 成功可否
-	 * @throws Exception
-	 */
-	public boolean addPoint(User user, int point) throws Exception {
-		// コネクションを確立
-		Connection connection = getConnection();
-		// プリペアードステートメント
-		PreparedStatement statement = null;
-
-		// 実行件数
-		int count = 0;
-
-		try {
-			// データベースから利用者を取得
-			User old = getById(user.getId());
-
-			if (old == null) {
-				// 利用者が存在しなかった場合、例外を発生させる
-
-				throw new Exception();
-
-			} else {
-				// 利用者が存在した場合、ポイントを付与
-				// プリペアードステートメントにUPDATE文をセット
-				statement = connection.prepareStatement("UPDATE user SET point = ?, updated_at = CURRENT_DATETIME WHERE id = ?");
-				// プリペアードステートメントに値をバインド
-				statement.setInt(1, user.getPoint() + point);
-				statement.setInt(2, user.getId());
-			}
-
-			// プリペアードステートメントを実行
-			count = statement.executeUpdate();
-
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			// プリペアードステートメントを閉じる
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException sqle) {
-					throw sqle;
-				}
-			}
-			// コネクションを閉じる
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException sqle) {
-					throw sqle;
-				}
-			}
-		}
-
-		if (count == 1) {
-			// 実行件数1件の場合
-			return true;
-		} else {
-			// 実行件数がそれ以外の場合
-			return false;
-		}
-	}
-
-	/**
-	 * subPointメソッド ポイントを消費
-	 *
-	 * @param user:User
-	 *            利用者情報
-	 *        point:Int
-	 *            消費するポイント量
-	 * @return 成功可否
-	 * @throws Exception
-	 */
-	public boolean subPoint(User user, int point) throws Exception {
-		// コネクションを確立
-		Connection connection = getConnection();
-		// プリペアードステートメント
-		PreparedStatement statement = null;
-
-		// 実行件数
-		int count = 0;
-
-		try {
-			// データベースから利用者を取得
-			User old = getById(user.getId());
-
-			if (old == null) {
-				// 利用者が存在しなかった場合、例外を発生させる
-
-				throw new Exception();
-
-			} else {
-				// 利用者が存在した場合、ポイントを付与
-				// プリペアードステートメントにUPDATE文をセット
-				statement = connection.prepareStatement("UPDATE user SET point = ?, updated_at = CURRENT_DATETIME WHERE id = ?");
-				// プリペアードステートメントに値をバインド
-				statement.setInt(1, user.getPoint() - point);
-				statement.setInt(2, user.getId());
-			}
-
-			// プリペアードステートメントを実行
-			count = statement.executeUpdate();
-
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			// プリペアードステートメントを閉じる
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException sqle) {
-					throw sqle;
-				}
-			}
-			// コネクションを閉じる
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException sqle) {
-					throw sqle;
-				}
-			}
-		}
-
-		if (count == 1) {
-			// 実行件数1件の場合
-			return true;
-		} else {
-			// 実行件数がそれ以外の場合
-			return false;
-		}
-	}
+//	/**
+//	 * addPointメソッド ポイントを付与
+//	 *
+//	 * @param user:User
+//	 *            利用者情報
+//	 *        point:Int
+//	 *            付与するポイント量
+//	 * @return 成功可否
+//	 * @throws Exception
+//	 */
+//	public boolean addPoint(User user, int point) throws Exception {
+//		// コネクションを確立
+//		Connection connection = getConnection();
+//		// プリペアードステートメント
+//		PreparedStatement statement = null;
+//
+//		// 実行件数
+//		int count = 0;
+//
+//		try {
+//			// データベースから利用者を取得
+//			User old = getById(user.getId());
+//
+//			if (old == null) {
+//				// 利用者が存在しなかった場合、例外を発生させる
+//
+//				throw new Exception();
+//
+//			} else {
+//				// 利用者が存在した場合、ポイントを付与
+//				// プリペアードステートメントにUPDATE文をセット
+//				statement = connection.prepareStatement("UPDATE user SET point = ?, updated_at = CURRENT_DATETIME WHERE id = ?");
+//				// プリペアードステートメントに値をバインド
+//				statement.setInt(1, user.getPoint() + point);
+//				statement.setInt(2, user.getId());
+//			}
+//
+//			// プリペアードステートメントを実行
+//			count = statement.executeUpdate();
+//
+//		} catch (Exception e) {
+//			throw e;
+//		} finally {
+//			// プリペアードステートメントを閉じる
+//			if (statement != null) {
+//				try {
+//					statement.close();
+//				} catch (SQLException sqle) {
+//					throw sqle;
+//				}
+//			}
+//			// コネクションを閉じる
+//			if (connection != null) {
+//				try {
+//					connection.close();
+//				} catch (SQLException sqle) {
+//					throw sqle;
+//				}
+//			}
+//		}
+//
+//		if (count == 1) {
+//			// 実行件数1件の場合
+//			return true;
+//		} else {
+//			// 実行件数がそれ以外の場合
+//			return false;
+//		}
+//	}
+//
+//	/**
+//	 * subPointメソッド ポイントを消費
+//	 *
+//	 * @param user:User
+//	 *            利用者情報
+//	 *        point:Int
+//	 *            消費するポイント量
+//	 * @return 成功可否
+//	 * @throws Exception
+//	 */
+//	public boolean subPoint(User user, int point) throws Exception {
+//		// コネクションを確立
+//		Connection connection = getConnection();
+//		// プリペアードステートメント
+//		PreparedStatement statement = null;
+//
+//		// 実行件数
+//		int count = 0;
+//
+//		try {
+//			// データベースから利用者を取得
+//			User old = getById(user.getId());
+//
+//			if (old == null) {
+//				// 利用者が存在しなかった場合、例外を発生させる
+//
+//				throw new Exception();
+//
+//			} else {
+//				// 利用者が存在した場合、ポイントを付与
+//				// プリペアードステートメントにUPDATE文をセット
+//				statement = connection.prepareStatement("UPDATE user SET point = ?, updated_at = CURRENT_DATETIME WHERE id = ?");
+//				// プリペアードステートメントに値をバインド
+//				statement.setInt(1, user.getPoint() - point);
+//				statement.setInt(2, user.getId());
+//			}
+//
+//			// プリペアードステートメントを実行
+//			count = statement.executeUpdate();
+//
+//		} catch (Exception e) {
+//			throw e;
+//		} finally {
+//			// プリペアードステートメントを閉じる
+//			if (statement != null) {
+//				try {
+//					statement.close();
+//				} catch (SQLException sqle) {
+//					throw sqle;
+//				}
+//			}
+//			// コネクションを閉じる
+//			if (connection != null) {
+//				try {
+//					connection.close();
+//				} catch (SQLException sqle) {
+//					throw sqle;
+//				}
+//			}
+//		}
+//
+//		if (count == 1) {
+//			// 実行件数1件の場合
+//			return true;
+//		} else {
+//			// 実行件数がそれ以外の場合
+//			return false;
+//		}
+//	}
 
 	/**
 	 * loginメソッド 利用者の電話番号とパスワードで認証する

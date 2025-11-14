@@ -25,13 +25,12 @@ public class ReviewDao extends Dao {
 	        try {
 	            // SQL文を準備
 	            String sql = "INSERT INTO review " +
-	                         "(id,shrine_and_temple_id,user_id,text,imagePath) " +
-	                         "VALUES (?, ?, ?,?,?)";
+	                         "(shrine_and_temple_id,user_id,text,imagePath) " +
+	                         "VALUES ( ?, ?,?,?)";
 
 	            statement = connection.prepareStatement(sql);
 
 	            // プレースホルダに値をバインド
-	            statement.setInt(1, review.getId());
 	            statement.setInt(2, review.getShrineAndTempleId());
 	            statement.setInt(3, review.getUserId());
 	            statement.setString(4, review.getText());
@@ -80,7 +79,7 @@ public class ReviewDao extends Dao {
 
 
 
-public List<Review> searchById(int shrine_and_temple_id) throws Exception{
+public List<Review> searchByShrineAndTempleId(int shrineAndTempleId) throws Exception{
 	// 商品券リストを初期化
 	List<Review> list = new ArrayList<>();
 	// コネクションを確立
@@ -91,12 +90,12 @@ public List<Review> searchById(int shrine_and_temple_id) throws Exception{
 	try {
 		// プリペアードステートメントにSQL文をセット
 		statement = connection.prepareStatement(
-	            "SELECT  id,shrine_and_temple_id,user_id,text,image_path"
+	            "SELECT  id,shrine_and_temple_id,user_id,text,image_path, like_count"
 	            +"FROM review WHERE shurain_and_temple_id = ?"
 		);
 
 		// 神社仏閣IDをバインド
-		statement.setInt(1, shrine_and_temple_id);
+		statement.setInt(1, shrineAndTempleId);
 
 		// SQLを実行
 		ResultSet resultSet = statement.executeQuery();
@@ -109,6 +108,7 @@ public List<Review> searchById(int shrine_and_temple_id) throws Exception{
             review.setShrineAndTempleId(resultSet.getInt("shrine_and_temple_id"));
             review.setImagePath(resultSet.getString("image_path"));
             review.setText(resultSet.getString("text"));
+            review.setLikeCount(resultSet.getInt("like_count"));
 
             list.add(review);
 
@@ -154,13 +154,15 @@ public boolean update(Review review) throws Exception {
 
 		// 利用者が存在した場合、情報を更新
 		// プリペアードステートメントにUPDATE文をセット
-		statement = connection.prepareStatement("UPDATE review SET shrine_and_temple_id = ?,  id = ?, text= ?, "
-				+ " = ?, image_path = ?,   updated_at = CURRENT_DATETIME WHERE id = ?");
+		statement = connection.prepareStatement("UPDATE review SET shrine_and_temple_id = ?,  user_id = ?, text= ?, "
+				+ "image_path = ?, like_count = ?,  updated_at = CURRENT_DATETIME WHERE id = ?");
 		// プリペアードステートメントに値をバインド
 		statement.setInt(1, review.getShrineAndTempleId());
-		statement.setInt(2, review.getId());
+		statement.setInt(2, review.getUserId());
 		statement.setString(3, review.getText());
-		statement.setString(5, review.getImagePath());
+		statement.setString(4, review.getImagePath());
+		statement.setInt(5, review.getLikeCount());
+		statement.setInt(6, review.getId());
 
 
 
