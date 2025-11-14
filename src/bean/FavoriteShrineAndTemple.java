@@ -6,14 +6,14 @@ import java.time.LocalDateTime;
 public class FavoriteShrineAndTemple implements Serializable {
 
 
-private ShrineAndTemple shrineAndTempleId;
+private int shrineAndTempleId;
 private int userId;
 private LocalDateTime updatedAt;
 private LocalDateTime createdAt;
-public ShrineAndTemple getShrineAndTempleId() {
+public int getShrineAndTempleId() {
 	return shrineAndTempleId;
 }
-public void setShrineAndTempleId(ShrineAndTemple shrineAndTempleId) {
+public void setShrineAndTempleId(int shrineAndTempleId) {
 	this.shrineAndTempleId = shrineAndTempleId;
 }
 public int getUserId() {
