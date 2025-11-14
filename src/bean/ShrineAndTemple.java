@@ -20,7 +20,7 @@ public class ShrineAndTemple implements Serializable {
 
 	private String imagePath;
 
-	private List<ShrineAndTempleTag>ListTag;
+	private List<ShrineAndTempleTag> tagList;
 
 	private LocalDateTime  updatedAt;
 
@@ -81,6 +81,16 @@ public class ShrineAndTemple implements Serializable {
 
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
+	}
+	
+	
+
+	public List<ShrineAndTempleTag> getTagList() {
+		return tagList;
+	}
+
+	public void setTagList(List<ShrineAndTempleTag> tagList) {
+		this.tagList = tagList;
 	}
 
 	public LocalDateTime getUpdatedAt() {
