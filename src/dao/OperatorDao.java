@@ -100,14 +100,13 @@ public class OperatorDao extends Dao {
         try {
             // SQL文を準備（created_at / updated_at はDB側で現在時刻をセット）
             statement = connection.prepareStatement(
-                "INSERT INTO operator (id, password, is_admin) " +
-                "VALUES (?, ?, ?)"
+                "INSERT INTO operator (password, is_admin) " +
+                "VALUES (?, ?)"
             );
 
             // パラメータをバインド
-            statement.setInt(1, id);
-            statement.setString(2, password);
-            statement.setBoolean(3, isAdmin);
+            statement.setString(1, password);
+            statement.setBoolean(2, isAdmin);
 
             // 実行（INSERTなので executeUpdate）
             count = statement.executeUpdate();
@@ -243,7 +242,7 @@ public class OperatorDao extends Dao {
 	 * @throws
 	 */
 
-	public List<Operator> getOll(Operator Operator) throws Exception {
+	public List<Operator> getAll(Operator Operator) throws Exception {
 
 		// リストを初期化
 		List<Operator> list = new ArrayList<>();
