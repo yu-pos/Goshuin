@@ -20,7 +20,7 @@ public class VoucherDao extends Dao {
 
 
 	/**
-	 * getByIdメソッド 利用者IDを指定して商品券をすべて取得
+	 * searchByIdメソッド 利用者IDを指定して商品券をすべて取得
 	 *
 	 * @param user_id:int
 	 * 				利用者ID
