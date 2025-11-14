@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.OwnedGoshuin;
-import bean.User;
 
 
 
@@ -22,7 +21,7 @@ public class OwnedGoshuinDao extends Dao {
 
 
 
-	public List<OwnedGoshuin> SearchByUser(User user) throws Exception{
+	public List<OwnedGoshuin> SearchByUser(int userId) throws Exception{
 
 
 
@@ -38,7 +37,7 @@ public class OwnedGoshuinDao extends Dao {
 			// プリペアードステートメントにSQL文をセット
 			statement = connection.prepareStatement("SELECT * from owned_goshuin where user_id = ?");
 			// プリペアードステートメントに御朱印帳IDをバインド
-			statement.setInt(1, user.getId());
+			statement.setInt(1, userId);
 			// プリペアードステートメントを実行
 			ResultSet resultSet = statement.executeQuery();
 

@@ -6,19 +6,21 @@ import java.time.LocalDateTime;
 public class Review implements Serializable {
 
 	private int id;
-	
+
 	private int shrineAndTempleId;
-	
+
 	private int userId;
-	
+
 	private String text;
-	
+
 	private String imagePath;
-	
+
+	private int likeCount;
+
 	private LocalDateTime  updatedAt;
 
 	private  LocalDateTime createdAt;
-	
+
 	public int getId() {
 		return id;
 	}
@@ -59,6 +61,17 @@ public class Review implements Serializable {
 		this.imagePath = imagePath;
 	}
 
+
+
+
+	public int getLikeCount() {
+		return likeCount;
+	}
+
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
+
 	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
@@ -76,6 +89,6 @@ public class Review implements Serializable {
 	}
 
 
-	
-	
+
+
 }

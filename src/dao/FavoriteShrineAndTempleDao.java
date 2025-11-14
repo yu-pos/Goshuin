@@ -15,7 +15,7 @@ public class FavoriteShrineAndTempleDao extends Dao {
 	//対象のお気に入り神社仏閣を削除する(favoriteShrineAndTemple:FavoriteShrineAndTemple):boolean
 	//神社仏閣情報を登録(favoriteShrineAndTemple:FavoriteShrineAndTemple):boolean
 
-	public List<FavoriteShrineAndTemple> searchBy(int userId) throws Exception {
+	public List<FavoriteShrineAndTemple> searchByUser(int userId) throws Exception {
 		// リストを初期化
 		List<FavoriteShrineAndTemple> list = new ArrayList<>();
 		// データベースへのコネクションを確立

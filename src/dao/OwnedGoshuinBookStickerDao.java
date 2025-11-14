@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.OwnedGoshuinBookSticker;
-import bean.User;
 
 public class OwnedGoshuinBookStickerDao extends Dao {
 
@@ -24,7 +23,7 @@ public class OwnedGoshuinBookStickerDao extends Dao {
 	 * @throws
 	 */
 
-	public List<OwnedGoshuinBookSticker> searchByUser(User user) throws Exception {
+	public List<OwnedGoshuinBookSticker> searchByUser(int userId) throws Exception {
 
 		// リストを初期化
 		List<OwnedGoshuinBookSticker> list = new ArrayList<>();
@@ -38,7 +37,7 @@ public class OwnedGoshuinBookStickerDao extends Dao {
 		try {
 			statement = connection.prepareStatement("SELECT * FROM owned_goshuin_book_sticker WHERE user_id = ?");
 			// プリペアードステートメントに御朱印帳IDをバインド
-			statement.setInt(1, user.getId());
+			statement.setInt(1, userId);
 			// プリペアードステートメントを実行
 			ResultSet resultSet = statement.executeQuery();
 

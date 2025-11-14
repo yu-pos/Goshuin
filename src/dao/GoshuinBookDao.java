@@ -16,7 +16,6 @@ import bean.GoshuinBook;
 import bean.GoshuinBookStickerAttachment;
 import bean.RegdGoshuinBookDesign;
 import bean.RegdGoshuinBookSticker;
-import bean.User;
 
 public class GoshuinBookDao extends Dao {
 
@@ -64,7 +63,7 @@ public class GoshuinBookDao extends Dao {
 				goshuinBook.setId(resultSet.getInt("id"));
 				goshuinBook.setUserId(resultSet.getInt("user_id"));
 				goshuinBook.setGoshuinBookDesign(regdGoshuinBookDesignDao.getById(resultSet.getInt("goshuin_book_design_id")));
-				goshuinBook.setAttachedStickerList(goshuinBookStickerAttachmentDao.searchByGoshuinBook(goshuinBook));
+				goshuinBook.setAttachedStickerList(goshuinBookStickerAttachmentDao.searchByGoshuinBook(goshuinBook.getId()));
 				goshuinBook.setGoshuinList(ownedGoshuinDao.searchByGoshuinBook(goshuinBook.getId()));
 				goshuinBook.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
 				goshuinBook.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
@@ -106,7 +105,7 @@ public class GoshuinBookDao extends Dao {
 	 * @return 御朱印帳クラスのインスタンス 存在しない場合はnull
 	 * @throws Exception
 	 */
-	public List<GoshuinBook> searchByUser(User user) throws Exception{
+	public List<GoshuinBook> searchByUser(int userId) throws Exception{
 
 		// 御朱印帳リスト
 		List<GoshuinBook> list = new ArrayList<>();
@@ -133,7 +132,7 @@ public class GoshuinBookDao extends Dao {
 													+ " ORDER BY goshuin_book.id desc"
 													);
 			// プリペアードステートメントに御朱印帳IDをバインド
-			statement.setInt(1, user.getId());
+			statement.setInt(1, userId);
 			// プリペアードステートメントを実行
 			ResultSet resultSet = statement.executeQuery();
 

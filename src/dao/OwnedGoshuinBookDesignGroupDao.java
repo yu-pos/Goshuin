@@ -27,7 +27,7 @@ public class OwnedGoshuinBookDesignGroupDao extends Dao {
 	 * @return 所持デザイングループリスト
 	 * @throws Exception
 	 */
-	public List<OwnedGoshuinBookDesignGroup> getByUserId(int userId) throws Exception {
+	public List<OwnedGoshuinBookDesignGroup> getByUser(int userId) throws Exception {
 		// リストを初期化
 		List<OwnedGoshuinBookDesignGroup> list = new ArrayList<>();
 		// データベースへのコネクションを確立
