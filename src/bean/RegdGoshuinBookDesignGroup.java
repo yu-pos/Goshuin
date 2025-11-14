@@ -12,7 +12,7 @@ public class RegdGoshuinBookDesignGroup implements Serializable {
 	private String name;
 
 	//更新日時
-	private LocalDateTime updateAt;
+	private LocalDateTime updatedAt;
 
 	//登録日時
 	private LocalDateTime createdAt;
@@ -35,12 +35,12 @@ public class RegdGoshuinBookDesignGroup implements Serializable {
 		this.name = name;
 	}
 
-	public LocalDateTime getUpdateAt() {
-		return updateAt;
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
 	}
 
-	public void setUpdateAt(LocalDateTime updateAt) {
-		this.updateAt = updateAt;
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
 	public LocalDateTime getCreatedAt() {
