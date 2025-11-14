@@ -121,10 +121,10 @@ public class GoshuinBookDao extends Dao {
 		try {
 
 			// プリペアードステートメントにSQL文をセット
-			statement = connection.prepareStatement("SELECT goshuin_book.id, goshuin_book.user_id,"
-													+ " goshuin_book.goshuin_book_design_id, regd_goshuin_book_design.goshuin_book_design_group_id, regd_goshuin_book_design.name, regd_goshuin_book_design.image_path,"
-													+ " goshuin_book_sticker_attachment.goshuin_book_sticker_id, goshuin_book_sticker_attachment.x_pos, goshuin_book_sticker_attachment.y_pos, goshuin_book_sticker_attachment.rotation, goshuin_book_sticker_attachment.name, goshuin_book_sticker_attachment.image_path,"
-													+ " goshuin_book.updated_at, goshuin_book.created_at"
+			statement = connection.prepareStatement("SELECT goshuin_book.id AS goshuin_book_id, goshuin_book.user_id AS user_id,"
+													+ " goshuin_book.goshuin_book_design_id AS design_id, regd_goshuin_book_design.goshuin_book_design_group_id AS design_group_id, regd_goshuin_book_design.name AS design_name, regd_goshuin_book_design.image_path AS design_image_path,"
+													+ " goshuin_book_sticker_attachment.goshuin_book_sticker_id AS sticker_id, goshuin_book_sticker_attachment.x_pos AS x_pos , goshuin_book_sticker_attachment.y_pos AS y_pos, goshuin_book_sticker_attachment.rotation AS rotation, goshuin_book_sticker_attachment.name AS sticker_name, goshuin_book_sticker_attachment.image_path AS sticker_image_path,"
+													+ " goshuin_book.updated_at AS updated_at, goshuin_book.created_at AS created_at"
 													+ " FROM goshuin_book "
 													+ " JOIN (SELECT goshuin_book_id, goshuin_book_sticker_id, x_pos, y_pos, rotation, name, image_path FROM goshuin_book_sticker_attachment JOIN regd_goshuin_book_sticker ON goshuin_book_sticker_attachment.goshuin_book_sticker_id = regd_goshuin_book_sticker.id) as goshuin_book_sticker_attachment  ON goshuin_book.id = goshuin_book_sticker_attachment.goshuin_book_id"
 													+ " JOIN regd_goshuin_book_design ON goshuin_book.goshuin_book_design_id = regd_goshuin_book_design.id"
@@ -149,31 +149,31 @@ public class GoshuinBookDao extends Dao {
 				GoshuinBookStickerAttachment attachedSticker = new GoshuinBookStickerAttachment();
 
 
-				if (!goshuinBookMap.containsKey(resultSet.getInt("goshuin_book.id"))) {
+				if (!goshuinBookMap.containsKey(resultSet.getInt("goshuin_book_id"))) {
 
 					RegdGoshuinBookDesign regdGoshuinBookDesign = new RegdGoshuinBookDesign();
 
-					goshuinBook.setId(resultSet.getInt("goshuin_book.id"));
-					goshuinBook.setUserId(resultSet.getInt("goshuin_book.user_id"));
+					goshuinBook.setId(resultSet.getInt("goshuin_book_id"));
+					goshuinBook.setUserId(resultSet.getInt("user_id"));
 
 					// 登録デザインインスタンスに情報をセットし、インスタンスを御朱印帳にセット
-					regdGoshuinBookDesign.setId(resultSet.getInt("goshuin_book.goshuin_book_design_id"));
-					regdGoshuinBookDesign.setGoshuinBookDesignGroupId(resultSet.getInt("regd_goshuin_book_design.goshuin_book_design_group_id"));
-					regdGoshuinBookDesign.setName(resultSet.getString("regd_goshuin_book_design.name"));
-					regdGoshuinBookDesign.setImagePath(resultSet.getString("regd_goshuin_book_design.image_path"));
+					regdGoshuinBookDesign.setId(resultSet.getInt("design_id"));
+					regdGoshuinBookDesign.setGoshuinBookDesignGroupId(resultSet.getInt("design_group_id"));
+					regdGoshuinBookDesign.setName(resultSet.getString("design_name"));
+					regdGoshuinBookDesign.setImagePath(resultSet.getString("design_image_path"));
 
 					goshuinBook.setGoshuinBookDesign(regdGoshuinBookDesign);
 
 
 					// 貼付ステッカーインスタンスに情報をセットし、インスタンスを御朱印帳にセット
-					attachedSticker.setGoshuinBookId(resultSet.getInt("goshuin_book.id"));
-					attachedSticker.setxPos(resultSet.getDouble("goshuin_book_sticker_attachment.x_pos"));
-					attachedSticker.setyPos(resultSet.getDouble("goshuin_book_sticker_attachment.y_pos"));
-					attachedSticker.setRotation(resultSet.getDouble("goshuin_book_sticker_attachment.rotation"));
+					attachedSticker.setGoshuinBookId(resultSet.getInt("goshuin_book_id"));
+					attachedSticker.setxPos(resultSet.getDouble("x_pos"));
+					attachedSticker.setyPos(resultSet.getDouble("y_pos"));
+					attachedSticker.setRotation(resultSet.getDouble("rotation"));
 
-					regdGoshuinBookSticker.setId(resultSet.getInt("regd_goshuin_book_sticker.id"));
-					regdGoshuinBookSticker.setName(resultSet.getString("regd_goshuin_book_sticker.name"));
-					regdGoshuinBookSticker.setImagePath(resultSet.getString("regd_goshuin_book_sticker.image_path"));
+					regdGoshuinBookSticker.setId(resultSet.getInt("sticker_id"));
+					regdGoshuinBookSticker.setName(resultSet.getString("sticker_name"));
+					regdGoshuinBookSticker.setImagePath(resultSet.getString("sticker_image_path"));
 
 					attachedSticker.setGoshuinBookSticker(regdGoshuinBookSticker);
 
