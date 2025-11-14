@@ -9,7 +9,7 @@ public class GoshuinBook implements Serializable {
 	private int userId; //利用者ID(外部)
 	private RegdGoshuinBookDesign goshuinBookDesign; //設定された表紙デザイン
 	private List<GoshuinBookStickerAttachment> attachedStickerList; //張り付けられたステッカーリスト(外部)
-	private List<RegdGoshuin> goshuinList; //御朱印帳に登録されている御朱印リスト(外部)
+	private List<OwnedGoshuin> goshuinList; //御朱印帳に登録されている御朱印リスト(外部)
 	private LocalDateTime updatedAt; //データ更新日時
 	private LocalDateTime createdAt; //データ登録日時
 
@@ -48,10 +48,10 @@ public class GoshuinBook implements Serializable {
 		this.attachedStickerList = list;
 	}
 
-	public List<RegdGoshuin> getGoshuinList() {
+	public List<OwnedGoshuin> getGoshuinList() {
 		return goshuinList;
 	}
-	public void setGoshuinList(List<RegdGoshuin> goshuinList) {
+	public void setGoshuinList(List<OwnedGoshuin> goshuinList) {
 		this.goshuinList = goshuinList;
 	}
 	public LocalDateTime getUpdatedAt() {

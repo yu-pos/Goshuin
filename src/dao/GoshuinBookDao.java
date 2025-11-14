@@ -65,7 +65,7 @@ public class GoshuinBookDao extends Dao {
 				goshuinBook.setUserId(resultSet.getInt("user_id"));
 				goshuinBook.setGoshuinBookDesign(regdGoshuinBookDesignDao.getById(resultSet.getInt("goshuin_book_design_id")));
 				goshuinBook.setAttachedStickerList(goshuinBookStickerAttachmentDao.searchByGoshuinBook(goshuinBook));
-				goshuinBook.setGoshuinList(ownedGoshuinDao.searchByGoshuinBook(goshuinBook));
+				goshuinBook.setGoshuinList(ownedGoshuinDao.searchByGoshuinBook(goshuinBook.getId()));
 				goshuinBook.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
 				goshuinBook.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
 
@@ -106,7 +106,7 @@ public class GoshuinBookDao extends Dao {
 	 * @return 御朱印帳クラスのインスタンス 存在しない場合はnull
 	 * @throws Exception
 	 */
-	public List<GoshuinBook> searchByUser(User user) {
+	public List<GoshuinBook> searchByUser(User user) throws Exception{
 
 		// 御朱印帳リスト
 		List<GoshuinBook> list = new ArrayList<>();
@@ -139,8 +139,6 @@ public class GoshuinBookDao extends Dao {
 
 
 			// Daoを初期化
-			RegdGoshuinBookDesignDao regdGoshuinBookDesignDao = new RegdGoshuinBookDesignDao();
-			GoshuinBookStickerAttachmentDao goshuinBookStickerAttachmentDao = new GoshuinBookStickerAttachmentDao();
 			OwnedGoshuinDao ownedGoshuinDao = new OwnedGoshuinDao();
 
 
@@ -181,7 +179,7 @@ public class GoshuinBookDao extends Dao {
 					attachedSticker.setGoshuinBookSticker(regdGoshuinBookSticker);
 
 
-					goshuinBook.setGoshuinList(ownedGoshuinDao.searchByGoshuinBook(goshuinBook));
+					goshuinBook.setGoshuinList(ownedGoshuinDao.searchByGoshuinBook(goshuinBook.getId()));
 					goshuinBook.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
 					goshuinBook.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
 

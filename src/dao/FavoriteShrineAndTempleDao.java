@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.FavoriteShrineAndTemple;
-import bean.RegdGoshuinBookSticker;
 
 public class FavoriteShrineAndTempleDao extends Dao {
 
@@ -123,6 +122,7 @@ public class FavoriteShrineAndTempleDao extends Dao {
 		}
     }
 
+
     public boolean delete(FavoriteShrineAndTemple favoriteShrineAndTemple) throws Exception {
 
         // コネクションを取得
@@ -172,6 +172,8 @@ public class FavoriteShrineAndTempleDao extends Dao {
 		} else {
 			// 実行件数がそれ以外の場合
 			return false;
+		}
+    }
 
 
 

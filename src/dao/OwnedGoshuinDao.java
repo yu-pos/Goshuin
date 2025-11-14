@@ -22,7 +22,7 @@ public class OwnedGoshuinDao extends Dao {
 
 
 
-	public List<OwnedGoshuin> SearchByUser(User user) {
+	public List<OwnedGoshuin> SearchByUser(User user) throws Exception{
 
 
 
@@ -78,7 +78,7 @@ public class OwnedGoshuinDao extends Dao {
 
 
                 // 御朱印詳細データ取得
-                ownedGoshuin.setGoshuin(ownedGoshuinDao.getById(resultSet.getInt("id")));
+                ownedGoshuin.setGoshuin(regdGoshuinDao.getById(resultSet.getInt("id")));
 
                 ownedGoshuin.setGoshuinBookId(resultSet.getInt("goshuin_book_id"));
 
@@ -145,14 +145,14 @@ public class OwnedGoshuinDao extends Dao {
 	        try {
 	            // SQL文を準備
 	            String sql = "INSERT INTO owned_goshuin " +
-	                         "(user_id, id, goshuin_book_id ) " +
+	                         "(goshuin_id, user_id, goshuin_book_id ) " +
 	                         "VALUES (?, ?, ?)";
 
 	            statement = connection.prepareStatement(sql);
 
 	            // プレースホルダに値をバインド
-	            statement.setInt(1, ownedGoshuin.getUserId());
-	            statement.setInt(2, ownedGoshuin.getId());
+	            statement.setInt(1, ownedGoshuin.getGoshuin().getId());
+	            statement.setInt(2, ownedGoshuin.getUserId());
 	            statement.setInt(3, ownedGoshuin.getGoshuinBookId());
 
 
@@ -160,8 +160,6 @@ public class OwnedGoshuinDao extends Dao {
 	            // SQLを実行
 	            count = statement.executeUpdate();
 
-	            // 1件以上登録できれば true
-	            return count > 0;
 	        } catch (Exception e) {
 	            throw e; // 呼び出し元に例外を投げる
 	        } finally {
@@ -298,7 +296,7 @@ public class OwnedGoshuinDao extends Dao {
 
 
 
-public List<OwnedGoshuin> SearchByGoshuinBook(int GoshuinBookId) throws Exception {
+public List<OwnedGoshuin> searchByGoshuinBook(int GoshuinBookId) throws Exception {
 
 
 
