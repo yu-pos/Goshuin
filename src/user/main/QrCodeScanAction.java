@@ -12,16 +12,16 @@ public class QrCodeScanAction extends Action {
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-		
-		//セッションにユーザーを記録（動作テスト用。ログイン部分が完成したら削除）
+
+		//セッションにユーザーを記録（ログイン代わり。動作テスト用。ログイン部分が完成したら削除）
 		UserDao userDao = new UserDao();
 		HttpSession session = req.getSession(true);
 		session.setAttribute("user", userDao.login("111-1111-1111", "test"));
-		
-		
+
+
 		//ローカル変数の宣言 1
 		//なし
-		
+
 
 		//リクエストパラメータ―の取得 2
 		//なし
