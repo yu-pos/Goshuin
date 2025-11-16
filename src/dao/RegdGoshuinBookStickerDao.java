@@ -35,7 +35,7 @@ public class RegdGoshuinBookStickerDao extends Dao{
 		try {
 			// プリペアードステートメントにSQL文をセット
 			statement = connection.prepareStatement("SELECT id, name, image_path, updated_at, created_at"
-					+ "FROM regd_goshuin_book_sticker WHERE id = ?");
+					+ " FROM regd_goshuin_book_sticker WHERE id = ?");
 			// プリペアードステートメントにステッカーIDをバインド
 			statement.setInt(1, id);
 			// プリペアードステートメントを実行

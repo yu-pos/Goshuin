@@ -29,7 +29,7 @@ public class GoshuinBookStickerAttachmentDao extends Dao {
 		try {
 			// プリペアードステートメントにSQL文をセット
 			statement = connection.prepareStatement("SELECT goshuin_book_id, goshuin_book_sticker_id, x_pos, y_pos, rotation, updated_at, created_at"
-					+ "FROM user WHERE goshuin_book_id = ?");
+					+ " FROM goshuin_book_sticker_attachment WHERE goshuin_book_id = ?");
 			// プリペアードステートメントに御朱印帳IDをバインド
 			statement.setInt(1, goshuinBookId);
 			// プリペアードステートメントを実行

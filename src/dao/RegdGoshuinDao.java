@@ -34,7 +34,7 @@ public class RegdGoshuinDao extends Dao {
             // プリペアードステートメントにSQL文をセット（神社仏閣IDで検索）
             statement = connection.prepareStatement(
                 "SELECT id, shrine_and_temple_id, sale_start_date, sale_end_date, image_path, updated_at, created_at "
-                +"FROM regd_goshuin WHERE shrine_and_temple_id = ?"
+                + " FROM regd_goshuin WHERE shrine_and_temple_id = ?"
             );
 
             // プリペアードステートメントに神社仏閣IDをバインド
@@ -160,7 +160,7 @@ public class RegdGoshuinDao extends Dao {
     	try {
     		// プリペアードステートメントにSQL文をセット
     		statement = connection.prepareStatement("SELECT id, shrine_and_temple_id, sale_start_date, sale_end_date, image_path, updated_at, created_at"
-    				+ "FROM regd_goshuin where id = ?");
+    				+ " FROM regd_goshuin where id = ?");
     		//プリペアードステートメントに御朱印IDをバインド
     		statement.setInt(1, id);
     		// プリペアードステートメントを実行

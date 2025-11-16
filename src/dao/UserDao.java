@@ -42,7 +42,7 @@ public class UserDao extends Dao {
 		try {
 			// プリペアードステートメントにSQL文をセット
 			statement = connection.prepareStatement("SELECT id, user_name, real_name, birth_date, address, tel_number, password, active_goshuin_book_id, point, rank, goshuin_count, profile_image_path, my_goshuin_book_id, is_my_goshuin_book_public, last_login_at, updated_at, created_at"
-					+ "FROM user WHERE id = ?");
+					+ " FROM user WHERE id = ?");
 			// プリペアードステートメントに教員IDをバインド
 			statement.setInt(1, id);
 			// プリペアードステートメントを実行
@@ -57,7 +57,7 @@ public class UserDao extends Dao {
 				user.setId(resultSet.getInt("id"));
 				user.setUserName(resultSet.getString("user_name"));
 				user.setRealName(resultSet.getString("real_name"));
-				user.setBirthDate(resultSet.getTimestamp("real_name").toLocalDateTime());
+				user.setBirthDate(resultSet.getTimestamp("birth_date").toLocalDateTime());
 				user.setAddress(resultSet.getString("address"));
 				user.setTelNumber(resultSet.getString("tel_number"));
 				user.setPassword(resultSet.getString("password"));
@@ -119,7 +119,7 @@ public class UserDao extends Dao {
 		try {
 			// プリペアードステートメントにSQL文をセット
 			statement = connection.prepareStatement("SELECT id, user_name, real_name, birth_date, address, tel_number, password, active_goshuin_book_id, point, rank, goshuin_count, profile_image_path, my_goshuin_book_id, is_my_goshuin_book_public, last_login_at, updated_at, created_at"
-					+ "FROM user WHERE tel_number = ?");
+					+ " FROM user WHERE tel_number = ?");
 			// プリペアードステートメントに教員IDをバインド
 			statement.setString(1, telNumber);
 			// プリペアードステートメントを実行
@@ -134,7 +134,7 @@ public class UserDao extends Dao {
 				user.setId(resultSet.getInt("id"));
 				user.setUserName(resultSet.getString("user_name"));
 				user.setRealName(resultSet.getString("real_name"));
-				user.setBirthDate(resultSet.getTimestamp("real_name").toLocalDateTime());
+				user.setBirthDate(resultSet.getTimestamp("birth_date").toLocalDateTime());
 				user.setAddress(resultSet.getString("address"));
 				user.setTelNumber(resultSet.getString("tel_number"));
 				user.setPassword(resultSet.getString("password"));

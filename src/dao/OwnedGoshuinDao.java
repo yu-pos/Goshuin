@@ -77,7 +77,7 @@ public class OwnedGoshuinDao extends Dao {
 
 
                 // 御朱印詳細データ取得
-                ownedGoshuin.setGoshuin(regdGoshuinDao.getById(resultSet.getInt("id")));
+                ownedGoshuin.setGoshuin(regdGoshuinDao.getById(resultSet.getInt("goshuin_id")));
 
                 ownedGoshuin.setGoshuinBookId(resultSet.getInt("goshuin_book_id"));
 
@@ -348,12 +348,8 @@ public List<OwnedGoshuin> searchByGoshuinBook(int GoshuinBookId) throws Exceptio
             ownedGoshuin.setUserId(resultSet.getInt("user_id"));
 
 
-
-
-
-
             // 御朱印詳細データ取得
-            ownedGoshuin.setGoshuin(regdGoshuinDao.getById(resultSet.getInt("id")));
+            ownedGoshuin.setGoshuin(regdGoshuinDao.getById(resultSet.getInt("goshuin_id")));
 
             ownedGoshuin.setGoshuinBookId(resultSet.getInt("goshuin_book_id"));
 

@@ -46,7 +46,7 @@ public class GoshuinBookDao extends Dao {
 		try {
 			// プリペアードステートメントにSQL文をセット
 			statement = connection.prepareStatement("SELECT id, user_id, goshuin_book_design_id, updated_at, created_at"
-					+ "FROM user WHERE id = ?");
+					+ " FROM goshuin_book WHERE id = ?");
 			// プリペアードステートメントに御朱印帳IDをバインド
 			statement.setInt(1, id);
 			// プリペアードステートメントを実行
@@ -273,7 +273,7 @@ public class GoshuinBookDao extends Dao {
 			//登録した御朱印帳のIDを取得
 			// プリペアードステートメントにSQL文をセット
 			statement = connection.prepareStatement("SELECT id"
-					+ "FROM goshuin_book WHERE user_id = ? ORDER BY id DESC LIMIT 1");
+					+ " FROM goshuin_book WHERE user_id = ? ORDER BY id DESC LIMIT 1");
 			statement.setInt(1, userId);
 
 			// プリペアードステートメントを実行
