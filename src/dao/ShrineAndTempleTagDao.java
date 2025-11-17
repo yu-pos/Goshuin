@@ -54,9 +54,10 @@ public class ShrineAndTempleTagDao extends Dao {
 					shrineAndTempleTag.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
 					shrineAndTempleTag.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
 
+					
 	        		list.add(shrineAndTempleTag);
 
-
+                
 
 				}
 			} catch (Exception e) {
