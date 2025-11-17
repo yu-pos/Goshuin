@@ -14,7 +14,9 @@ public class RegdGoshuin implements Serializable {
 	private LocalDateTime updatedAt; //更新日時
 	private LocalDateTime createdAt; //作成日時
 
-	private boolean isOwned = false; //対象の利用者がこの御朱印を持っているかどうか 購入御朱印選択画面で指定・使用する
+	private boolean isOwned = false; //対象の利用者が所持しているかどうか 購入御朱印選択画面で一時的に指定・使用する
+	private boolean isAvailable = false; //購入期間かどうか 購入御朱印選択画面で一時的に指定・使用する
+
 	public int getId() {
 		return id;
 	}
@@ -70,6 +72,12 @@ public class RegdGoshuin implements Serializable {
 	}
 	public void setOwned(boolean isOwned) {
 		this.isOwned = isOwned;
+	}
+	public boolean isAvailable() {
+		return isAvailable;
+	}
+	public void setAvailable(boolean isAvailable) {
+		this.isAvailable = isAvailable;
 	}
 
 

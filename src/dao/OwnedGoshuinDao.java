@@ -94,7 +94,7 @@ public class OwnedGoshuinDao extends Dao {
 //
 //
 //
-//				list.add(goshuinBookStickerAttachment);
+				list.add(ownedGoshuin);
 
 
 			}

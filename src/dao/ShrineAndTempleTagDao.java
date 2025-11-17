@@ -29,14 +29,14 @@ public class ShrineAndTempleTagDao extends Dao {
 
 			try {
 				statement = connection.prepareStatement("SELECT shrine_and_temple_tag.id as tag_id, "
-						+ "shrine_and_temple_tag.name as tag_name,  "
-						+"shrine_and_temple_tag.tag_type_id as tag_type_id, "
-						+ "shrine_and_temple_tag_type.name as tag_type_name"
-						+"shrine_and_temple_tag.updated_at as updated_at, "
-						+ "shrine_and_temple_tag.created_at as created_at "
-						+"FROM shrine_and_temple_tag"
-						+"JOIN shrine_and_temple_tag_type ON  shrine_and_temple_tag.tag_type_id ="
-						+ " shrine_and_temple_tag_type.id;"
+						+" shrine_and_temple_tag.name as tag_name,  "
+						+" shrine_and_temple_tag.tag_type_id as tag_type_id, "
+						+" shrine_and_temple_tag_type.name as tag_type_name"
+						+" shrine_and_temple_tag.updated_at as updated_at, "
+						+" shrine_and_temple_tag.created_at as created_at "
+						+" FROM shrine_and_temple_tag"
+						+" JOIN shrine_and_temple_tag_type ON  shrine_and_temple_tag.tag_type_id ="
+						+" shrine_and_temple_tag_type.id;"
 						);
 
 				// プリペアードステートメントを実行
@@ -54,10 +54,10 @@ public class ShrineAndTempleTagDao extends Dao {
 					shrineAndTempleTag.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
 					shrineAndTempleTag.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
 
-					
+
 	        		list.add(shrineAndTempleTag);
 
-                
+
 
 				}
 			} catch (Exception e) {
@@ -99,13 +99,13 @@ public class ShrineAndTempleTagDao extends Dao {
 		            // プリペアードステートメントにSQL文をセット（神社仏閣IDで検索）
 		            statement = connection.prepareStatement(
 		            		"SELECT b.tag_id as tag_id, b.tag_name as tag_name, b.tag_type_id as tag_type_id, b.tag_type_name as tag_type_name, b.updated_at as updated_at, b.created_at as created_at"
-		            				+"FROM shrine_and_temple_tagging"
-		            				+"JOIN ("
-		            				+"SELECT shrine_and_temple_tag.id as tag_id, shrine_and_temple_tag.name as tag_name,  shrine_and_temple_tag.tag_type_id as tag_type_id, shrine_and_temple_tag_type.name as tag_type_name, shrine_and_temple_tag.updated_at as updated_at, shrine_and_temple_tag.created_at as created_at "
-		            				+"FROM shrine_and_temple_tag"
-		            				+"JOIN shrine_and_temple_tag_type ON  shrine_and_temple_tag.tag_type_id = shrine_and_temple_tag_type.id) as b"
-		            				+"ON shrine_and_temple_tagging.tag_id = b.tag_id"
-		            				+"WHERE shrine_and_temple_tagging.shrine_and_temple_id = ?;"
+		            				+ " FROM shrine_and_temple_tagging"
+		            				+ " JOIN ("
+		            				+ " SELECT shrine_and_temple_tag.id as tag_id, shrine_and_temple_tag.name as tag_name,  shrine_and_temple_tag.tag_type_id as tag_type_id, shrine_and_temple_tag_type.name as tag_type_name, shrine_and_temple_tag.updated_at as updated_at, shrine_and_temple_tag.created_at as created_at "
+		            				+ " FROM shrine_and_temple_tag"
+		            				+ " JOIN shrine_and_temple_tag_type ON  shrine_and_temple_tag.tag_type_id = shrine_and_temple_tag_type.id) as b"
+		            				+ " ON shrine_and_temple_tagging.tag_id = b.tag_id"
+		            				+ " WHERE shrine_and_temple_tagging.shrine_and_temple_id = ?;"
 		            );
 
 		            // プリペアードステートメントに神社仏閣IDをバインド

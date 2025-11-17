@@ -10,7 +10,7 @@
 
 	        <!-- 御朱印画像 -->
 	        <div class="goshuin-image-area">
-	          <img src="image/goshuin/${regdGoshuin.imagePath}" alt="上杉神社の御朱印" class="goshuin-img">
+	          <img src="image/goshuin/${regdGoshuin.imagePath}" alt="御朱印イメージ" class="goshuin-img">
 	        </div>
 
 	        <!-- 説明文 -->
@@ -21,14 +21,27 @@
 			<c:if test="${ownedGoshuinIdList.contains(regdGoshuin.id)}">
 				<a href="TeacherCreate.action">新規登録</a>
 			</c:if>
+
+
+			<%-- 購入済みだった場合 --%>
 			<c:if test="${regdGoshuin.isOwned()}">
 				<div><font color="red">既に購入済みの御朱印です</font></div>
 			</c:if>
+
+			<%-- 販売期間外だった場合 --%>
+			<c:if test="${regdGoshuin.isAvailable}">
+				<div><font color="red">御朱印の販売期間外です</font></div>
+			</c:if>
+
 	        <!-- 購入ボタン -->
-	        <form class="purchase-btn-area" action="GoshuinOrderConfirm.action" method="POST">
-	        	<input type="hidden" name="regdGoshuinId" value="${regdGoshuin.id}">
-	        	<input class="purchase-btn" type="submit" value="購入する">
-	        </form>
+	        <c:if test="${!regdGoshuin.isOwned() and regdGoshuin.isAvailable}">
+		        <form class="purchase-btn-area" action="GoshuinOrderConfirm.action" method="POST">
+		        	<input type="hidden" name="regdGoshuinId" value="${regdGoshuin.id}">
+
+			        <input class="purchase-btn" type="submit" value="購入する">
+
+		        </form>
+	        </c:if>
 
 
 		</c:forEach>
