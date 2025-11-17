@@ -20,15 +20,15 @@
                 <!-- 入力値を戻したい場合 -->
                 <input type="text" id="tel" name="tel"
                        placeholder="電話番号を入力"
-                       value="${tel}">
+                       value="${tel}" required>
 
                 <label for="password">パスワード</label>
                 <!-- 本当は type="password" がオススメ -->
                 <input type="password" id="password" name="password"
-                       placeholder="パスワードを入力">
+                       placeholder="パスワードを入力" required>
                 <input type="submit" value="ログイン">
             </form>
         </div>
-        <a href="sinki.html">新規登録はこちら</a>
+        <a href="UserRegist.action">新規登録はこちら</a>
     </c:param>
 </c:import>
