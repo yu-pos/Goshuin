@@ -73,9 +73,6 @@ public class OwnedGoshuinDao extends Dao {
                 ownedGoshuin.setUserId(resultSet.getInt("user_id"));
 
 
-
-
-
                 // 御朱印詳細データ取得
                 ownedGoshuin.setGoshuin(regdGoshuinDao.getById(resultSet.getInt("goshuin_id")));
 
