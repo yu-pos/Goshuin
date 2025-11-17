@@ -46,7 +46,7 @@
             <li><a href="event.html">📄 イベント一覧</a></li>
             <li><a href="sanpai.html">🙏 参拝方法</a></li>
             <li><a href="voucherAction">🎟️ 商品券一覧</a></li>
-            <li><a href="logout.html">🚪 ログアウト</a></li>
+            <li><a href="Logout.action">🚪 ログアウト</a></li>
             </ul>
         </aside>
       <div id="overlay" class="overlay"></div>

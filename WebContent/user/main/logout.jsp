@@ -4,7 +4,7 @@
 <c:import url="../base2.jsp">
 	<c:param name="content">
 		        <h1>ログアウトしました</h1>
-        <a href="login.html">ログインはこちら</a>
+        <a href="Login.action">ログインはこちら</a>
 
 	</c:param>
 </c:import>
