@@ -5,11 +5,13 @@
 	<c:param name="content">
 		<div class="login">
 	        <h1>ログイン画面</h1>
+	        <form action="LoginExecute.action" method="POST">
 	        <label for="productNo">電話番号</label>
-	        <input type="text" id="tel" placeholder="電話番号を入力">
+	        <input type="text" id="tel" name="tel" placeholder="電話番号を入力">
 	        <label for="productNo">パスワード</label>
-	        <input type="text" id="password" placeholder="パスワードを入力">
-	        <a href="menu.html" class="login-btn">ログイン</a>
+	        <input type="text" id="password" name="password" placeholder="パスワードを入力">
+	        <input type="submit" value="ログイン">
+	        </form>
 	        </div>
         <a href="sinki.html">新規登録はこちら</a>
 	</c:param>
