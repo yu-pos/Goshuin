@@ -19,6 +19,87 @@ public class VoucherDao extends Dao {
 	//利用者に商品券を付与():boolean(ランクが上がる方とランクが最大で、御朱印カウントが３０に達する方)
 
 
+
+	/**
+	 * getByIdメソッド 商品券IDを指定して商品券を取得
+	 *
+	 * @param id:int
+	 * 				商品券ID
+	 * @return 商品券クラスのインスタンス 存在しない場合はnull
+	 * @throws Exception
+	 */
+	public Voucher getById(int id) throws Exception{
+		// 商品券インスタンスを初期化
+		Voucher voucher = new Voucher();
+		// コネクションを確立
+		Connection connection = getConnection();
+		// プリペアードステートメント
+		PreparedStatement statement = null;
+
+		try {
+			// プリペアードステートメントにSQL文をセット
+			statement = connection.prepareStatement(
+		            "SELECT id, user_id, description, image_path, used_at, created_at"
+		            +" FROM voucher WHERE id = ?"
+			);
+
+			// 利用者IDをバインド
+			statement.setInt(1, id);
+
+			// SQLを実行
+			ResultSet resultSet = statement.executeQuery();
+
+
+			if (resultSet.next()) {
+				voucher.setId(resultSet.getInt("id"));
+	            voucher.setUserId(resultSet.getInt("user_id"));
+	            voucher.setDescription(resultSet.getString("description"));
+	            voucher.setImagePath(resultSet.getString("image_path"));
+
+	            // 未使用かどうか確認
+	            Timestamp ts = resultSet.getTimestamp("used_at");
+	            if (ts != null) {
+	                voucher.setUsedAt(ts.toLocalDateTime());
+	            } else {
+	                voucher.setUsedAt(null); // 未使用を表す
+	            }
+
+	            voucher.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
+
+			} else {
+				// リザルトセットが存在しない場合
+				// 利用者インスタンスにnullをセット
+				voucher = null;
+			}
+
+
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			// ステートメントを閉じる
+	        if (statement != null) {
+	            try {
+	                statement.close();
+	            } catch (SQLException sqle) {
+	                throw sqle;
+	            }
+	        }
+	        // コネクションを閉じる
+	        if (connection != null) {
+	            try {
+	                connection.close();
+	            } catch (SQLException sqle) {
+	                throw sqle;
+	            }
+	        }
+
+		}
+
+		return voucher; // 空リストか商品券一覧
+	}
+
+
 	/**
 	 * searchByIdメソッド 利用者IDを指定して商品券をすべて取得
 	 *
@@ -27,7 +108,7 @@ public class VoucherDao extends Dao {
 	 * @return 商品券クラスのインスタンス 存在しない場合はnull
 	 * @throws Exception
 	 */
-	public List<Voucher> searchById(int userId) throws Exception{
+	public List<Voucher> searchByUserId(int userId) throws Exception{
 		// 商品券リストを初期化
 		List<Voucher> vouchers = new ArrayList<>();
 		// コネクションを確立
