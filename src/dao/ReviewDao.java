@@ -222,7 +222,8 @@ public class ReviewDao extends Dao {
 			statement.setInt(5, review.getLikeCount());
 			statement.setInt(6, review.getId());
 
-
+			
+			
 
 
 			// プリペアードステートメントを実行
