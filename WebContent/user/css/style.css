@@ -1980,19 +1980,31 @@ input:checked + .slider:before {
 }
 
 .use-btn-large {
-  display: inline-block;
   background: #ff9800;
   color: white;
-  text-decoration: none;
   font-size: 18px;
   font-weight: bold;
   padding: 12px 60px;
   border-radius: 8px;
+  border: none;
+  cursor: pointer;
   transition: background 0.2s;
 }
 
+
 .use-btn-large:hover {
   background: #e68900;
+}
+
+.back-btn,
+.cancel-btn {
+  background: #ccc;
+  color: #333;
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
 .goshuin-purchase {

@@ -27,17 +27,10 @@ public class VoucherAction extends Action {
 
 		User user = (User) session.getAttribute("user");
 
-//		//セッションにユーザーを登録（ログイン代わり。動作テスト用。ログイン部分が完成したら削除）
-//		UserDao userDao = new UserDao();
-//		HttpSession session = req.getSession(true);
-//		//session.setAttribute("user", userDao.login("111-1111-1111", "test"));
-//		User user = userDao.login("111-1111-1111", "test"); // User型を受け取る
-//      session.setAttribute("user", user);
-
 		// 商品券一覧を取得
 		List<Voucher> vouchers = null;
 		VoucherDao voucherDao = new VoucherDao();
-		vouchers = voucherDao.searchById(user.getId());
+		vouchers = voucherDao.searchByUserId(user.getId());
 
 		// jspへフォワード
 		req.setAttribute("vouchers", vouchers);
