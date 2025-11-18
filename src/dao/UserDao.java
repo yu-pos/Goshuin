@@ -202,7 +202,7 @@ public class UserDao extends Dao {
 			// まず利用者を新規作成
 
 			// プリペアードステートメントにINSERT文をセット
-			statement = connection.prepareStatement("INSERT INTO user(user_name, real_name, birth_date, address, tel_number, password, last_login_at) VALUES(?, ?, ?, ?, ?, ?, CURRENT_DATETIME)",
+			statement = connection.prepareStatement("INSERT INTO user(user_name, real_name, birth_date, address, tel_number, password, last_login_at) VALUES(?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)",
 					Statement.RETURN_GENERATED_KEYS);
 			// プリペアードステートメントに値をバインド
 			statement.setString(1, user.getUserName());
