@@ -10,9 +10,9 @@
             <!-- エラーメッセージ表示 -->
             <c:if test="${not empty errors}">
                 <div class="error" style="color:red;">
-                    <c:forEach var="e" items="${errors}">
-                        <p>${e}</p>
-                    </c:forEach>
+                    <c:forEach var="e" items="${errors.values()}">
+					    <p>${e}</p>
+					</c:forEach>
                 </div>
             </c:if>
 

@@ -24,25 +24,44 @@ public class LoginExecuteAction extends Action {
         UserDao userDao = new UserDao();
         User user = null;
 
+        // 入力値取得
         telNumber = req.getParameter("tel");
-        password = req.getParameter("password");
+        password  = req.getParameter("password");
 
-     // ★ ログイン時も「数字以外」を全部削除
+        // 🔹 電話番号の「数字以外」を全部削除（ハイフン・空白・全角など対応）
         if (telNumber != null) {
             telNumber = telNumber.replaceAll("[^0-9]", "");
         }
 
+        // エラーリスト（ログイン画面は List<String> でOK）
+        List<String> errors = new ArrayList<>();
+
+        // 🔹 電話番号形式チェック（10〜11桁の数字）
+        if (telNumber == null || !telNumber.matches("\\d{10,11}")) {
+            errors.add("有効な電話番号を入力してください");
+        }
+
+        // 電話番号形式に問題があれば、その時点でログイン画面へ戻す
+        if (!errors.isEmpty()) {
+            req.setAttribute("errors", errors);
+            // 入力し直し用に、元の値を戻す（ハイフン付きで表示したいなら元の req.getParameter を別に持つ）
+            req.setAttribute("tel", telNumber);
+            url = "login.jsp";
+            req.getRequestDispatcher(url).forward(req, res);
+            return;
+        }
+
+        // 🔹 ここまで来たら電話番号形式はOK → 認証処理へ
         user = userDao.login(telNumber, password);
 
         if (user != null) { // 認証成功の場合
             HttpSession session = req.getSession(true);
             session.setAttribute("user", user);
 
-            // ★ 現在日時（ログイン日時）
+            // ★ ログインポイント処理（前に作ったやつ）
             LocalDateTime nowDateTime = LocalDateTime.now();
             LocalDate today = nowDateTime.toLocalDate();
 
-            // ★ 前回ログイン日時（null の可能性あり）
             LocalDateTime oldDateTime = user.getLastLoginAt();
             boolean shouldGivePoint = false;
 
@@ -51,41 +70,32 @@ public class LoginExecuteAction extends Action {
                 shouldGivePoint = true;
             } else {
                 LocalDate oldDate = oldDateTime.toLocalDate();
-                // 前回ログインの日付と今日の日付が違う → 昨日以前 → 今日の初回ログイン
                 if (!oldDate.isEqual(today)) {
+                    // 昨日以前 → 今日の初回ログイン
                     shouldGivePoint = true;
                 }
             }
 
             if (shouldGivePoint) {
-                int addPoint = 1; // 付与ポイント（仕様に合わせて変更OK）
+                int addPoint = 1; // 付与ポイント
 
-                // ★ メモリ上の user にポイントを加算
                 user.setPoint(user.getPoint() + addPoint);
-
-                // メイン画面に出すメッセージをセット
                 req.setAttribute("loginPointMessage", "ログインポイントが付与されました");
             }
 
-            // ★ 最終ログイン日時は、ポイント付与してもしなくても「今」に更新
+            // ログインした時刻を最終ログインに更新
             user.setLastLoginAt(nowDateTime);
-
-            // ★ DB を更新（ポイント + last_login_at などをまとめて保存）
             userDao.update(user);
-
-            // ★ セッション内の user も最新状態にしておく
             session.setAttribute("user", user);
 
-            // メイン画面へ
             url = "main.jsp";
 
         } else {
-            // 認証失敗の場合
-            List<String> errors = new ArrayList<>();
+            // 認証失敗の場合（電話番号形式はOKだが、ユーザーがいない or パスワード不一致）
             errors.add("電話番号またはパスワードが確認できませんでした");
             req.setAttribute("errors", errors);
 
-            // 入力された電話番号をセット（再表示用）
+            // 入力された電話番号を再表示用にセット
             req.setAttribute("tel", telNumber);
 
             url = "login.jsp";
