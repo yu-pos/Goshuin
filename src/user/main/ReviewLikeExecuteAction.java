@@ -9,11 +9,11 @@ import tool.Action;
 
 public class ReviewLikeExecuteAction extends Action  {
 
-	 public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-
-		 // パラメータからレビューIDを取得
+	 @Override
+	    public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+	        // パラメータからレビューIDと神社仏閣IDを取得
 	        int reviewId = Integer.parseInt(req.getParameter("reviewId"));
-	        int shrineAndTempleId = Integer.parseInt(req.getParameter("shrineAndTempleId")); // 再表示用
+	        int shrineAndTempleId = Integer.parseInt(req.getParameter("shrineAndTempleId"));
 
 	        // DAOを使っていいねカウントを増やす
 	        ReviewDao reviewDao = new ReviewDao();
@@ -21,17 +21,19 @@ public class ReviewLikeExecuteAction extends Action  {
 	        review.setLikeCount(review.getLikeCount() + 1);
 	        boolean success = reviewDao.update(review);
 
-
-	        // 成功したら元のページにリダイレクト
+	        // メッセージをセット
 	        if (success) {
-	            req.getRequestDispatcher("shrine_and_temple_info.jsp?shrineAndTempleId=" + shrineAndTempleId).forward(req, res);;
+	            req.setAttribute("likeMessage", "いいねしました！");
 	        } else {
-	            req.setAttribute("error", "いいねの更新に失敗しました。");
-	            req.getRequestDispatcher("shrine_and_temple_info.jsp?shrineAndTempleId=" + shrineAndTempleId).forward(req, res);;
+	            req.setAttribute("errorMessage", "いいねの更新に失敗しました。");
+	        }
+
+	        // shrineAndTempleIdを保持して再表示用アクションへフォワード
+	        req.setAttribute("shrineAndTempleId", shrineAndTempleId);
+	        req.getRequestDispatcher("ShrineAndTempleInfo.action").forward(req, res);
+	    }
+	}
 
 
 
 
-    }
-}
-}
