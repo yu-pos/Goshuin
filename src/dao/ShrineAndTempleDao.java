@@ -130,6 +130,7 @@ public class ShrineAndTempleDao extends Dao{
 				if (haveTagIdList.contains(shrineAndTempleTagIdList)) {
 					ShrineAndTemple shrineAndTemple = new ShrineAndTemple();
 
+					
 					// 神社仏閣インスタンスに検索結果をセット
 					shrineAndTemple.setId(resultSet.getInt("id"));
 					shrineAndTemple.setName(resultSet.getString("name"));
@@ -143,6 +144,7 @@ public class ShrineAndTempleDao extends Dao{
 					shrineAndTemple.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
 					shrineAndTemple.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
 
+					
 	        		list.add(shrineAndTemple);
 				}
 

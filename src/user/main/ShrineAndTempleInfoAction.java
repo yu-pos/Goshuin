@@ -44,28 +44,5 @@ public  class ShrineAndTempleInfoAction extends Action  {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	req.getRequestDispatcher("shrine_and_temple_info").forward(req, res);
 	}
-
-
-
-	}
+}
