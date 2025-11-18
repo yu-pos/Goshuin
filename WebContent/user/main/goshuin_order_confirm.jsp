@@ -6,7 +6,7 @@
 		<h2>上杉神社 御朱印</h2>
 
         <div class="goshuin-image-area">
-          <img src="images/127.jpg" alt="上杉神社の御朱印" class="goshuin-img">
+          <img src="/goshuin/user/images/goshuin/${regdGoshuin.imagePath}" alt="御朱印イメージ" class="goshuin-img">
         </div>
 
         <p class="confirm-message">
@@ -20,8 +20,14 @@
         </div>
 
         <div class="purchase-btn-area">
-          <a href="kounyu3.html" class="purchase-btn">購入する</a>
-          <a href="kounyu.html" class="cancel-btn">戻る</a>
+       		<form action="PaymentExecute.action" method="POST">
+        		<input type="hidden" name="regdGoshuinId" value="${regdGoshuin.id}">
+		        <input type="submit" class="purchase-btn" value="購入する">
+	        </form>
+	        <form action="GoshuinChoose.action" method="POST">
+	        	<input type="hidden" name="shrineAndTempleId" value="${shrineAndTempleId}">
+		        <input type="submit" class="cancel-btn" value="戻る">
+        	</form>
         </div>
 	</c:param>
 </c:import>

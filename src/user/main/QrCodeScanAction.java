@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dao.UserDao;
+import bean.User;
 import tool.Action;
 
 public class QrCodeScanAction extends Action {
@@ -13,11 +13,13 @@ public class QrCodeScanAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
 
-		//セッションにユーザーを登録（ログイン代わり。動作テスト用。ログイン部分が完成したら削除）
-		UserDao userDao = new UserDao();
-		HttpSession session = req.getSession(true);
-		session.setAttribute("user", userDao.login("111-1111-1111", "test"));
+//		//セッションにユーザーを登録（ログイン代わり。動作テスト用。ログイン部分が完成したら削除）
+//		UserDao userDao = new UserDao();
+//		HttpSession session = req.getSession(true);
+//		session.setAttribute("user", userDao.login("111-1111-1111", "test"));
 
+		HttpSession session = req.getSession(); // セッション
+		User user = (User)session.getAttribute("user");
 
 		//ローカル変数の宣言 1
 		//なし

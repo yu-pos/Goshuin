@@ -48,7 +48,7 @@
 	        <c:if test="${!regdGoshuin.isOwned() and regdGoshuin.isAvailable()}">
 		        <form class="purchase-btn-area" action="GoshuinOrderConfirm.action" method="POST">
 		        	<input type="hidden" name="regdGoshuinId" value="${regdGoshuin.id}">
-
+					<input type="hidden" name="shrineAndTempleId" value="${shrineAndTempleId}">
 			        <input class="purchase-btn" type="submit" value="購入する">
 
 		        </form>

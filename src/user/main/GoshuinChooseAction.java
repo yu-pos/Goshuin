@@ -115,6 +115,7 @@ public class GoshuinChooseAction extends Action {
 		req.setAttribute("user", user);
 		req.setAttribute("regdGoshuinList", regdGoshuinList);
 		req.setAttribute("shrineAndTempleName", shrineAndTempleName);
+		req.setAttribute("shrineAndTempleId", shrineAndTempleId);
 
 
 		//JSPへフォワード 7
