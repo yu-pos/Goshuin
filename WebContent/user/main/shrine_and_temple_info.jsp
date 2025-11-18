@@ -19,9 +19,16 @@
         <section class="temple-info">
           <p><strong>所在地：</strong>${shrineAndTemple.address }</p>
           <p><strong>ご利益：</strong>${shrineAndTemple.description}</p>
-          <p><strong>タグ：</strong>⛩️ 神社 / 🌸 山形市 / 🪷 学業成就</p>
+          <p><strong>タグ：</strong>
+    <c:forEach var="tag" items="${shrineAndTemple.tagList}">
+      <span class="tag">#${tag.name}</span>
+    </c:forEach>
+  </p>
+         
           <p><strong>紹介：</strong>${shrineAndTemple.description}</p>
           <p><strong>周辺状況：</strong>${shrineAndTemple.areaInfo }</p>
+  
+          
         </section>
 
         <!-- 🗣️ 口コミセクション -->
@@ -37,9 +44,9 @@
 			    <div class="review-item">
 			      <img src="images/134.png" alt="ユーザー1" class="user-icon">
 			      <div class="review-content">
-			        <h4><a href="profile2.html">ゆみこ さん</a></h4>
-			        <p>紅葉の時期に訪れました🍁 とても綺麗で心が洗われました！</p>
-			        <button class="like-btn">♡ <span class="like-count">0</span></button>
+			      <h4>${review.userName} さん</h4>   
+			       <p>${review.text}</p>
+			        <button class="like-btn">♡ <span class="like-count">${review.likeCount}</span></button>
 			      </div>
 			    </div>
 
