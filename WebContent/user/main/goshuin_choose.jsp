@@ -4,14 +4,25 @@
 <c:import url="../base2.jsp">
 	<c:param name="content">
 		<h1>御朱印購入</h1>
-        <h2>上杉神社 御朱印</h2>
+        <h2>${shrineAndTempleName} 御朱印</h2>
 
 		<c:forEach var="regdGoshuin" items="${regdGoshuinList}">
 
 	        <!-- 御朱印画像 -->
 	        <div class="goshuin-image-area">
-	          <img src="image/goshuin/${regdGoshuin.imagePath}" alt="御朱印イメージ" class="goshuin-img">
+	          <img src="/goshuin/user/images/goshuin/${regdGoshuin.imagePath}" alt="御朱印イメージ" class="goshuin-img">
 	        </div>
+
+				<!-- 販売期間 -->
+				<p>
+		        	販売期間:
+		        	<c:if test="${regdGoshuin.saleStartDate != null}">
+		        		${regdGoshuin.saleStartDate} ～ ${regdGoshuin.saleEndDate}
+		        	</c:if>
+		        	<c:if test="${regdGoshuin.saleStartDate == null}">
+		        		常時
+		        	</c:if>
+		        </p>
 
 	        <!-- 説明文 -->
 	        <p class="goshuin-desc">
@@ -29,12 +40,12 @@
 			</c:if>
 
 			<%-- 販売期間外だった場合 --%>
-			<c:if test="${regdGoshuin.isAvailable}">
+			<c:if test="${!regdGoshuin.isAvailable() and !regdGoshuin.isOwned()}">
 				<div><font color="red">御朱印の販売期間外です</font></div>
 			</c:if>
 
 	        <!-- 購入ボタン -->
-	        <c:if test="${!regdGoshuin.isOwned() and regdGoshuin.isAvailable}">
+	        <c:if test="${!regdGoshuin.isOwned() and regdGoshuin.isAvailable()}">
 		        <form class="purchase-btn-area" action="GoshuinOrderConfirm.action" method="POST">
 		        	<input type="hidden" name="regdGoshuinId" value="${regdGoshuin.id}">
 
