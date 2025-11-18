@@ -102,15 +102,13 @@ public class UserRegistExecuteAction extends Action{
 				req.setAttribute("address",    address);
 				req.setAttribute("tel",        tel);
 
-				// JSPへフォワード 7
 				if (result) {
-					// 登録完了画面にフォワード
-					req.getRequestDispatcher("user_regist_done.jsp").forward(req, res);
+				    // 登録完了画面にフォワード
+				    req.getRequestDispatcher("user_regist_complete.jsp").forward(req, res);
 				} else {
-					// insert が false → 代替フロー③「登録に失敗しました」
-					errors.put("5", "登録に失敗しました");
-					req.setAttribute("errors", errors);
-					req.getRequestDispatcher("UserRegist.action").forward(req, res);
+				    errors.put("5", "登録に失敗しました");
+				    req.setAttribute("errors", errors);
+				    req.getRequestDispatcher("UserRegist.action").forward(req, res);
 				}
 			}
 

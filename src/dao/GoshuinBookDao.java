@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -241,77 +242,56 @@ public class GoshuinBookDao extends Dao {
 	 * @throws Exception
 	 */
 	public Pair<Boolean, Integer> insert(int userId) throws Exception {
-		// コネクションを確立
-		Connection connection = getConnection();
-		// プリペアードステートメント
-		PreparedStatement statement = null;
 
-		// 実行件数
-		int count = 0;
+	    Connection connection = getConnection();
+	    PreparedStatement statement = null;
+	    ResultSet keys = null;
 
-		//登録した御朱印帳のID
-		int goshuinBookId;
+	    int count = 0;
+	    Integer newId = null;
 
-		Pair<Boolean, Integer> pair;
+	    try {
+	        // ★ 御朱印帳を1冊発行（デザインIDは仮に1固定）
+	        statement = connection.prepareStatement(
+	            "INSERT INTO goshuin_book(user_id, goshuin_book_design_id) VALUES(?, 1)",
+	            Statement.RETURN_GENERATED_KEYS
+	        );
+	        statement.setInt(1, userId);
 
-		try {
+	        count = statement.executeUpdate();
 
+	        if (count == 1) {
+	            // ★ ここが今回のポイント
+	            keys = statement.getGeneratedKeys();
+	            if (keys.next()) {
+	                newId = keys.getInt(1); // ← rs.next() してから getInt する！
+	            } else {
+	                // ID が返ってこなかった場合
+	                return Pair.of(false, null);
+	            }
+	        } else {
+	            // 挿入失敗
+	            return Pair.of(false, null);
+	        }
 
+	    } catch (Exception e) {
+	        throw e;
+	    } finally {
+	        if (keys != null) {
+	            try { keys.close(); } catch (SQLException e) { throw e; }
+	        }
+	        if (statement != null) {
+	            try { statement.close(); } catch (SQLException e) { throw e; }
+	        }
+	        if (connection != null) {
+	            try { connection.close(); } catch (SQLException e) { throw e; }
+	        }
+	    }
 
-
-
-			// プリペアードステートメントにINSERT文をセット
-			statement = connection.prepareStatement("INSERT INTO goshuin_book(user_id, goshuin_book_design_id) VALUES(?, 1)");
-			// プリペアードステートメントに値をバインド
-			statement.setInt(1, userId);
-
-			// プリペアードステートメントを実行
-			count = statement.executeUpdate();
-
-			statement.close();
-
-			//登録した御朱印帳のIDを取得
-			// プリペアードステートメントにSQL文をセット
-			statement = connection.prepareStatement("SELECT id"
-					+ " FROM goshuin_book WHERE user_id = ? ORDER BY id DESC LIMIT 1");
-			statement.setInt(1, userId);
-
-			// プリペアードステートメントを実行
-			ResultSet resultSet = statement.executeQuery();
-			// 検索結果をセット
-			goshuinBookId = resultSet.getInt("id");
-
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			// プリペアードステートメントを閉じる
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException sqle) {
-					throw sqle;
-				}
-			}
-			// コネクションを閉じる
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException sqle) {
-					throw sqle;
-				}
-			}
-		}
-
-		if (count == 1) {
-			// 実行件数1件の場合
-			pair = Pair.of(Boolean.TRUE, Integer.valueOf(goshuinBookId));
-		} else {
-			// 実行件数がそれ以外の場合
-			pair = Pair.of(Boolean.FALSE, null);
-		}
-
-		return pair;
+	    // 成功フラグ true と 発行されたIDを返す
+	    return Pair.of(true, newId);
 	}
+
 
 	/**
 	 * updateメソッド 御朱印帳情報を登録または更新

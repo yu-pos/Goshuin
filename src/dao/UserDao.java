@@ -110,73 +110,97 @@ public class UserDao extends Dao {
 	 * @throws Exception
 	 */
 	public User getByTel(String telNumber) throws Exception {
-		// 教員インスタンスを初期化
-		User user = new User();
-		// コネクションを確立
-		Connection connection = getConnection();
-		// プリペアードステートメント
-		PreparedStatement statement = null;
+	    User user = null;
+	    Connection connection = getConnection();
+	    PreparedStatement statement = null;
 
-		try {
-			// プリペアードステートメントにSQL文をセット
-			statement = connection.prepareStatement("SELECT id, user_name, real_name, birth_date, address, tel_number, password, active_goshuin_book_id, point, rank, goshuin_count, profile_image_path, my_goshuin_book_id, is_my_goshuin_book_public, last_login_at, updated_at, created_at"
-					+ " FROM user WHERE tel_number = ?");
-			// プリペアードステートメントに教員IDをバインド
-			statement.setString(1, telNumber);
-			// プリペアードステートメントを実行
-			ResultSet resultSet = statement.executeQuery();
+	    try {
+	        statement = connection.prepareStatement(
+	            "SELECT id, user_name, real_name, birth_date, address, tel_number, password, " +
+	            "       active_goshuin_book_id, point, rank, goshuin_count, profile_image_path, " +
+	            "       my_goshuin_book_id, is_my_goshuin_book_public, " +
+	            "       last_login_at, updated_at, created_at " +
+	            "FROM user WHERE tel_number = ?"
+	        );
+	        statement.setString(1, telNumber);
 
-			// 御朱印帳Daoを初期化
-			GoshuinBookDao goshuinBookDao = new GoshuinBookDao();
+	        ResultSet rs = statement.executeQuery();
 
-			if (resultSet.next()) {
-				// リザルトセットが存在する場合
-				// 教員インスタンスに検索結果をセット
-				user.setId(resultSet.getInt("id"));
-				user.setUserName(resultSet.getString("user_name"));
-				user.setRealName(resultSet.getString("real_name"));
-				user.setBirthDate(resultSet.getTimestamp("birth_date").toLocalDateTime());
-				user.setAddress(resultSet.getString("address"));
-				user.setTelNumber(resultSet.getString("tel_number"));
-				user.setPassword(resultSet.getString("password"));
-				user.setActiveGoshuinBook(goshuinBookDao.getById(resultSet.getInt("active_goshuin_book_id")));
-				user.setPoint(resultSet.getInt("point"));
-				user.setRank(resultSet.getInt("rank"));
-				user.setGoshuinCount(resultSet.getInt("goshuin_count"));
-				user.setProfileImagePath(resultSet.getString("profile_image_path"));
-				user.setMyGoshuinBook(goshuinBookDao.getById(resultSet.getInt("my_goshuin_book_id")));
-				user.setMyGoshuinBookPublic(resultSet.getBoolean("is_my_goshuin_book_public"));
-				user.setLastLoginAt(resultSet.getTimestamp("last_login_at").toLocalDateTime());
-				user.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
-				user.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
-			} else {
-				// リザルトセットが存在しない場合
-				// 利用者インスタンスにnullをセット
-				user = null;
-			}
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			// プリペアードステートメントを閉じる
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException sqle) {
-					throw sqle;
-				}
-			}
-			// コネクションを閉じる
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException sqle) {
-					throw sqle;
-				}
-			}
-		}
+	        GoshuinBookDao goshuinBookDao = new GoshuinBookDao();
 
-		return user;
+	        if (rs.next()) {
+	            user = new User();
+
+	            user.setId(rs.getInt("id"));
+	            user.setUserName(rs.getString("user_name"));
+	            user.setRealName(rs.getString("real_name"));
+
+	            // 🔹 birth_date（NULL 対策）
+	            Timestamp birthTs = rs.getTimestamp("birth_date");
+	            if (birthTs != null) {
+	                user.setBirthDate(birthTs.toLocalDateTime());
+	            }
+
+	            user.setAddress(rs.getString("address"));
+	            user.setTelNumber(rs.getString("tel_number"));
+	            user.setPassword(rs.getString("password"));
+
+	            // 🔹 active_goshuin_book_id（NULL or 0 対策）
+	            int activeId = rs.getInt("active_goshuin_book_id");
+	            if (!rs.wasNull() && activeId != 0) {
+	                user.setActiveGoshuinBook(goshuinBookDao.getById(activeId));
+	            }
+
+	            user.setPoint(rs.getInt("point"));
+	            user.setRank(rs.getInt("rank"));
+	            user.setGoshuinCount(rs.getInt("goshuin_count"));
+	            user.setProfileImagePath(rs.getString("profile_image_path"));
+
+	            // 🔹 my_goshuin_book_id
+	            int myBookId = rs.getInt("my_goshuin_book_id");
+	            if (!rs.wasNull() && myBookId != 0) {
+	                user.setMyGoshuinBook(goshuinBookDao.getById(myBookId));
+	            }
+
+	            user.setMyGoshuinBookPublic(rs.getBoolean("is_my_goshuin_book_public"));
+
+	            // 🔹 last_login_at
+	            Timestamp lastLoginTs = rs.getTimestamp("last_login_at");
+	            if (lastLoginTs != null) {
+	                user.setLastLoginAt(lastLoginTs.toLocalDateTime());
+	            }
+
+	            // 🔹 updated_at
+	            Timestamp updatedTs = rs.getTimestamp("updated_at");
+	            if (updatedTs != null) {
+	                user.setUpdatedAt(updatedTs.toLocalDateTime());
+	            }
+
+	            // 🔹 created_at
+	            Timestamp createdTs = rs.getTimestamp("created_at");
+	            if (createdTs != null) {
+	                user.setCreatedAt(createdTs.toLocalDateTime());
+	            }
+
+	        } else {
+	            // 見つからなければ null
+	            user = null;
+	        }
+
+	    } catch (Exception e) {
+	        throw e;
+	    } finally {
+	        if (statement != null) {
+	            try { statement.close(); } catch (SQLException sqle) { throw sqle; }
+	        }
+	        if (connection != null) {
+	            try { connection.close(); } catch (SQLException sqle) { throw sqle; }
+	        }
+	    }
+
+	    return user;
 	}
+
 
 	/**
 	 * insertメソッド 利用者情報を登録 御朱印帳発行も自動で行う
@@ -187,121 +211,91 @@ public class UserDao extends Dao {
 	 * @throws Exception
 	 */
 	public boolean insert(User user) throws Exception {
-		// コネクションを確立
-		Connection connection = getConnection();
-		// プリペアードステートメント
-		PreparedStatement statement = null;
+	    Connection connection = getConnection();
+	    PreparedStatement statement = null;
+	    ResultSet keys = null;
 
-		// 実行件数
-		int count = 0;
+	    int count = 0;
 
-		try {
+	    try {
+	        // ① まず user を登録（active_goshuin_book_id / my_goshuin_book_id はまだ入れない）
+	        statement = connection.prepareStatement(
+	            "INSERT INTO user(" +
+	            "  user_name, real_name, birth_date, address, tel_number, password, " +
+	            "  point, rank, goshuin_count, profile_image_path, " +
+	            "  active_goshuin_book_id, my_goshuin_book_id, " +
+	            "  is_my_goshuin_book_public, last_login_at, updated_at, created_at" +
+	            ") VALUES(" +
+	            "  ?, ?, ?, ?, ?, ?, " +
+	            "  0, 0, 0, NULL, " +         // point / rank / goshuin_count / profile_image_path 初期値
+	            "  NULL, NULL, " +            // active_goshuin_book_id / my_goshuin_book_id は後でUPDATE
+	            "  FALSE, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP" +
+	            ")",
+	            Statement.RETURN_GENERATED_KEYS
+	        );
 
-			ResultSet keys = null;
+	        // 必須項目のバインド
+	        statement.setString(1, user.getUserName());
+	        statement.setString(2, user.getRealName());
+	        statement.setTimestamp(3, Timestamp.valueOf(user.getBirthDate()));
+	        statement.setString(4, user.getAddress());
+	        statement.setString(5, user.getTelNumber());
+	        statement.setString(6, user.getPassword());
 
-			// まず利用者を新規作成
+	        count = statement.executeUpdate();
+	        if (count != 1) {
+	            return false;
+	        }
 
-			// プリペアードステートメントにINSERT文をセット
-			statement = connection.prepareStatement("INSERT INTO user(user_name, real_name, birth_date, address, tel_number, password, last_login_at) VALUES(?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)",
-					Statement.RETURN_GENERATED_KEYS);
-			// プリペアードステートメントに値をバインド
-			statement.setString(1, user.getUserName());
-			statement.setString(2, user.getRealName());
-			statement.setTimestamp(3, Timestamp.valueOf(user.getBirthDate()));
-			statement.setString(4, user.getAddress());
-			statement.setString(5, user.getTelNumber());
-			statement.setString(6, user.getPassword());
-
-
-			// プリペアードステートメントを実行
-
-			// 登録に失敗した場合、例外を発生させる
-			count = statement.executeUpdate();
-			if (count != 0) {
-				throw new Exception();
-			}
-			statement.close();
-
-			 // 自動採番された user.id を取得
+	        // ② 発番された user.id を取得
 	        keys = statement.getGeneratedKeys();
 	        int userId;
 	        if (keys.next()) {
 	            userId = keys.getInt(1);
 	            user.setId(userId);
 	        } else {
-	            throw new Exception("ユーザーIDの取得に失敗");
+	            throw new Exception("ユーザーIDの取得に失敗しました");
 	        }
 
-			// 新たな御朱印帳を発行
-			// 御朱印帳DAOを初期化
-			GoshuinBookDao goshuinBookDao = new GoshuinBookDao();
-			// 御朱印帳登録
-			Pair<Boolean, Integer> pair = goshuinBookDao.insert(userId);
-			// 登録に失敗した場合、例外を発生させる
-			if (!pair.getLeft()) {
-				throw new Exception("御朱印帳の登録に失敗");
-			}
-			int goshuinBookId = pair.getRight();
+	        // ③ userId を使って御朱印帳を発行
+	        GoshuinBookDao goshuinBookDao = new GoshuinBookDao();
+	        Pair<Boolean, Integer> pair = goshuinBookDao.insert(userId);
+	        if (!pair.getLeft()) {
+	            throw new Exception("御朱印帳の発行に失敗しました");
+	        }
+	        int goshuinBookId = pair.getRight();
 
-			// ③ user の active_goshuin_book_id / my_goshuin_book_id を更新
+	        // ④ user の active_goshuin_book_id / my_goshuin_book_id を更新
+	        statement.close();
 	        statement = connection.prepareStatement(
-	            "UPDATE user SET active_goshuin_book_id = ?, my_goshuin_book_id = ? WHERE id = ?"
+	            "UPDATE user SET active_goshuin_book_id = ?, my_goshuin_book_id = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?"
 	        );
-
 	        statement.setInt(1, goshuinBookId);
 	        statement.setInt(2, goshuinBookId);
 	        statement.setInt(3, userId);
 
-	        count = statement.executeUpdate();
-	        if (count != 1) {
-	            throw new Exception("ユーザーの御朱印帳情報の更新に失敗");
+	        int count2 = statement.executeUpdate();
+	        if (count2 != 1) {
+	            throw new Exception("ユーザーの御朱印帳情報の更新に失敗しました");
 	        }
 
+	    } catch (Exception e) {
+	        throw e;
+	    } finally {
+	        if (keys != null) {
+	            try { keys.close(); } catch (SQLException sqle) { throw sqle; }
+	        }
+	        if (statement != null) {
+	            try { statement.close(); } catch (SQLException sqle) { throw sqle; }
+	        }
+	        if (connection != null) {
+	            try { connection.close(); } catch (SQLException sqle) { throw sqle; }
+	        }
+	    }
 
-//			// プリペアードステートメントにINSERT文をセット
-//			statement = connection.prepareStatement("INSERT INTO user(user_name, real_name, birth_date, address, tel_number, password, active_goshuin_book_id, my_goshuin_book_id, last_login_at) VALUES(?, ?, ?, ?, ?, ?, ?, ?, CURRENT_DATETIME)");
-//			// プリペアードステートメントに値をバインド
-//			statement.setString(1, user.getUserName());
-//			statement.setString(2, user.getRealName());
-//			statement.setTimestamp(3, Timestamp.valueOf(user.getBirthDate()));
-//			statement.setString(4, user.getAddress());
-//			statement.setString(5, user.getTelNumber());
-//			statement.setString(6, user.getPassword());
-//			statement.setInt(7, pair.getRight());
-//			statement.setInt(8, pair.getRight());
-
-
-
-
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			// プリペアードステートメントを閉じる
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException sqle) {
-					throw sqle;
-				}
-			}
-			// コネクションを閉じる
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException sqle) {
-					throw sqle;
-				}
-			}
-		}
-
-		if (count == 1) {
-			// 実行件数1件の場合
-			return true;
-		} else {
-			// 実行件数がそれ以外の場合
-			return false;
-		}
+	    return true;
 	}
+
 
 
 	/**
