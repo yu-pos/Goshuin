@@ -4,6 +4,12 @@
 <c:import url="../base.jsp">
 	<c:param name="content">
 		<h1>メイン画面</h1>
+		<c:if test="${not empty loginPointMessage}">
+		    <div class="info-message">
+		        ${loginPointMessage}
+		    </div>
+		</c:if>
+
         <section class="omikuji">
             <button class="omikuji-btn left" aria-label="おみくじ">
                 <img src="../images/omikuji.png" alt="おみくじ" class="omikuji-icon">

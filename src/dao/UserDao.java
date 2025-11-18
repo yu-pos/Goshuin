@@ -325,7 +325,7 @@ public class UserDao extends Dao {
 
 			// 利用者が存在した場合、情報を更新
 			// プリペアードステートメントにUPDATE文をセット
-			statement = connection.prepareStatement("UPDATE user SET user_name = ?, active_goshuin_book_id = ?, rank = ?, goshuin_count = ?, profile_image_path = ?, my_goshuin_book_id = ?, is_my_goshuin_book_public = ?, last_login_at = ? updated_at = CURRENT_DATETIME WHERE id = ?");
+			statement = connection.prepareStatement("UPDATE user SET user_name = ?, active_goshuin_book_id = ?, rank = ?, goshuin_count = ?, profile_image_path = ?, my_goshuin_book_id = ?, is_my_goshuin_book_public = ?, last_login_at = ?, point = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?");
 			// プリペアードステートメントに値をバインド
 			statement.setString(1, user.getUserName());
 			statement.setInt(2, user.getActiveGoshuinBook().getId());
@@ -335,7 +335,8 @@ public class UserDao extends Dao {
 			statement.setInt(6, user.getMyGoshuinBook().getId());
 			statement.setBoolean(7, user.isMyGoshuinBookPublic());
 			statement.setTimestamp(8, Timestamp.valueOf(user.getLastLoginAt()));
-			statement.setInt(9, user.getId());
+			statement.setInt(9, user.getPoint());
+			statement.setInt(10, user.getId());
 
 			// プリペアードステートメントを実行
 			count = statement.executeUpdate();
