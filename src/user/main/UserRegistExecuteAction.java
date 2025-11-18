@@ -37,6 +37,11 @@ public class UserRegistExecuteAction extends Action{
 				tel          = req.getParameter("tel");
 				password     = req.getParameter("password");
 
+				// ★ 電話番号の「数字以外」を全部削除（ハイフン全角・半角・空白など）
+				if (tel != null) {
+				    tel = tel.replaceAll("[^0-9]", "");
+				}
+
 				// DBからデータ取得 3
 				// なし
 

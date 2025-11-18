@@ -27,6 +27,11 @@ public class LoginExecuteAction extends Action {
         telNumber = req.getParameter("tel");
         password = req.getParameter("password");
 
+     // ★ ログイン時も「数字以外」を全部削除
+        if (telNumber != null) {
+            telNumber = telNumber.replaceAll("[^0-9]", "");
+        }
+
         user = userDao.login(telNumber, password);
 
         if (user != null) { // 認証成功の場合
