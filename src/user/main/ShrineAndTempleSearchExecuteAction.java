@@ -47,11 +47,11 @@ public class ShrineAndTempleSearchExecuteAction extends Action {
 	            // 表示ページへフォワード
 	            req.getRequestDispatcher("shrine_list.jsp").forward(req, res);
 	        }
-	    }
 
 
 
-}}
+
+}
 	     //   public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 	            // 選択されたタグIDを取得（例：複数選択）
 	      //      String[] tagIds = req.getParameterValues("tagId");
