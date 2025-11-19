@@ -18,6 +18,8 @@
               <textarea id="review" name="review" rows="4" placeholder="例：雰囲気がとても良かったです。"></textarea>
             </div>
 
+
+
             <!-- 画像アップロード -->
             <div class="form-group">
               <label for="photo">画像を添付（任意）</label>
@@ -32,3 +34,4 @@
           </form>
 	</c:param>
 </c:import>
+
