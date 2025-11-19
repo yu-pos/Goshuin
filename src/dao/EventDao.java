@@ -47,9 +47,9 @@ public class EventDao extends Dao{
 				// リザルトセットが存在する場合
 				// 利用者インスタンスに検索結果をセット
 
-				event.setId(resultSet.getInt("setid"));
-				event.setTitle(resultSet.getString("settitle"));
-				event.setText(resultSet.getString("setText"));
+				event.setId(resultSet.getInt("id"));
+				event.setTitle(resultSet.getString("title"));
+				event.setText(resultSet.getString("text"));
 	            event.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
 				event.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
 
