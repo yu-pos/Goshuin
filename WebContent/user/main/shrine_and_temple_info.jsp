@@ -26,7 +26,7 @@
   </p>
 
           <p><strong>紹介：</strong>${shrineAndTemple.description}</p>
-          <p><strong>周辺状況：</strong>${shrineAndTemple.areaInfo }</p>
+          <p><strong>周辺状況：</strong>${shrineAndTemple.areaInfo}</p>
 
 
         </section>
