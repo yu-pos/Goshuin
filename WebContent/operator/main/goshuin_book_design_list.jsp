@@ -1,12 +1,93 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:import url="../base.jsp">
+	<c:param name="content">
+		<h3>御朱印帳登録一覧</h3>
 
-</body>
-</html>
+      <div class="register-header">
+        <div class="register-title">御朱印帳表紙デザイン一覧</div>
+        <button class="new-btn">＋ 表紙新規登録</button>
+      </div>
+
+      <div class="design-list">
+        <div class="design-item">
+          <img src="images/129.png" alt="表紙1">
+          <p>さくらデザイン</p>
+        </div>
+        <div class="design-item">
+          <img src="images/129.png" alt="表紙1">
+          <p>さくらデザイン</p>
+        </div>
+        <div class="design-item">
+          <img src="images/129.png" alt="表紙1">
+          <p>さくらデザイン</p>
+        </div>
+        <div class="design-item">
+          <img src="images/129.png" alt="表紙1">
+          <p>さくらデザイン</p>
+        </div>
+        <div class="design-item">
+          <img src="images/129.png" alt="表紙1">
+          <p>さくらデザイン</p>
+        </div>
+      </div>
+
+      <div class="register-header">
+        <div class="register-title">ステッカーデザイン一覧</div>
+        <button class="new-btn">＋ ステッカー新規登録</button>
+      </div>
+
+      <div class="design-list">
+        <div class="design-item">
+          <img src="images/130.png" alt="ステッカー1">
+          <p>鳥居マーク</p>
+        </div>
+        <div class="design-item">
+          <img src="images/130.png" alt="ステッカー1">
+          <p>鳥居マーク</p>
+        </div>
+        <div class="design-item">
+          <img src="images/130.png" alt="ステッカー1">
+          <p>鳥居マーク</p>
+        </div>
+        <div class="design-item">
+          <img src="images/130.png" alt="ステッカー1">
+          <p>鳥居マーク</p>
+        </div>
+        <div class="design-item">
+          <img src="images/130.png" alt="ステッカー1">
+          <p>鳥居マーク</p>
+        </div>
+        <div class="design-item">
+          <img src="images/130.png" alt="ステッカー1">
+          <p>鳥居マーク</p>
+        </div>
+        <div class="design-item">
+          <img src="images/130.png" alt="ステッカー1">
+          <p>鳥居マーク</p>
+        </div>
+        <div class="design-item">
+          <img src="images/130.png" alt="ステッカー1">
+          <p>鳥居マーク</p>
+        </div>
+        <div class="design-item">
+          <img src="images/130.png" alt="ステッカー1">
+          <p>鳥居マーク</p>
+        </div>
+        <div class="design-item">
+          <img src="images/130.png" alt="ステッカー1">
+          <p>鳥居マーク</p>
+        </div>
+        <div class="design-item">
+          <img src="images/130.png" alt="ステッカー1">
+          <p>鳥居マーク</p>
+        </div>
+        <div class="design-item">
+          <img src="images/130.png" alt="ステッカー1">
+          <p>鳥居マーク</p>
+        </div>
+
+      </div>
+	</c:param>
+</c:import>
