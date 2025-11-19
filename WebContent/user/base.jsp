@@ -34,7 +34,7 @@
 	  <footer class="footer-nav">
 	     	<nav>
 	        	<a href="menu.html" class="nav-btn active">🏠<br><span>ホーム</span></a>
-	            <a href="goshuin.html" class="nav-btn">📙<br><span>御朱印帳</span></a>
+	            <a href="GoshuinBookView.action" class="nav-btn">📙<br><span>御朱印帳</span></a>
 	            <a href="temples.html" class="nav-btn">⛩️<br><span>神社仏閣<br>情報</span></a>
 	            <a href="points.html" class="nav-btn">🦃<br><span>ポイント交換</span></a>
 	            <a href="profile.html" class="nav-btn">👤<br><span>プロフィール</span></a>
