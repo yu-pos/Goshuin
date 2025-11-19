@@ -24,11 +24,11 @@
       <span class="tag">#${tag.name}</span>
     </c:forEach>
   </p>
-         
+
           <p><strong>紹介：</strong>${shrineAndTemple.description}</p>
           <p><strong>周辺状況：</strong>${shrineAndTemple.areaInfo }</p>
-  
-          
+
+
         </section>
 
         <!-- 🗣️ 口コミセクション -->
@@ -44,7 +44,7 @@
 			    <div class="review-item">
 			      <img src="images/134.png" alt="ユーザー1" class="user-icon">
 			      <div class="review-content">
-			      <h4>${review.userName} さん</h4>   
+			      <h4>${review.userName} さん</h4>
 			       <p>${review.text}</p>
 			        <button class="like-btn">♡ <span class="like-count">${review.likeCount}</span></button>
 			      </div>
