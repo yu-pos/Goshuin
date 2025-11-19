@@ -25,8 +25,12 @@ public class GoshuinChooseAction extends Action {
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
+
+
+		HttpSession session = req.getSession(); // セッション
+		User user = (User)session.getAttribute("user");
+
 		//ローカル変数の宣言 1
-		User user = null; //ログイン中ユーザー
 		int shrineAndTempleId; //神社仏閣ID
 		String shrineAndTempleName; //神社仏閣名
 
@@ -41,10 +45,8 @@ public class GoshuinChooseAction extends Action {
 
 
 		LocalDateTime nowDateTime = LocalDateTime.now();
-		HttpSession session=req.getSession();
 
 		//リクエストパラメータ―の取得 2
-		user = (User)session.getAttribute("user");
 		shrineAndTempleId = Integer.parseInt(req.getParameter("shrineAndTempleId"));
 
 		System.out.println(user.getTelNumber());

@@ -5,11 +5,11 @@
 	<c:param name="content">
 		<h1>購入完了</h1>
 
-        <!-- エラーメッセージ表示 -->
+        <!-- メッセージ表示 -->
         <c:if test="${not empty messages}">
-             <div>
-                 <c:forEach var="e" items="${messages.values()}">
-		    <p>${e}</p>
+             <div class="purchase-btn-area">
+                 <c:forEach var="m" items="${messages.values()}">
+		    <p>${m}</p>
 		</c:forEach>
              </div>
         </c:if>

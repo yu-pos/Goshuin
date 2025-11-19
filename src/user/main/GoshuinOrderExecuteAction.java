@@ -31,7 +31,6 @@ public class GoshuinOrderExecuteAction extends Action {
 		HttpSession session = req.getSession(); // セッション
 		User user = (User)session.getAttribute("user");
 
-		System.out.println( user.getRank());
 		//ローカル変数の宣言 1
 		int regdGoshuinId;
 		RegdGoshuin regdGoshuin = new RegdGoshuin();
@@ -48,6 +47,7 @@ public class GoshuinOrderExecuteAction extends Action {
 		GoshuinBookDao goshuinBookDao = new GoshuinBookDao();
 
 		Map<String, String> messages = new HashMap<>();
+		Map<String, String> errors = new HashMap<>();
 
 		//リクエストパラメータ―の取得 2
 		regdGoshuinId = Integer.parseInt(req.getParameter("regdGoshuinId"));
@@ -66,18 +66,24 @@ public class GoshuinOrderExecuteAction extends Action {
 		ownedGoshuin.setGoshuin(regdGoshuin);
 
 		//DBへデータ保存 5
-		ownedGoshuinDao.insert(ownedGoshuin);
+		if (!ownedGoshuinDao.insert(ownedGoshuin)) {
+			errors.put("1", "御朱印の購入に失敗しました。");
+		}
 
 		user.setGoshuinCount(user.getGoshuinCount() + 1); //御朱印カウントを増やす
 
-		//御朱印帳発行処理
-		if (user.getActiveGoshuinBook().getGoshuinList().size() >= 30) {
 
+		System.out.println("DEBUG 登録御朱印数:" + (user.getActiveGoshuinBook().getGoshuinList().size() + 1));
+
+
+		//もし御朱印帳が埋まった場合、新たな御朱印帳の発行を行う
+		if (user.getActiveGoshuinBook().getGoshuinList().size() + 1 >= 30) {
 			goshuinBookInsertInfo = goshuinBookDao.insert(user.getId()); //御朱印帳発行
 
 			if (goshuinBookInsertInfo.getLeft()) {
 				user.setActiveGoshuinBook(goshuinBookDao.getById(goshuinBookInsertInfo.getRight())); // 使用中御朱印帳を変更
-				messages.put("1", "御朱印帳が埋まったため、新たな御朱印帳が発行されました。");
+				messages.put("1", "使用中の御朱印帳に登録御朱印が最大に達したため、新たな御朱印帳が発行されました。<br>"
+						+ "次回の購入以降、新たな御朱印帳に御朱印が登録されます。");
 			}
 
 
@@ -95,12 +101,13 @@ public class GoshuinOrderExecuteAction extends Action {
 
 			voucherDao.insert(voucher);
 
-			messages.put("2", "御朱印を規定数集めたため、商品券が発行されました");
+			messages.put("2", "御朱印を規定数集めたため、商品券が発行されました！");
 			System.out.println(user.getGoshuinCount());
 			//ランクが最大(0)ではなかった場合
 			if (user.getRank() > 0) {
 				user.setRank(user.getRank() - 1);
-				messages.put("2", "御朱印を規定数集めたため、ランクが上がりました。特典として商品券が発行されました");
+				messages.put("2", "御朱印を規定数集めたため、ランクが上がりました！<br>"
+						+ "特典として商品券が発行されました。");
 			}
 
 			//御朱印カウントをリセット
@@ -110,7 +117,12 @@ public class GoshuinOrderExecuteAction extends Action {
 
 		}
 
-		userDao.update(user);
+		//利用者の更新情報をDBに登録し、セッションを更新
+		if (!userDao.update(user)) {
+			errors.put("2", "利用者情報の更新に失敗しました。");
+		}
+
+        session.setAttribute("user", userDao.getById(user.getId()));
 
 
 
@@ -119,7 +131,7 @@ public class GoshuinOrderExecuteAction extends Action {
 //		req.setAttribute("shrineAndTempleId", shrineAndTempleId);
 
 		//JSPへフォワード 7
-		if (true) {
+		if (errors.isEmpty()) {
 			req.setAttribute("messages", messages);
 			req.getRequestDispatcher("goshuin_order_complete.jsp").forward(req, res);
 		} else {

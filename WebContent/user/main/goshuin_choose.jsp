@@ -29,10 +29,6 @@
 	          ${regdGoshuin.description}
 	        </p>
 
-			<c:if test="${ownedGoshuinIdList.contains(regdGoshuin.id)}">
-				<a href="TeacherCreate.action">新規登録</a>
-			</c:if>
-
 
 			<%-- 購入済みだった場合 --%>
 			<c:if test="${regdGoshuin.isOwned()}">

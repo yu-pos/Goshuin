@@ -13,6 +13,7 @@ public class GoshuinOrderConfirmAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
 
+
 		//ローカル変数の宣言 1
 		int regdGoshuinId;
 		RegdGoshuin regdGoshuin = new RegdGoshuin();

@@ -42,7 +42,7 @@ public class UserDao extends Dao {
 
 		try {
 			// プリペアードステートメントにSQL文をセット
-			statement = connection.prepareStatement("SELECT id, user_name, real_name, birth_date, address, tel_number, password, active_goshuin_book_id, point, rank, goshuin_count, profile_image_path, my_goshuin_book_id, is_my_goshuin_book_public, last_login_at, updated_at, created_at"
+			statement = connection.prepareStatement("SELECT id, user_name, real_name, birth_date, address, tel_number, password, active_goshuin_book_id, point, user_rank, goshuin_count, profile_image_path, my_goshuin_book_id, is_my_goshuin_book_public, last_login_at, updated_at, created_at"
 					+ " FROM user WHERE id = ?");
 			// プリペアードステートメントに教員IDをバインド
 			statement.setInt(1, id);
@@ -64,7 +64,7 @@ public class UserDao extends Dao {
 				user.setPassword(resultSet.getString("password"));
 				user.setActiveGoshuinBook(goshuinBookDao.getById(resultSet.getInt("active_goshuin_book_id")));
 				user.setPoint(resultSet.getInt("point"));
-				user.setRank(resultSet.getInt("rank"));
+				user.setRank(resultSet.getInt("user_rank"));
 				user.setGoshuinCount(resultSet.getInt("goshuin_count"));
 				user.setProfileImagePath(resultSet.getString("profile_image_path"));
 				user.setMyGoshuinBook(goshuinBookDao.getById(resultSet.getInt("my_goshuin_book_id")));
@@ -117,7 +117,7 @@ public class UserDao extends Dao {
 	    try {
 	        statement = connection.prepareStatement(
 	            "SELECT id, user_name, real_name, birth_date, address, tel_number, password, " +
-	            "       active_goshuin_book_id, point, rank, goshuin_count, profile_image_path, " +
+	            "       active_goshuin_book_id, point, user_rank, goshuin_count, profile_image_path, " +
 	            "       my_goshuin_book_id, is_my_goshuin_book_public, " +
 	            "       last_login_at, updated_at, created_at " +
 	            "FROM user WHERE tel_number = ?"
@@ -152,7 +152,7 @@ public class UserDao extends Dao {
 	            }
 
 	            user.setPoint(rs.getInt("point"));
-	            user.setRank(rs.getInt("rank"));
+	            user.setRank(rs.getInt("user_rank"));
 	            user.setGoshuinCount(rs.getInt("goshuin_count"));
 	            user.setProfileImagePath(rs.getString("profile_image_path"));
 
@@ -222,17 +222,18 @@ public class UserDao extends Dao {
 	        statement = connection.prepareStatement(
 	            "INSERT INTO user(" +
 	            "  user_name, real_name, birth_date, address, tel_number, password, " +
-	            "  point, rank, goshuin_count, profile_image_path, " +
+	            "  point, user_rank, goshuin_count, profile_image_path, " +
 	            "  active_goshuin_book_id, my_goshuin_book_id, " +
 	            "  is_my_goshuin_book_public, last_login_at, updated_at, created_at" +
 	            ") VALUES(" +
 	            "  ?, ?, ?, ?, ?, ?, " +
-	            "  0, 0, 0, NULL, " +         // point / rank / goshuin_count / profile_image_path 初期値
+	            "  0, 6, 0, NULL, " +         // point / rank / goshuin_count / profile_image_path 初期値
 	            "  NULL, NULL, " +            // active_goshuin_book_id / my_goshuin_book_id は後でUPDATE
 	            "  FALSE, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP" +
 	            ")",
 	            Statement.RETURN_GENERATED_KEYS
 	        );
+
 
 	        // 必須項目のバインド
 	        statement.setString(1, user.getUserName());
@@ -319,7 +320,7 @@ public class UserDao extends Dao {
 
 			// 利用者が存在した場合、情報を更新
 			// プリペアードステートメントにUPDATE文をセット
-			statement = connection.prepareStatement("UPDATE user SET user_name = ?, active_goshuin_book_id = ?, rank = ?, goshuin_count = ?, profile_image_path = ?, my_goshuin_book_id = ?, is_my_goshuin_book_public = ?, last_login_at = ?, point = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?");
+			statement = connection.prepareStatement("UPDATE user SET user_name = ?, active_goshuin_book_id = ?, user_rank = ?, goshuin_count = ?, profile_image_path = ?, my_goshuin_book_id = ?, is_my_goshuin_book_public = ?, last_login_at = ?, point = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?");
 			// プリペアードステートメントに値をバインド
 			statement.setString(1, user.getUserName());
 			statement.setInt(2, user.getActiveGoshuinBook().getId());

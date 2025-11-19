@@ -2,14 +2,15 @@ package bean;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GoshuinBook implements Serializable {
 	private int id; //御朱印帳ID
 	private int userId; //利用者ID(外部)
 	private RegdGoshuinBookDesign goshuinBookDesign; //設定された表紙デザイン
-	private List<GoshuinBookStickerAttachment> attachedStickerList; //張り付けられたステッカーリスト(外部)
-	private List<OwnedGoshuin> goshuinList; //御朱印帳に登録されている御朱印リスト(外部)
+	private List<GoshuinBookStickerAttachment> attachedStickerList = new ArrayList<>(); //張り付けられたステッカーリスト(外部)
+	private List<OwnedGoshuin> goshuinList = new ArrayList<>(); //御朱印帳に登録されている御朱印リスト(外部)
 	private LocalDateTime updatedAt; //データ更新日時
 	private LocalDateTime createdAt; //データ登録日時
 

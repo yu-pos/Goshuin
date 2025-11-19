@@ -323,7 +323,6 @@ public List<OwnedGoshuin> searchByGoshuinBook(int GoshuinBookId) throws Exceptio
 			//GoshuinBookStickerAttachment goshuinBookStickerAttachment = new GoshuinBookStickerAttachment();
             OwnedGoshuin ownedGoshuin = new OwnedGoshuin();
 
-
             /*
              * 何をしたいのか？
              *
