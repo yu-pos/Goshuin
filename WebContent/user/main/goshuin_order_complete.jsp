@@ -4,6 +4,16 @@
 <c:import url="../base2.jsp">
 	<c:param name="content">
 		<h1>購入完了</h1>
+
+        <!-- エラーメッセージ表示 -->
+        <c:if test="${not empty messages}">
+             <div>
+                 <c:forEach var="e" items="${messages.values()}">
+		    <p>${e}</p>
+		</c:forEach>
+             </div>
+        </c:if>
+
         <a href="menu.html">メイン画面へ</a>
 
 	</c:param>
