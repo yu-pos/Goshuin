@@ -120,7 +120,7 @@ public class VoucherDao extends Dao {
 			// プリペアードステートメントにSQL文をセット
 			statement = connection.prepareStatement(
 		            "SELECT id, user_id, description, image_path, used_at, created_at,"
-		            +"FROM voucher WHERE user_id = ?"
+		            +" FROM voucher WHERE user_id = ?"
 			);
 
 			// 利用者IDをバインド
