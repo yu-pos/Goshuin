@@ -6,14 +6,17 @@ import java.time.LocalDateTime;
 public class RegdGoshuinBookSticker implements Serializable {
 
 	private int id;
-	
+
 	private String name;
-	
+
 	private String imagePath;
-	
+
 	private LocalDateTime  updatedAt;
 
 	private  LocalDateTime createdAt;
+
+	//対象の利用者が所持しているかどうか
+	private boolean isOwned;
 
 	public int getId() {
 		return id;
@@ -54,7 +57,16 @@ public class RegdGoshuinBookSticker implements Serializable {
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
-	
-	
+
+	public boolean isOwned() {
+		return isOwned;
+	}
+
+	public void setOwned(boolean isOwned) {
+		this.isOwned = isOwned;
+	}
+
+
+
 }
-	
+

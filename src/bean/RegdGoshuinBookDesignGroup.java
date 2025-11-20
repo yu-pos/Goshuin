@@ -17,6 +17,9 @@ public class RegdGoshuinBookDesignGroup implements Serializable {
 	//登録日時
 	private LocalDateTime createdAt;
 
+	//対象の利用者が所持しているかどうか
+	private boolean isOwned;
+
 	//regdGoshuinDesign型のリストを追加するかも
 
 	public int getId() {
@@ -50,4 +53,14 @@ public class RegdGoshuinBookDesignGroup implements Serializable {
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
+
+	public boolean isOwned() {
+		return isOwned;
+	}
+
+	public void setOwned(boolean isOwned) {
+		this.isOwned = isOwned;
+	}
+
+
 }

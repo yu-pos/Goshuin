@@ -98,7 +98,7 @@ public class RegdGoshuinBookStickerDao extends Dao{
 
 		try {
 			statement = connection.prepareStatement("SELECT id, name, image_path, updated_at, created_at"
-					+ "FROM regd_goshuin_book_sticker");
+					+ " FROM regd_goshuin_book_sticker");
 
 			// プリペアードステートメントを実行
 			ResultSet resultSet = statement.executeQuery();
