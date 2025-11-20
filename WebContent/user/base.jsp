@@ -35,8 +35,8 @@
 	     	<nav>
 	        	<a href="menu.html" class="nav-btn active">🏠<br><span>ホーム</span></a>
 	            <a href="GoshuinBookView.action" class="nav-btn">📙<br><span>御朱印帳</span></a>
-	            <a href="temples.html" class="nav-btn">⛩️<br><span>神社仏閣<br>情報</span></a>
-	            <a href="points.html" class="nav-btn">🦃<br><span>ポイント交換</span></a>
+	            <a href="ShrineAndTempleSearch.action" class="nav-btn">⛩️<br><span>神社仏閣<br>情報</span></a>
+	            <a href="PointExchange.action" class="nav-btn">🦃<br><span>ポイント交換</span></a>
 	            <a href="profile.html" class="nav-btn">👤<br><span>プロフィール</span></a>
 	        </nav>
 	   </footer>
@@ -45,7 +45,7 @@
             <ul>
             <li><a href="event.html">📄 イベント一覧</a></li>
             <li><a href="sanpai.html">🙏 参拝方法</a></li>
-            <li><a href="voucherAction">🎟️ 商品券一覧</a></li>
+            <li><a href="Voucher.action">🎟️ 商品券一覧</a></li>
             <li><a href="Logout.action">🚪 ログアウト</a></li>
             </ul>
         </aside>

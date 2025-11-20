@@ -13,7 +13,7 @@
 			<label>${tagType.value}:</label>
 
 		    <select name="tag">
-		        <option value=""></option>
+		        <option value="">------</option>
 
 		        <c:forEach var="tag" items="${tagsByType[tagType.key]}">
 		            <option value="${tag.id}">${tag.name}</option>
