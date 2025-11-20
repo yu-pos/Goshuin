@@ -25,7 +25,7 @@ public class FavoriteShrineAndTempleDao extends Dao {
 
 		try {
 			// プリペアードステートメントにSQL文をセット
-			statement = connection.prepareStatement("SELECT * from favorite_shrine_and_temple");
+			statement = connection.prepareStatement("SELECT * from shrine_and_temple_favorite");
 
 			// プリペアードステートメントを実行
 			ResultSet resultSet = statement.executeQuery();
@@ -80,7 +80,7 @@ public class FavoriteShrineAndTempleDao extends Dao {
         try {
             // SQL文を準備（created_at / updated_at はDB側で現在時刻をセット）
             statement = connection.prepareStatement(
-                "INSERT INTO favorite_shrine_and_temple(shrine_and_temple_id, user_id) " +
+                "INSERT INTO shrine_and_temple_favorite(shrine_and_temple_id, user_id) " +
                 "VALUES (?, ?)"
             );
 
@@ -133,7 +133,7 @@ public class FavoriteShrineAndTempleDao extends Dao {
         try {
             // SQL文を準備（created_at / updated_at はDB側で現在時刻をセット）
             statement = connection.prepareStatement(
-                "DELETE FROM favorite_shrine_and_temple " +
+                "DELETE FROM shrine_and_temple_favorite " +
                 "WHERE shrine_and_temple_id = ?, user_id = ?"
             );
 
