@@ -5,27 +5,27 @@
 	<c:param name="content">
 		<h3>神社仏閣検索</h3>
 
-      <form action="shrineAndTempleSearchExecute.action" method="get" class="search-box">
+      <form action="ShrineAndTempleSearchExecuteForRegistGoshuin.action" method="get" class="search-box">
 
 
-      <c:forEach var="tagType" items="${tagTypeMap}">
+	      <c:forEach var="tagType" items="${tagTypeMap}">
 
-			<label>${tagType.value}:</label>
+				<label>${tagType.value}:</label>
 
-		    <select name="tag">
-		        <option value="">------</option>
+			    <select name="tag">
+			        <option value="">------</option>
 
-		        <c:forEach var="tag" items="${tagsByType[tagType.key]}">
-		            <option value="${tag.id}">${tag.name}</option>
-		        </c:forEach>
+			        <c:forEach var="tag" items="${tagsByType[tagType.key]}">
+			            <option value="${tag.id}">${tag.name}</option>
+			        </c:forEach>
 
-		    </select>
-       </c:forEach>
+			    </select>
+	       	</c:forEach>
 
-        <label for="name">名称:</label>
-        <input type="text" id="name" placeholder="神社・寺名を入力">
+	        <label for="name">名称:</label>
+	        <input type="text" id="name" placeholder="神社・寺名を入力">
 
-        <input type="submit" value="検索">
+	        <input type="submit" value="検索">
       </form>
 
       <div id="result">

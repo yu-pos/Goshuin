@@ -52,10 +52,6 @@ public class ShrineAndTempleSearchForRegistGoshuinAction extends Action {
 
 		//タグ種別情報を取得
 		for (ShrineAndTempleTag tag : tagList) {
-			tagTypeMap.put(tag.getTagTypeId(), tag.getTagTypeName());
-		}
-
-		for (ShrineAndTempleTag tag : tagList) {
 		    tagsByType.computeIfAbsent(tag.getTagTypeId(), k -> new ArrayList<>()).add(tag);
 		}
 
