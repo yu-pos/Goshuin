@@ -14,7 +14,7 @@
     </div>
 
     <div class="back-btn-area">
-      <form action="menu.html" method="get">
+      <form action="main.jsp" method="get">
         <input type="submit" value="メイン画面へ" class="back-btn" />
       </form>
     </div>

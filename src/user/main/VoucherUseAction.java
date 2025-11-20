@@ -6,39 +6,44 @@ import javax.servlet.http.HttpSession;
 
 import bean.User;
 import bean.Voucher;
+import dao.UserDao;
 import dao.VoucherDao;
 import tool.Action;
 
-public class VoucherUseAction extends Action{
+public class VoucherUseAction extends Action {
 
-	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+	@Override
+    public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+//        HttpSession session = req.getSession(false);
+//        if (session == null || session.getAttribute("user") == null) {
+//            res.sendRedirect("login.jsp");
+//            return;
+//        }
 
-		  // セッション/ログインチェック
-        HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("user") == null) {
-            res.sendRedirect("login.jsp");
-            return;
-        }
+      //セッションにユーザーを登録（ログイン代わり。動作テスト用。ログイン部分が完成したら削除）
+      	UserDao userDao = new UserDao();
+      	HttpSession session = req.getSession(true);
+      	session.setAttribute("user", userDao.login("111-1111-1111", "test"));
 
         User user = (User) session.getAttribute("user");
-
-        // voucherId パラメータを取得
         String voucherIdStr = req.getParameter("voucherId");
         if (voucherIdStr == null) {
             req.setAttribute("errorMessage", "商品券IDが指定されていません。");
-            req.getRequestDispatcher("/voucher.jsp").forward(req, res);
+            req.getRequestDispatcher("voucher.action").forward(req, res);
             return;
         }
 
         int voucherId = Integer.parseInt(voucherIdStr);
+        VoucherDao dao = new VoucherDao();
+        Voucher voucher = dao.getById(voucherId);
 
-        // 商品券情報を取得（getByIdを使用）
-        VoucherDao voucherDao = new VoucherDao();
-        Voucher voucher = voucherDao.getById(voucherId);
+        if (voucher == null || voucher.getUserId() != user.getId()) {
+            req.setAttribute("errorMessage", "指定された商品券が見つからないか、利用できません。");
+            req.getRequestDispatcher("voucher.action").forward(req, res);
+            return;
+        }
 
-        // voucher_use.jsp にフォワード
         req.setAttribute("voucher", voucher);
-        req.getRequestDispatcher("/voucher_use.jsp").forward(req, res);
-
-	}
+        req.getRequestDispatcher("/user/main/voucher_use.jsp").forward(req, res);
+    }
 }

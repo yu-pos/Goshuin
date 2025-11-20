@@ -20,7 +20,7 @@
 
       <c:if test="${voucher.usedAt == null}">
         <div class="use-btn-area">
-          <form action="voucher-user-execute.action" method="post">
+          <form action="VoucherUseExecute.action" method="post">
             <input type="hidden" name="voucherId" value="${voucher.id}" />
             <input type="submit" value="使用する" class="use-btn-large" />
           </form>
@@ -28,7 +28,7 @@
       </c:if>
 
       <div class="use-btn-area">
-        <form action="voucher.action" method="get">
+        <form action="Voucher.action" method="get">
           <input type="submit" value="使用をキャンセルして戻る" class="cancel-btn" />
         </form>
       </div>

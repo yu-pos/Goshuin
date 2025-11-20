@@ -13,7 +13,7 @@
       <c:choose>
         <c:when test="${hasVoucher}">
           <c:forEach var="voucher" items="${vouchers}">
-            <form action="voucher-use.action" method="get">
+            <form action="VoucherUse.action" method="post">
               <div class="coupon-card ${voucher.usedAt != null ? 'used' : ''}">
                 <img src="${voucher.imagePath}" alt="商品券画像" class="coupon-img" />
                 <div class="coupon-info">
