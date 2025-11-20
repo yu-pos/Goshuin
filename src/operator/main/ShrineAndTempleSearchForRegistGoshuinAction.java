@@ -35,6 +35,9 @@ public class ShrineAndTempleSearchForRegistGoshuinAction extends Action {
 		List<ShrineAndTempleTag> tagList = new ArrayList<>();
 		Map<Integer, String> tagTypeMap = new HashMap<>();
 
+		Map<Integer, List<ShrineAndTempleTag>> tagsByType = new HashMap<>();
+
+
 		ShrineAndTempleTagDao shrineAndTempleTagDao = new ShrineAndTempleTagDao();
 
 
@@ -52,14 +55,19 @@ public class ShrineAndTempleSearchForRegistGoshuinAction extends Action {
 			tagTypeMap.put(tag.getTagTypeId(), tag.getTagTypeName());
 		}
 
+		for (ShrineAndTempleTag tag : tagList) {
+		    tagsByType.computeIfAbsent(tag.getTagTypeId(), k -> new ArrayList<>()).add(tag);
+		}
+
 		//DBへデータ保存 5
 		//なし
 
 		//レスポンス値をセット 6
+		req.setAttribute("tagsByType", tagsByType);
 		req.setAttribute("tagTypeMap", tagTypeMap);
 		req.setAttribute("tagList", tagList);
 
 		//JSPへフォワード 7
-		req.getRequestDispatcher("/operator/main/shrine_and_temple_search_for_goshuin_regist.jsp").forward(req, res);
+		req.getRequestDispatcher("shrine_and_temple_search_for_goshuin_regist.jsp").forward(req, res);
 	}
 }

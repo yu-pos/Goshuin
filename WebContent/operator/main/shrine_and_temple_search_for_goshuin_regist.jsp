@@ -7,17 +7,19 @@
 
       <form action="shrineAndTempleSearchExecute.action" method="get" class="search-box">
 
-      <label for="tag">タグ:</label>
+
       <c:forEach var="tagType" items="${tagTypeMap}">
 
-	    <select id="tag">
-	    	<option value=""></option>
-	        <c:forEach var="tag" items="${tagList}">
-	        	<if test="${tag.tagTypeId == tagType.id}">
-					<option value="${tag.id}">${tag.name}</option>
-				</if>
-			</c:forEach>
-		</select>
+			<label>${tagType.value}:</label>
+
+		    <select name="tag">
+		        <option value=""></option>
+
+		        <c:forEach var="tag" items="${tagsByType[tagType.key]}">
+		            <option value="${tag.id}">${tag.name}</option>
+		        </c:forEach>
+
+		    </select>
        </c:forEach>
 
         <label for="name">名称:</label>

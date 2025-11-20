@@ -16,7 +16,6 @@
         <div class="header-link"><a href="#">ログアウト</a></div>
     </header>
 
-    <main class="main-content"> ${param.content} </main>
     <aside id="sidebar">
         <section id="side_banner">
             <nav class="nav_content">
@@ -35,8 +34,7 @@
     </aside>
 
     <main id="main">
-      <h3>デジタル御朱印登録完了</h3>
-      <a href="#">神社仏閣情報変更へ</a>
+      ${param.content}
     </main>
   </div>
 </body>
