@@ -314,7 +314,7 @@ select:focus {
 .search-box label {
   font-size: 14px;
   font-weight: bold;
-  color: #fff;
+  color: #000;
   margin-right: 4px;
 }
 
