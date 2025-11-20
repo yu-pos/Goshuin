@@ -37,7 +37,7 @@ public class RegdGoshuinBookDesignGroupDao extends Dao {
 		try {
 			// プリペアードステートメントにSQL文をセット
 			statement = connection.prepareStatement("SELECT id, name, updated_at, created_at"
-					+ "FROM regd_goshuin_book_design_group WHERE id = ?");
+					+ " FROM regd_goshuin_book_design_group WHERE id = ?");
 			// プリペアードステートメントにステッカーIDをバインド
 			statement.setInt(1, id);
 			// プリペアードステートメントを実行
@@ -103,7 +103,7 @@ public class RegdGoshuinBookDesignGroupDao extends Dao {
 
 		try {
 			statement = connection.prepareStatement("SELECT id, name, updated_at, created_at"
-					+ "FROM regd_goshuin_book_design_group");
+					+ " FROM regd_goshuin_book_design_group");
 
 			// プリペアードステートメントを実行
 			ResultSet resultSet = statement.executeQuery();
@@ -184,7 +184,7 @@ public class RegdGoshuinBookDesignGroupDao extends Dao {
             //登録したグループのidを取得
             statement = connection.prepareStatement(
             		"SELECT id FROM regd_goshuin_book_design_group"
-            		+ "WHERE name = ?"
+            		+ " WHERE name = ?"
             		);
             // パラメータをバインド
             statement.setString(1, regdGoshuinBookDesignGroup.getName());
