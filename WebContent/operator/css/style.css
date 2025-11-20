@@ -1,1 +1,766 @@
-@CHARSET "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+:root {
+  --bg:#0b0b0c;
+  --card:rgba(255,255,255,.06);
+  --border:rgba(255,255,255,.18);
+  --text:#fff;
+  --muted:#cfd3dc;
+  --accent:#ff3434;
+  --secondary:#666;
+  --ok:#1e9e2a;
+  --ng:#c22;
+}
+
+.header {
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(200, 200, 200, 0.6));
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    animation: fadeInDown 0.8s ease-out;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    justify-content: space-between;
+}
+
+.logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    color: #000;
+    text-shadow: 0 0 5px #ffffff, 0 0 10px #cccccc;
+    letter-spacing: 1px;
+    animation: glow 2s infinite alternate;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo i {
+    font-size: 26px;
+    color: #000;
+    text-shadow: 0 0 5px #ffffff, 0 0 15px #cccccc;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px #ffffff, 0 0 10px #cccccc;
+    }
+    to {
+        text-shadow: 0 0 10px #ffffff, 0 0 20px #dddddd;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.header a {
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+  font-family: 'Orbitron', sans-serif;
+  text-shadow: 0 0 5px #ffffff;
+}
+
+.header a:hover {
+    color: #ffffff;
+}
+
+#main {
+  margin-left: 220px;
+  padding: 100px 40px 40px;
+  color: #000;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 80px;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+td {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    color: #000000cc;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #000;
+}
+
+#sidebar {
+    width: 220px;
+    height: 100vh;
+    background: linear-gradient(135deg, #ffffff, #cccccc);
+    padding: 110px 20px 30px;
+    float: left;
+    box-shadow: 4px 0 15px rgba(255, 255, 255, 0.2);
+    color: #000;
+    font-family: 'Segoe UI', sans-serif;
+    backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.6s ease-out forwards;
+    transform: translateX(-250px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    overflow-y: auto;
+}
+
+@keyframes slideIn {
+    to {
+        transform: translateX(0);
+    }
+}
+
+.nav_list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav_list h4 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #000000cc;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 5px;
+}
+
+.nav_item {
+    margin-bottom: 15px;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInUp 0.6s forwards;
+    animation-delay: var(--delay);
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.nav_item a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #000;
+    font-weight: 500;
+    padding: 10px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.nav_item a:hover {
+    background-color: rgba(161, 148, 148, 0.258);
+    transform: translateX(5px);
+}
+
+body {
+    background-color: #ffffff;
+    min-width: 1024px;
+}
+
+#main h3 {
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 20px;
+  color: #000;
+
+  letter-spacing: 2px;
+  animation: glowText 2s ease-in-out infinite alternate;
+  margin-top: 10px;
+}
+
+@keyframes glowText {
+  from {
+    text-shadow: 0 0 5px #ffffff, 0 0 10px #cccccc;
+  }
+  to {
+    text-shadow: 0 0 20px #ffffff, 0 0 40px #cccccc;
+  }
+}
+
+#main.split-horizontal {
+  display: flex;
+  flex-direction: column;
+  margin-left: 220px;
+  padding: 100px 20px 20px;
+  gap: 20px;
+  height: calc(100vh - 100px);
+  box-sizing: border-box;
+}
+
+#main.split-horizontal .block {
+  flex: 1;
+  background: linear-gradient(135deg, #ffffff, #dddddd);
+  padding: 20px;
+  border-radius: 8px;
+  color: #000;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.info-btn {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 14px 0;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: 'Segoe UI', sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+  background: #000;
+  color: #fff;
+  text-shadow: 0 0 5px #fff;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.info-btn:hover {
+  background: #444;
+  box-shadow: 0 0 10px rgba(255,255,255,0.7);
+}
+
+.crear, .touroku {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #fff;
+  background: #000;
+  border: none;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.crear:hover, .touroku:hover {
+  background: #333;
+}
+
+select {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  background-color: #000;
+  color: #fff;
+  font-size: 14px;
+  font-family: 'Segoe UI', sans-serif;
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 14px 14px;
+  padding-right: 28px;
+}
+
+select:focus {
+  outline: none;
+  border-color: #fff;
+  box-shadow: 0 0 3px #fff;
+}
+
+.search-box label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #000;
+}
+
+/* 🔍 検索フォームの全体調整 */
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* 各項目の間隔を少し狭める */
+  margin-top: 10px;  /* フォームの上の余白を狭く */
+  margin-bottom: 10px; /* 下の余白も狭く */
+  flex-wrap: wrap; /* 画面幅が小さいときに折り返し */
+}
+
+/* ラベルを少しコンパクトに */
+.search-box label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  margin-right: 4px;
+}
+
+/* セレクトボックスを横並びに */
+.search-box select {
+  width: 120px; /* 細めに */
+  padding: 5px 8px;
+}
+
+/* テキスト入力欄 */
+.search-box input[type="text"] {
+  width: 180px; /* コンパクトに */
+  padding: 5px 8px;
+}
+
+/* 検索ボタン */
+.search-box button {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 4px;
+  background-color: #000;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.search-box button:hover {
+  background-color: #333;
+}
+
+/* 検索結果全体のスタイル */
+#result {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  color: #00000072;
+  font-family: 'Segoe UI', sans-serif;
+  max-height: 300px;  /* スクロール可能にする高さ */
+  overflow-y: auto;
+  width: 80%;         /* 細めに中央揃え */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 各検索結果アイテム */
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(175, 163, 163, 0.125);
+  border-radius: 6px;
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  transition: background 0.3s ease;
+}
+
+.result-item:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* 登録ボタン */
+.register-btn {
+  background-color: #000;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 6px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.register-btn:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+/* フォーム全体 */
+.temple-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  border-radius: 10px;
+  width: 70%;
+  margin: 0 auto;
+  color: #fff;
+}
+
+/* ラベルと入力欄 */
+.temple-form label {
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.temple-form input[type="text"],
+.temple-form input[type="url"],
+.temple-form select,
+.temple-form textarea {
+  padding: 8px;
+  border: 1px solid #555;
+  border-radius: 5px;
+  background-color: #111;
+  color: #fff;
+  font-size: 14px;
+  width: 100%;
+}
+
+.temple-form input[type="file"] {
+  color: #ccc;
+}
+
+/* 登録ボタン */
+.register-btn {
+  margin-top: 15px;
+  background-color: #000;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 10px 0;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.register-btn:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+/* 見出しとボタン行 */
+.register-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px auto 10px auto;
+  width: 80%;
+  color: #fff;
+}
+
+.register-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* 新規登録ボタン */
+.new-btn {
+  background-color: #000;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.new-btn:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+/* デザイン一覧全体 */
+.design-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  max-height: 220px; /* スクロール可能にする */
+  overflow-y: auto;
+  background-color: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  padding: 10px;
+  width: 80%;
+  margin: 0 auto 30px auto;
+}
+
+/* 各デザイン項目 */
+.design-item {
+  width: 120px;
+  text-align: center;
+  color: #fff;
+  font-size: 13px;
+}
+
+.design-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.3);
+  transition: transform 0.3s ease;
+}
+
+.design-item img:hover {
+  transform: scale(1.05);
+}
+
+/* フォーム全体 */
+#designForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 80%;
+  max-width: 500px;
+  margin: 0 auto;
+  color: #000000;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ラベル */
+#designForm label {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* 入力欄 */
+#designForm input[type="text"],
+#designForm input[type="number"] {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #999;
+  background-color: #ffffff;
+  color: #000000;
+  font-size: 14px;
+}
+
+#designForm input:focus {
+  outline: none;
+  border-color: #000000;
+  box-shadow: 0 0 5px #000000;
+}
+
+/* ボタン配置 */
+.buttum {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+.crear, .touroku {
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.crear {
+  background: #555;
+  color: #fff;
+}
+
+.touroku {
+  background: #000000;
+  color: #fff;
+}
+
+.crear:hover {
+  background: #777;
+}
+
+.touroku:hover {
+  background: #d5dfd5;
+  color: #000;
+}
+
+.design-detail-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.design-input {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 15px;
+  color: #fff;
+}
+
+.design-input h4 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 5px;
+}
+
+.design-input label {
+  display: block;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.design-input input[type="file"],
+.design-input input[type="color"] {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+input[type="color"] {
+  width: 60px;
+  height: 30px;
+  border: none;
+  cursor: pointer;
+}
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.add-btn {
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #00b894;
+  border-radius: 8px;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.add-btn:hover {
+  background-color: #00b894;
+  color: #000;
+}
+
+.scroll-area {
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.event-card {
+  display: flex;
+  align-items: flex-start;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.event-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 15px;
+}
+
+.event-info {
+  flex: 1;
+  color: #fff;
+}
+
+.event-info h4 {
+  margin: 0 0 5px;
+  font-size: 18px;
+}
+
+.event-info p {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.edit-btn {
+  background-color: #00b894;
+  color: #000;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.edit-btn:hover {
+  background-color: #26de81;
+}
+
+.card {
+  background:var(--card); border:1px solid var(--border); border-radius:18px;
+  padding:20px; box-shadow:0 1px 2px rgba(0,0,0,.06);
+  background-color: #a69191;
+}
+h1,h2,h3 { margin:0 0 12px 0; }
+.row { margin-bottom:12px; }
+.muted { color:var(--muted); }
+
+table { width:100%; border-collapse:collapse; }
+th,td { padding:10px; border-bottom:1px solid rgba(255,255,255,.15); text-align:left; }
+.tag { display:inline-block; padding:2px 10px; border-radius:999px; font-size:12px; }
+.tag.ok { background:var(--ok); }
+.tag.ng { background:var(--ng); }
+
+input[type="text"],input[type="password"] {
+  width:100%; padding:10px 12px; border-radius:8px;
+  border:1px solid rgba(255,255,255,.22); background:#fff; color:#111;
+}
+
+.btn {
+  display:inline-block; padding:10px 14px; border:0; border-radius:10px;
+  font-weight:700; cursor:pointer;
+}
+.btn.primary { background:var(--accent); color:#fff; }
+.btn.secondary { background:var(--secondary); color:#1a1818; }
+.btn.danger { background:#ff3434; color:#fff; }
+.btn:hover { filter:brightness(0.95); }
+
+.center-narrow { max-width:520px; margin:120px auto 40px; padding:0 16px; }
+
+/* パスワード表示/非表示トグル */
+.pw-wrapper{
+  position: relative;
+  display: block;        /* 100% 幅で確保 */
+  width: 100%;
+}
+
+/* ラッパー内の input はフル幅。右にトグル分の余白を足す */
+.pw-wrapper > input[type="password"],
+.pw-wrapper > input[type="text"]{
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 40px;   /* 👁 ボタンの分だけ余白 */
+}
+
+/* 👁 トグルボタン */
+.pw-toggle{
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  padding: 0;
+  color: #fff;           /* 背景に合わせて調整 */
+  opacity: .85;
+}
+.pw-toggle:hover{ opacity: 1; }

@@ -6,7 +6,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="css/style3.css">
+  <link rel="stylesheet" href="/goshuin/user/operator/style.css">
   <title>ポケ御朱帳 in 山形</title>
 </head>
 <body>
