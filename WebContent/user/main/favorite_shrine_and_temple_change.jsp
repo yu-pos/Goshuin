@@ -6,25 +6,23 @@
 		<h1>お気に入り入れ替え</h1>
         <p>現在3つ登録されています。どれかと入れ替えますか？</p>
 
-        <div class="favorite-list">
-          <div class="favorite-item">
-            <img src="images/125.jpg" alt="立石寺" class="favorite-img">
-            <p class="favorite-name">${shrineAndTemple.id }</p>
-            <button class="replace-btn" data-id="1">入れ替える</button>
-          </div>
+       <div class="favorite-list">
+  <c:forEach var="favorite" items="${favoriteList}" varStatus="status">
+    <div class="favorite-item">
+      <img src="${favorite.imagePath}" alt="${favorite.name}" class="favorite-img">
+      <p class="favorite-name">${favorite.name}</p>
 
-          <div class="favorite-item">
-            <img src="images/126.jpg" alt="上杉神社" class="favorite-img">
-            <p class="favorite-name">${shrineAndTemple.id }</p>
-            <button class="replace-btn" data-id="2">入れ替える</button>
-          </div>
+      <form action="replaceFavorite" method="post">
+        <input type="hidden" name="oldFavoriteId" value="${favorite.id}" />
+        <input type="hidden" name="newShrineId" value="${shrineAndTemple.id}" />
+        <button type="submit" class="replace-btn">入れ替える</button>
+      </form>
+    </div>
+  </c:forEach>
+</div>
 
-          <div class="favorite-item">
-            <img src="images/124.jpg" alt="若松寺" class="favorite-img">
-            <p class="favorite-name">${shrineAndTemple.id }</p>
-            <button class="replace-btn" data-id="3">入れ替える</button>
-          </div>
-        </div>
+
+
 
         <div class="new-favorite">
           <h3>新しく登録する神社</h3>
