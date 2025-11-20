@@ -38,7 +38,7 @@ public class FavoriteShrineAndTempleDao extends Dao {
 
 				favoriteShrineAndTemple.setShrineAndTempleId(resultSet.getInt("shrine_and_temple_id"));
 				favoriteShrineAndTemple.setUserId(resultSet.getInt("user_id"));
-				favoriteShrineAndTemple.setUpdatedAt(resultSet.getTimestamp("updated_atuser_id").toLocalDateTime());
+				favoriteShrineAndTemple.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
 				favoriteShrineAndTemple.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
 
 				list.add(favoriteShrineAndTemple);
