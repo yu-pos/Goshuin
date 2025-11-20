@@ -38,7 +38,7 @@ public class OwnedGoshuinBookDesignGroupDao extends Dao {
 
 
 		try {
-			statement = connection.prepareStatement("SELECT * FROM owned_goshuin_book_sticker WHERE user_id = ?");
+			statement = connection.prepareStatement("SELECT * FROM owned_goshuin_book_design_group WHERE user_id = ?");
 			// プリペアードステートメントに御朱印帳IDをバインド
 			statement.setInt(1, userId);
 			// プリペアードステートメントを実行
