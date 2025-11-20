@@ -31,7 +31,7 @@ public class ShrineAndTempleTagDao extends Dao {
 				statement = connection.prepareStatement("SELECT shrine_and_temple_tag.id as tag_id, "
 						+" shrine_and_temple_tag.name as tag_name,  "
 						+" shrine_and_temple_tag.tag_type_id as tag_type_id, "
-						+" shrine_and_temple_tag_type.name as tag_type_name"
+						+" shrine_and_temple_tag_type.name as tag_type_name, "
 						+" shrine_and_temple_tag.updated_at as updated_at, "
 						+" shrine_and_temple_tag.created_at as created_at "
 						+" FROM shrine_and_temple_tag"
