@@ -1,5 +1,7 @@
 package user.main;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,23 +16,44 @@ public class GoshuinBookViewAction extends Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
+        // ▼ 最初から絶対パスにする
+        String url = "/user/main/goshuin_book_view.jsp";
+
         HttpSession session = req.getSession(false);
-        User user = (User) session.getAttribute("user");
-
-        GoshuinBookDao goshuinBookDao = new GoshuinBookDao();
-        GoshuinBook goshuinBook = null;
-
-        // ★ User が持っている activeGoshuinBook の ID を元に、
-        //    Dao から「中身付き」の御朱印帳を取得する
-        if (user.getActiveGoshuinBook() != null) {
-            int bookId = user.getActiveGoshuinBook().getId();
-            goshuinBook = goshuinBookDao.getById(bookId);
+        if (session == null) {
+            req.getRequestDispatcher("/user/main/login.jsp").forward(req, res);
+            return;
         }
 
-        // JSP に渡す
-        req.setAttribute("goshuinBook", goshuinBook);
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            req.getRequestDispatcher("/user/main/login.jsp").forward(req, res);
+            return;
+        }
 
-        // ↓ こう直す
-        req.getRequestDispatcher("goshuin_book_view.jsp").forward(req, res);
+        // アクティブ御朱印帳の ID 取得（User に保持している前提）
+        int bookId = 0;
+
+        if (user.getActiveGoshuinBook() != null) {
+            bookId = user.getActiveGoshuinBook().getId();
+        } else {
+            // 所持している御朱印帳から一番新しいものを取る
+            GoshuinBookDao gdao = new GoshuinBookDao();
+            List<GoshuinBook> list = gdao.searchByUser(user.getId());
+            if (!list.isEmpty()) {
+                bookId = list.get(0).getId();
+            }
+        }
+
+        if (bookId == 0) {
+            req.setAttribute("goshuinBook", null);
+        } else {
+            GoshuinBookDao gdao = new GoshuinBookDao();
+            GoshuinBook goshuinBook = gdao.getById(bookId);
+            req.setAttribute("goshuinBook", goshuinBook);
+        }
+
+        // ▼ ここも絶対パス
+        req.getRequestDispatcher(url).forward(req, res);
     }
 }
