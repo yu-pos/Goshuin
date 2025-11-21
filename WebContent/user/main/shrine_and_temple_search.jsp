@@ -8,25 +8,24 @@
         <!-- 🏷️ タグ選択フォーム -->
         <section class="tag-select-section">
 		<h2>タグから探す</h2>
-          <div class="tag-search-box">
-            <select id="region-select">
-              <option value="">地域</option>
-              <option value="yamagata">山形市</option>
-              <option value="shinjo">新庄市</option>
-              <option value="sagae">寒河江市</option>
-            </select>
 
-            <select id="category-select">
-              <option value="">ご利益</option>
-              <option value="love">恋愛成就</option>
-              <option value="study">学業成就</option>
-              <option value="safe">安産祈願</option>
-              <option value="health">健康祈願</option>
-              <option value="work">仕事運</option>
-            </select>
+      <form action="ShrineAndTempleSearchExecute.action" method="get" class="tag-search-box">
 
-            <a href="tag.html" class="search-btn">検索</a>
-          </div>
+
+	      <c:forEach var="tagType" items="${tagTypeMap}">
+
+			    <select name="tag">
+			        <option value="">${tagType.value}</option>
+
+			        <c:forEach var="tag" items="${tagsByType[tagType.key]}">
+			            <option value="${tag.id}">${tag.name}</option>
+			        </c:forEach>
+
+			    </select>
+	       	</c:forEach>
+
+	        <input type="submit" class="search-btn" value="検索">
+      	</form>
         </section>
 
         <!-- 🔍 名称検索フォーム -->
