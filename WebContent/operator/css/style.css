@@ -726,7 +726,7 @@ input[type="text"],input[type="password"] {
   display:inline-block; padding:10px 14px; border:0; border-radius:10px;
   font-weight:700; cursor:pointer;
 }
-.btn.primary { background:var(--accent); color:#fff; }
+.btn.primary { background:#000000; color:#fff; }
 .btn.secondary { background:var(--secondary); color:#1a1818; }
 .btn.danger { background:#ff3434; color:#fff; }
 .btn:hover { filter:brightness(0.95); }
