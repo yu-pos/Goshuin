@@ -45,7 +45,10 @@ public class ShrineAndTempleSearchExecuteAction extends Action {
 	            req.setAttribute("shrineAndTempleList", shrineAndTempleList);
 
 	            // 表示ページへフォワード
-	            req.getRequestDispatcher("shrine_list.jsp").forward(req, res);
+	            req.getRequestDispatcher("shrine_and_temple_search_results.jsp").forward(req, res);
+
+
+
 	        }
 
 

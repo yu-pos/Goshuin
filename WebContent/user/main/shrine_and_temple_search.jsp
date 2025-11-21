@@ -28,6 +28,8 @@
       	</form>
         </section>
 
+
+
         <!-- 🔍 名称検索フォーム -->
         <section class="search-section">
           <label for="search-name">神社・寺院名で検索</label>
