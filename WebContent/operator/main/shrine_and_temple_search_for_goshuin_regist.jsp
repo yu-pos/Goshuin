@@ -5,6 +5,15 @@
 	<c:param name="content">
 		<h3>神社仏閣検索</h3>
 
+
+		<c:if test="${not empty errors}">
+                <div class="error" style="color:red;">
+                    <c:forEach var="e" items="${errors}">
+                        <p>${e.value}</p>
+                    </c:forEach>
+                </div>
+          </c:if>
+
       <form action="ShrineAndTempleSearchExecuteForRegistGoshuin.action" method="get" class="search-box">
 
 
@@ -23,7 +32,7 @@
 	       	</c:forEach>
 
 	        <label for="name">名称:</label>
-	        <input type="text" id="name" placeholder="神社・寺名を入力">
+	        <input type="text" name="name" id="name" placeholder="神社・寺名を入力">
 
 	        <input type="submit" value="検索">
       </form>

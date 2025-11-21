@@ -34,7 +34,6 @@ public class ShrineAndTempleSearchForRegistGoshuinAction extends Action {
 		//ローカル変数の宣言 1
 		List<ShrineAndTempleTag> tagList = new ArrayList<>();
 		Map<Integer, String> tagTypeMap = new HashMap<>();
-
 		Map<Integer, List<ShrineAndTempleTag>> tagsByType = new HashMap<>();
 
 
@@ -52,6 +51,7 @@ public class ShrineAndTempleSearchForRegistGoshuinAction extends Action {
 
 		//タグ種別情報を取得
 		for (ShrineAndTempleTag tag : tagList) {
+			tagTypeMap.put(tag.getTagTypeId(), tag.getTagTypeName());
 		    tagsByType.computeIfAbsent(tag.getTagTypeId(), k -> new ArrayList<>()).add(tag);
 		}
 
@@ -61,7 +61,6 @@ public class ShrineAndTempleSearchForRegistGoshuinAction extends Action {
 		//レスポンス値をセット 6
 		req.setAttribute("tagsByType", tagsByType);
 		req.setAttribute("tagTypeMap", tagTypeMap);
-		req.setAttribute("tagList", tagList);
 
 		//JSPへフォワード 7
 		req.getRequestDispatcher("shrine_and_temple_search_for_goshuin_regist.jsp").forward(req, res);

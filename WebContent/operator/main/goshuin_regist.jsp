@@ -5,14 +5,28 @@
 	<c:param name="content">
 		<h3>デジタル御朱印登録</h3>
 
-      <form class="temple-form">
-        <label for="name">販売期間:</label>
-        <input type="text" id="name" placeholder="例：無期限" required>
+		<c:if test="${not empty errors}">
+                <div class="error" style="color:red;">
+                    <c:forEach var="e" items="${errors}">
+                        <p>${e.value}</p>
+                    </c:forEach>
+                </div>
+        </c:if>
+      <form action="GoshuinRegistExecute.action" method="POST" enctype="multipart/form-data" class="temple-form">
+
+
+        <label for="description">説明:</label>
+        <input type="text" id="description" name="description" value="${description}" required>
+
+        <label>販売期間(任意):</label>
+        販売開始日:<input type="text" id="name" name="saleStartDate" value="${saleStartDate}" maxlength="5" placeholder="「月-日」で入力 例：01-01" >
+        販売終了日:<input type="text" id="name" name="saleEndDate" value="${saleEndDate}" maxlength="5" placeholder="「月-日」で入力 例：01-31" >
 
 
         <label for="image">画像アップロード:</label>
-        <input type="file" id="image" accept="image/*">
+        <input type="file" id="image" name="image" accept="image/*" required>
 
+		<input type="hidden" name="shrineAndTempleId" value="${shrineAndTempleId}">
         <button type="submit" class="register-btn">登録</button>
       </form>
 	</c:param>

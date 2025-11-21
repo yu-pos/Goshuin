@@ -17,6 +17,8 @@ private LocalDateTime  updatedAt;
 
 private  LocalDateTime createdAt;
 
+private boolean isSelected; //タグ検索時、選択されたかどうか
+
 public int getId() {
 	return id;
 }
@@ -63,6 +65,14 @@ public LocalDateTime getCreatedAt() {
 
 public void setCreatedAt(LocalDateTime createdAt) {
 	this.createdAt = createdAt;
+}
+
+public boolean isSelected() {
+	return isSelected;
+}
+
+public void setSelected(boolean isSelected) {
+	this.isSelected = isSelected;
 }
 
 

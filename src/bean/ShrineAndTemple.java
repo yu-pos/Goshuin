@@ -2,7 +2,9 @@ package bean;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ShrineAndTemple implements Serializable {
 
@@ -26,6 +28,7 @@ public class ShrineAndTemple implements Serializable {
 
 	private  LocalDateTime createdAt;
 
+	private Map<Integer, List<ShrineAndTempleTag>> tagsByType = new HashMap<>(); //種別ごとにタグを分類
 
 	public int getId() {
 		return id;
@@ -82,8 +85,8 @@ public class ShrineAndTemple implements Serializable {
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
 	}
-	
-	
+
+
 
 	public List<ShrineAndTempleTag> getTagList() {
 		return tagList;
@@ -107,6 +110,14 @@ public class ShrineAndTemple implements Serializable {
 
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public Map<Integer, List<ShrineAndTempleTag>> getTagsByType() {
+	    return tagsByType;
+	}
+
+	public void setTagsByType(Map<Integer, List<ShrineAndTempleTag>> tagsByType) {
+	    this.tagsByType = tagsByType;
 	}
 
 
