@@ -7,6 +7,7 @@ public class Rank implements Serializable {
 	private int id; //ランクID
 	private String name; //ランク名
 	private int rankUpQuantity; //ランクアップ（商品券付与）に必要な御朱印数
+	private String imagePath; //画像パス
 	private LocalDateTime updatedAt; //データ更新日時
 	private LocalDateTime createdAt; //データ登録日時
 
@@ -28,6 +29,14 @@ public class Rank implements Serializable {
 	public void setRankUpQuantity(int rankUpQuantity) {
 		this.rankUpQuantity = rankUpQuantity;
 	}
+
+	public String getImagePath() {
+		return imagePath;
+	}
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+
 	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}

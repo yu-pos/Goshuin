@@ -46,6 +46,7 @@ public class RankDao extends Dao{
 				rank.setId(resultSet.getInt("id"));
 				rank.setName(resultSet.getString("name"));
 				rank.setRankUpQuantity(resultSet.getInt("rank_up_quantity"));
+				rank.setImagePath(resultSet.getString("image_path"));
 	            rank.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
 				rank.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
 
