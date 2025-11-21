@@ -43,7 +43,7 @@
        <aside id="side-menu" class="side-menu">
        		<h2>メニュー</h2>
             <ul>
-            <li><a href="event.html">📄 イベント一覧</a></li>
+            <li><a href="Event.action">📄 イベント一覧</a></li>
             <li><a href="sanpai.html">🙏 参拝方法</a></li>
             <li><a href="Voucher.action">🎟️ 商品券一覧</a></li>
             <li><a href="Logout.action">🚪 ログアウト</a></li>
