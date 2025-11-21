@@ -335,6 +335,82 @@ public class ShrineAndTempleDao extends Dao{
 
 	public boolean update(ShrineAndTemple shrineAndTemple) throws Exception {
 
-		return false;
+		// コネクションを確立
+		Connection connection = getConnection();
+		// プリペアードステートメント
+		PreparedStatement statement = null;
+
+		// 実行件数
+		int count = 0;
+
+		try {
+
+			// 利用者が存在した場合、情報を更新
+			// プリペアードステートメントにUPDATE文をセット
+			statement = connection.prepareStatement("UPDATE shrine_and_temple SET"
+					+ " name = ?, address = ?, description = ?, area_info = ?, map_link = ?, image_path = ?, updated_at = CURRENT_TIMESTAMP"
+					+ " WHERE id = ?");
+			// プリペアードステートメントに値をバインド
+			statement.setString(1, shrineAndTemple.getName());
+			statement.setString(2, shrineAndTemple.getAddress());
+			statement.setString(3, shrineAndTemple.getDescription());
+			statement.setString(4, shrineAndTemple.getAreaInfo());
+			statement.setString(5, shrineAndTemple.getMapLink());
+			statement.setString(6, shrineAndTemple.getImagePath());
+			statement.setInt(7, shrineAndTemple.getId());
+
+			// プリペアードステートメントを実行
+			count = statement.executeUpdate();
+
+			statement.close();
+
+			//タグ情報を更新
+			//タグ情報を一度削除
+			statement = connection.prepareStatement("DELETE FROM shrine_and_temple_tagging "
+					+ " WHERE shrine_and_temple_id = ?");
+
+			statement.setInt(1, shrineAndTemple.getId());
+			statement.executeUpdate();
+			statement.close();
+
+			//タグ情報を登録
+			for (ShrineAndTempleTag tag : shrineAndTemple.getTagList()) {
+
+				statement = connection.prepareStatement("INSERT INTO shrine_and_temple_tagging(tag_id, shrine_and_temple_id)"
+						+ " VALUES(?, ?)");
+				statement.setInt(1, tag.getId());
+				statement.setInt(1, shrineAndTemple.getId());
+				statement.executeUpdate();
+				statement.close();
+			}
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			// プリペアードステートメントを閉じる
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+			// コネクションを閉じる
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+		}
+
+		if (count == 1) {
+			// 実行件数1件の場合
+			return true;
+		} else {
+			// 実行件数がそれ以外の場合
+			return false;
+		}
 	}
 }

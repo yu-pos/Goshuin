@@ -3,49 +3,53 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:import url="../base.jsp">
 	<c:param name="content">
-		<h3>神社仏閣検索</h3>
+      <form action="ShrineAndTempleSearchExecuteForRegistGoshuin.action" method="get" class="search-box">
 
-      <div class="search-box">
-        <label for="tag1">タグ:</label>
-        <select id="tag1">
-          <option value="">地域</option>
-          <option value="山形市">山形市</option>
-          <option value="鶴岡市">鶴岡市</option>
-          <option value="酒田市">酒田市</option>
-        </select>
+	      <c:forEach var="tagType" items="${tagTypeMap}">
 
-        <select id="tag2">
-          <option value="">ご利益</option>
-          <option value="交通安全">交通安全</option>
-          <option value="学業成就">学業成就</option>
-          <option value="商売繁盛">商売繁盛</option>
-        </select>
+				<label>${tagType.value}:</label>
 
-        <label for="name">名称:</label>
-        <input type="text" id="name" placeholder="神社・寺名を入力">
+			    <select name="tag">
+			        <option value="">------</option>
 
-        <button>検索</button>
-      </div>
+			        <c:forEach var="tag" items="${tagsByType[tagType.key]}">
+			            <option value="${tag.id}"
+			            <c:if test="${tag.isSelected()}">
+			            	selected
+			            </c:if>
+			            >${tag.name}</option>
+			        </c:forEach>
+
+			    </select>
+	       	</c:forEach>
+
+	        <label for="name">名称:</label>
+	        <input type="text" value="${searchStr}" name="name" id="name" placeholder="神社・寺名を入力">
+
+	        <input type="submit" value="検索">
+      </form>
 
       <div id="result">
-        <div class="result-item">
-          <div class="info">
-            <p><strong>名称:</strong> 熊野大社</p>
-            <p><strong>ご利益:</strong> 縁結び</p>
-            <p><strong>地域:</strong> 南陽市</p>
-          </div>
-          <button class="register-btn">変更</button>
-        </div>
-
-        <div class="result-item">
-          <div class="info">
-            <p><strong>名称:</strong> 立石寺（山寺）</p>
-            <p><strong>ご利益:</strong> 学業成就</p>
-            <p><strong>地域:</strong> 山形市</p>
-          </div>
-          <button class="register-btn">変更</button>
-        </div>
-
+      	<c:forEach var="result" items="${results}">
+	        <div class="result-item">
+	          <div class="info">
+	            <p><strong>名称:</strong> ${result.name}</p>
+	            <c:forEach var="tagType" items="${tagTypeMap}">
+	                <c:if test="${result.tagsByType[tagType.key] != null}">
+	                    <p><strong>${tagType.value}:</strong>
+	                        <c:forEach var="tag" items="${result.tagsByType[tagType.key]}" varStatus="status">
+	                            ${tag.name}<c:if test="${!status.last}">・</c:if>
+	                        </c:forEach>
+	                    </p>
+	                </c:if>
+            	</c:forEach>
+	          </div>
+			  <form action="ShrineAndTempleUpdate.action" method="GET">
+	          	<input type="hidden" name="shrineAndTempleId" value="${result.id}">
+	          	<input type="submit" value="変更" class="register-btn">
+	          </form>
+	        </div>
+        </c:forEach>
         <!-- 結果が多い場合は自動でスクロール -->
       </div>
 	</c:param>

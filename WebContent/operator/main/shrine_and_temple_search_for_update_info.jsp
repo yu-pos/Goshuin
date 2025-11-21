@@ -5,26 +5,37 @@
 	<c:param name="content">
 		<h3>神社仏閣検索</h3>
 
-      <div class="search-box">
-        <label for="tag">タグ:</label>
-        <select id="tag">
-          <option value="">地域</option>
-          <option value="神社">神社</option>
-          <option value="寺">寺</option>
-          <option value="その他">その他</option>
-        </select>
-        <select id="tag">
-          <option value="">ご利益</option>
-          <option value="神社">神社</option>
-          <option value="寺">寺</option>
-          <option value="その他">その他</option>
-        </select>
 
-        <label for="name">名称:</label>
-        <input type="text" id="name" placeholder="神社・寺名を入力">
+		<c:if test="${not empty errors}">
+                <div class="error" style="color:red;">
+                    <c:forEach var="e" items="${errors}">
+                        <p>${e.value}</p>
+                    </c:forEach>
+                </div>
+          </c:if>
 
-        <button>検索</button>
-      </div>
+      <form action="ShrineAndTempleSearchExecuteForUpdateInfo.action" method="get" class="search-box">
+
+
+	      <c:forEach var="tagType" items="${tagTypeMap}">
+
+				<label>${tagType.value}:</label>
+
+			    <select name="tag">
+			        <option value="">------</option>
+
+			        <c:forEach var="tag" items="${tagsByType[tagType.key]}">
+			            <option value="${tag.id}">${tag.name}</option>
+			        </c:forEach>
+
+			    </select>
+	       	</c:forEach>
+
+	        <label for="name">名称:</label>
+	        <input type="text" name="name" id="name" placeholder="神社・寺名を入力">
+
+	        <input type="submit" value="検索">
+      </form>
 
       <div id="result">
 

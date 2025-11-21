@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import bean.Operator;
 import tool.Action;
 
 public class GoshuinRegistAction extends Action {
@@ -13,7 +12,6 @@ public class GoshuinRegistAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
 		HttpSession session = req.getSession();
-		Operator operator = (Operator)session.getAttribute("operator");
 
 		//ローカル変数の宣言 1
 		int shrineAndTempleId;
