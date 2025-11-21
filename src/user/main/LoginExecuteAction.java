@@ -88,7 +88,7 @@ public class LoginExecuteAction extends Action {
             userDao.update(user);
             session.setAttribute("user", user);
 
-            url = "main.jsp";
+            url = "Main.action";
 
         } else {
             // 認証失敗の場合（電話番号形式はOKだが、ユーザーがいない or パスワード不一致）
