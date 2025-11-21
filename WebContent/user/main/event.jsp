@@ -12,7 +12,7 @@
       <c:choose>
         <c:when test="${hasEvent}">
           <c:forEach var="event" items="${events}">
-            <form action="Event.action" method="post">
+            <form action="EventDetail.action" method="post">
               <div class="event-info">
                 <img src="${event.imagePath}" alt="イベント画像" class="event-img" />
                 <div class="event-info">

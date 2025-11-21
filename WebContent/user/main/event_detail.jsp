@@ -6,13 +6,11 @@
 	<c:param name="content">
 
 		<div class="page-header">
-          	<form action="Event.action">
-				<input type="submit" value="戻る" class="nav-btn" />
-			</form>
-          	<h1 class="page-title">${event.title}</h1>
+			<a href="Event.action" class="back-btn">← <span>戻る</span></a>
+          	<h1>${event.title}</h1>
         </div>
 
-		<img src="${event.imagePath}"  class="temple-img-large" />
+		<img src="${event.imagePath}" alt="イベント画像" class="temple-img-large" />
 
 		<section class="temple-info">
          <p>${event.text}</p>
