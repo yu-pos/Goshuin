@@ -7,15 +7,13 @@ public class Event implements Serializable {
 
 	private int id;
 
-	private String Title;
+	private String title;
 
-	private String Text;
+	private String text;
 
 	private String imagePath;
 
 	private LocalDateTime updatedAt;
-
-	private LocalDateTime createdAt;
 
 	public int getId() {
 		return id;
@@ -26,19 +24,19 @@ public class Event implements Serializable {
 	}
 
 	public String getTitle() {
-		return Title;
+		return title;
 	}
 
 	public void setTitle(String title) {
-		Title = title;
+		this.title = title;
 	}
 
 	public String getText() {
-		return Text;
+		return text;
 	}
 
 	public void setText(String text) {
-		Text = text;
+		this.text = text;
 	}
 
 	public String getImagePath() {
@@ -49,7 +47,7 @@ public class Event implements Serializable {
 		this.imagePath = imagePath;
 	}
 
-	public LocalDateTime getUpdateAt() {
+	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
@@ -64,6 +62,9 @@ public class Event implements Serializable {
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
+
+	private LocalDateTime createdAt;
+
 
 
 
