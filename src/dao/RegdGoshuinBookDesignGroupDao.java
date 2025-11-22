@@ -43,11 +43,15 @@ public class RegdGoshuinBookDesignGroupDao extends Dao {
 			// プリペアードステートメントを実行
 			ResultSet resultSet = statement.executeQuery();
 
+			//DAO宣言
+			RegdGoshuinBookDesignDao designDao = new RegdGoshuinBookDesignDao();
+
 			if (resultSet.next()) {
 				// リザルトセットが存在する場合
 				// 利用者インスタンスに検索結果をセット
 				regdGoshuinBookDesignGroup.setId(resultSet.getInt("id"));
 				regdGoshuinBookDesignGroup.setName(resultSet.getString("name"));
+				regdGoshuinBookDesignGroup.setImagePath(designDao.searchByGroup(id).get(0).getImagePath());
 				regdGoshuinBookDesignGroup.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
 				regdGoshuinBookDesignGroup.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
 
@@ -101,6 +105,9 @@ public class RegdGoshuinBookDesignGroupDao extends Dao {
 		// プリペアードステートメント
 		PreparedStatement statement = null;
 
+		//DAO宣言
+		RegdGoshuinBookDesignDao designDao = new RegdGoshuinBookDesignDao();
+
 		try {
 			statement = connection.prepareStatement("SELECT id, name, updated_at, created_at"
 					+ " FROM regd_goshuin_book_design_group");
@@ -115,6 +122,7 @@ public class RegdGoshuinBookDesignGroupDao extends Dao {
 				// 利用者インスタンスに検索結果をセット
 				regdgoshuinBookDesignGroup.setId(resultSet.getInt("id"));
 				regdgoshuinBookDesignGroup.setName(resultSet.getString("name"));
+				regdgoshuinBookDesignGroup.setImagePath(designDao.searchByGroup(resultSet.getInt("id")).get(0).getImagePath());
 				regdgoshuinBookDesignGroup.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
 				regdgoshuinBookDesignGroup.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
 

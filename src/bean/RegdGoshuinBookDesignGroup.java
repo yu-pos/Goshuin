@@ -11,6 +11,9 @@ public class RegdGoshuinBookDesignGroup implements Serializable {
 	//デザイングループ名
 	private String name;
 
+	//サムネイル画像
+	private String imagePath;
+
 	//更新日時
 	private LocalDateTime updatedAt;
 
@@ -20,7 +23,7 @@ public class RegdGoshuinBookDesignGroup implements Serializable {
 	//対象の利用者が所持しているかどうか
 	private boolean isOwned;
 
-	//regdGoshuinDesign型のリストを追加するかも
+
 
 	public int getId() {
 		return id;
@@ -36,6 +39,14 @@ public class RegdGoshuinBookDesignGroup implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 
 	public LocalDateTime getUpdatedAt() {

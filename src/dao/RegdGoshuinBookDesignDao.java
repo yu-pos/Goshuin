@@ -73,6 +73,60 @@ public class RegdGoshuinBookDesignDao extends Dao{
         return designs;
     }
 
+    public List<RegdGoshuinBookDesign> searchByGroup(int groupId) throws Exception {
+        // リストを初期化
+        List<RegdGoshuinBookDesign> designs = new ArrayList<>();
+        // コネクションを確立
+        Connection connection = getConnection();
+        // プリペアードステートメント
+        PreparedStatement statement = null;
+
+        try {
+            statement = connection.prepareStatement(
+                "SELECT id, goshuin_book_design_group_id, name, image_path, updated_at, created_at "
+                + " FROM regd_goshuin_book_design "
+                + " WHERE goshuin_book_design_group_id = ?"
+            );
+            statement.setInt(1, groupId);
+
+            // プリペアードステートメントを実行する
+            ResultSet resultSet = statement.executeQuery();
+
+
+            while (resultSet.next()) {
+                RegdGoshuinBookDesign design = new RegdGoshuinBookDesign();
+                design.setId(resultSet.getInt("id"));
+                design.setGoshuinBookDesignGroupId(resultSet.getInt("goshuin_book_design_group_id"));
+                design.setName(resultSet.getString("name"));
+                design.setImagePath(resultSet.getString("image_path"));
+                design.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
+                design.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
+
+                designs.add(design);
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            // ステートメントを閉じる
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException sqle) {
+                    throw sqle;
+                }
+            }
+            // コネクションを閉じる
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException sqle) {
+                    throw sqle;
+                }
+            }
+        }
+
+        return designs;
+    }
 
 
 
