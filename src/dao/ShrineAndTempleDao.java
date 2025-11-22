@@ -379,7 +379,7 @@ public class ShrineAndTempleDao extends Dao{
 				statement = connection.prepareStatement("INSERT INTO shrine_and_temple_tagging(tag_id, shrine_and_temple_id)"
 						+ " VALUES(?, ?)");
 				statement.setInt(1, tag.getId());
-				statement.setInt(1, shrineAndTemple.getId());
+				statement.setInt(2, shrineAndTemple.getId());
 				statement.executeUpdate();
 				statement.close();
 			}

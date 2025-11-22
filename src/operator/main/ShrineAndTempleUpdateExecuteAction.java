@@ -14,6 +14,7 @@ import bean.ShrineAndTempleTag;
 import dao.ShrineAndTempleDao;
 import dao.ShrineAndTempleTagDao;
 import tool.Action;
+import tool.ImageUtils;
 
 public class ShrineAndTempleUpdateExecuteAction extends Action {
 
@@ -22,7 +23,9 @@ public class ShrineAndTempleUpdateExecuteAction extends Action {
 
 
 		//ローカル変数の宣言 1
+		String imagePath = null;
 		ShrineAndTemple shrineAndTemple = new ShrineAndTemple();
+		List<ShrineAndTempleTag> tagList = new ArrayList<>();
 
 		ShrineAndTempleDao shrineAndTempleDao = new ShrineAndTempleDao();
 		ShrineAndTempleTagDao shrineAndTempleTagDao = new ShrineAndTempleTagDao();
@@ -39,22 +42,15 @@ public class ShrineAndTempleUpdateExecuteAction extends Action {
 		String areaInfo = req.getParameter("areaInfo");
 		String mapLink = req.getParameter("mapLink");
 
+
 	    Part image = req.getPart("image");
+	    boolean isImageUploaded = image != null && image.getSize() > 0;
 
-	    System.out.println(image);
+        for (String tagId : tagIds) {
+        	if (!tagId.isEmpty()) {
+        		tagList.add(shrineAndTempleTagDao.getById(Integer.parseInt(tagId)));
+        	}
 
-	    // タグが選択されていない場合の処理
-        if (tagIds == null || tagIds.length == 0)
-            req.setAttribute("error", "タグを1つ以上選択してください。");
-            req.getRequestDispatcher("tag_search.jsp").forward(req, res);
-            
-        } else {
-
-	        // タグIDを整数リストに変換
-	        List<ShrineAndTempleTag> tagList = new ArrayList<>();
-	        for (String tagId : tagIds) {
-	            tagList.add(shrineAndTempleTagDao.getById(Integer.parseInt(tagId)));
-	        }
         }
 
 
@@ -65,13 +61,15 @@ public class ShrineAndTempleUpdateExecuteAction extends Action {
 
 		//ビジネスロジック 4
 
-//	    //アップロードされた画像を保存
-//
-//	    String savedFilename = ImageUtils.saveImage(image, "goshuin", req);
-//
-//	    if (savedFilename == null) {
-//	    	errors.put("1", "画像のアップロードに失敗しました。");
-//	    }
+	    //アップロードされた画像を保存
+
+		if (isImageUploaded) {
+		    imagePath = ImageUtils.saveImage(image, "shrine_and_temple", req);
+
+		    if (imagePath == null) {
+		    	errors.put("1", "画像のアップロードに失敗しました。");
+		    }
+		}
 
 
 
@@ -86,8 +84,8 @@ public class ShrineAndTempleUpdateExecuteAction extends Action {
 	    	shrineAndTemple.setAreaInfo(areaInfo);
 	    	shrineAndTemple.setMapLink(mapLink);
 
-	    	if(false) {
-	    		shrineAndTemple.setMapLink("");
+	    	if(isImageUploaded) {
+	    		shrineAndTemple.setImagePath(imagePath);
 	    	}
 
 	    	if(!shrineAndTempleDao.update(shrineAndTemple)) {
