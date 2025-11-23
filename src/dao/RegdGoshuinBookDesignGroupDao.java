@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -171,14 +172,12 @@ public class RegdGoshuinBookDesignGroupDao extends Dao {
         PreparedStatement statement = null;
         int count = 0;
 
-        Pair<Boolean, Integer> pair;
-        int designGroupId;
-
         try {
             // SQL文を準備（created_at / updated_at はDB側で現在時刻をセット）
             statement = connection.prepareStatement(
                 "INSERT INTO regd_goshuin_book_design_group (name) " +
-                "VALUES (?)"
+                "VALUES (?)",
+                Statement.RETURN_GENERATED_KEYS
             );
 
             // パラメータをバインド
@@ -187,20 +186,20 @@ public class RegdGoshuinBookDesignGroupDao extends Dao {
             // 実行（INSERTなので executeUpdate）
             count = statement.executeUpdate();
 
-            statement.close();
+            if (count == 0) {
+                return Pair.of(false, -1);
+            }
 
-            //登録したグループのidを取得
-            statement = connection.prepareStatement(
-            		"SELECT id FROM regd_goshuin_book_design_group"
-            		+ " WHERE name = ?"
-            		);
-            // パラメータをバインド
-            statement.setString(1, regdGoshuinBookDesignGroup.getName());
+            // ここで DB が生成した ID を取得
+            try (ResultSet rs = statement.getGeneratedKeys()) {
+                if (rs.next()) {
+                    int generatedId = rs.getInt(1);
+                    return Pair.of(true, generatedId);
+                } else {
+                    return Pair.of(false, -1);
+                }
+            }
 
-			// プリペアードステートメントを実行
-			ResultSet resultSet = statement.executeQuery();
-			// 検索結果をセット
-			designGroupId = resultSet.getInt("id");
 
 
         } catch (Exception e) {
@@ -225,15 +224,64 @@ public class RegdGoshuinBookDesignGroupDao extends Dao {
             }
         }
 
-		if (count == 1) {
-			// 実行件数1件の場合
-			pair = Pair.of(Boolean.TRUE, Integer.valueOf(designGroupId));
-		} else {
-			// 実行件数がそれ以外の場合
-			pair = Pair.of(Boolean.FALSE, null);
-		}
 
-		return pair;
+
     }
 
+	/**
+	 * 指定IDの御朱印帳デザイングループを削除する
+	 *
+	 * @param id
+	 * @return boolean 削除成功なら true
+	 * @throws Exception
+	 */
+	public boolean delete(int id) throws Exception {
+
+		// コネクション取得
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
+
+		int count = 0;
+
+		try {
+			// SQL
+			statement = connection.prepareStatement(
+				"DELETE FROM regd_goshuin_book_design_group WHERE id = ?"
+			);
+
+			// パラメータセット
+			statement.setInt(1, id);
+
+			// 実行
+			count = statement.executeUpdate();
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			// プリペアードステートメントを閉じる
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+			// コネクションを閉じる
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+		}
+
+		if (count == 1) {
+			// 実行件数1件の場合
+			return true;
+		} else {
+			// 実行件数がそれ以外の場合
+			return false;
+		}
+	}
 }

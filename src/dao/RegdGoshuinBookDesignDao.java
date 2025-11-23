@@ -145,11 +145,10 @@ public class RegdGoshuinBookDesignDao extends Dao{
         try {
             statement = connection.prepareStatement(
                 "INSERT INTO regd_goshuin_book_design " +
-                "(id, goshuin_book_design_group_id, name, image_path) " +
+                "(goshuin_book_design_group_id, name, image_path) " +
                 "VALUES (?, ?, ?, ?)"
             );
 
-            statement.setInt(1, design.getId());
             statement.setInt(2, design.getGoshuinBookDesignGroupId());
             statement.setString(3, design.getName());
             statement.setString(4, design.getImagePath());
@@ -176,6 +175,65 @@ public class RegdGoshuinBookDesignDao extends Dao{
         }
     }
 
+
+
+    public boolean insertList(List<RegdGoshuinBookDesign> designList) throws Exception {
+
+        if (designList == null || designList.isEmpty()) {
+            return false;
+        }
+
+        Connection connection = getConnection();
+        PreparedStatement statement = null;
+
+        try {
+            // 手動コミットモードへ
+            connection.setAutoCommit(false);
+
+            statement = connection.prepareStatement(
+                "INSERT INTO regd_goshuin_book_design " +
+                "(goshuin_book_design_group_id, name, image_path) " +
+                "VALUES (?, ?, ?)"
+            );
+
+            for (RegdGoshuinBookDesign design : designList) {
+                statement.setInt(1, design.getGoshuinBookDesignGroupId());
+                statement.setString(2, design.getName());
+                statement.setString(3, design.getImagePath());
+                statement.addBatch();
+            }
+
+            int[] results = statement.executeBatch();
+
+            // 全て成功したか確認
+            for (int i : results) {
+                if (i == 0) {
+                    connection.rollback();
+                    return false;
+                }
+            }
+
+            connection.commit();
+            return true;
+
+        } catch (Exception e) {
+            // エラー時はロールバック
+            if (connection != null) {
+                connection.rollback();
+            }
+            throw e;
+        } finally {
+            if (connection != null) {
+                try { connection.setAutoCommit(true); } catch (SQLException ignored) {}
+            }
+            if (statement != null) {
+                try { statement.close(); } catch (SQLException sqle) { throw sqle; }
+            }
+            if (connection != null) {
+                try { connection.close(); } catch (SQLException sqle) { throw sqle; }
+            }
+        }
+    }
 
 
     /**

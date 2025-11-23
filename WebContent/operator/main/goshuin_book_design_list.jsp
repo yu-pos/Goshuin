@@ -7,86 +7,32 @@
 
       <div class="register-header">
         <div class="register-title">御朱印帳表紙デザイン一覧</div>
-        <button class="new-btn">＋ 表紙新規登録</button>
+        <a href="GoshuinBookDesignRegist.action?type=design" class="new-btn">＋ 表紙新規登録</a>
       </div>
 
       <div class="design-list">
-        <div class="design-item">
-          <img src="images/129.png" alt="表紙1">
-          <p>さくらデザイン</p>
-        </div>
-        <div class="design-item">
-          <img src="images/129.png" alt="表紙1">
-          <p>さくらデザイン</p>
-        </div>
-        <div class="design-item">
-          <img src="images/129.png" alt="表紙1">
-          <p>さくらデザイン</p>
-        </div>
-        <div class="design-item">
-          <img src="images/129.png" alt="表紙1">
-          <p>さくらデザイン</p>
-        </div>
-        <div class="design-item">
-          <img src="images/129.png" alt="表紙1">
-          <p>さくらデザイン</p>
-        </div>
+
+      	<c:forEach var="designGroup" items="${designGroupList}">
+	        <div class="design-item">
+	          <img src="/goshuin/saved_images/goshuin_book_design/${designGroup.imagePath}" alt="${designGroup.name}">
+	          <p>${designGroup.name}</p>
+	        </div>
+        </c:forEach>
+
       </div>
 
       <div class="register-header">
         <div class="register-title">ステッカーデザイン一覧</div>
-        <button class="new-btn">＋ ステッカー新規登録</button>
+        <a href="GoshuinBookDesignRegist.action?type=sticker" class="new-btn">＋ ステッカー新規登録</a>
       </div>
 
       <div class="design-list">
-        <div class="design-item">
-          <img src="images/130.png" alt="ステッカー1">
-          <p>鳥居マーク</p>
-        </div>
-        <div class="design-item">
-          <img src="images/130.png" alt="ステッカー1">
-          <p>鳥居マーク</p>
-        </div>
-        <div class="design-item">
-          <img src="images/130.png" alt="ステッカー1">
-          <p>鳥居マーク</p>
-        </div>
-        <div class="design-item">
-          <img src="images/130.png" alt="ステッカー1">
-          <p>鳥居マーク</p>
-        </div>
-        <div class="design-item">
-          <img src="images/130.png" alt="ステッカー1">
-          <p>鳥居マーク</p>
-        </div>
-        <div class="design-item">
-          <img src="images/130.png" alt="ステッカー1">
-          <p>鳥居マーク</p>
-        </div>
-        <div class="design-item">
-          <img src="images/130.png" alt="ステッカー1">
-          <p>鳥居マーク</p>
-        </div>
-        <div class="design-item">
-          <img src="images/130.png" alt="ステッカー1">
-          <p>鳥居マーク</p>
-        </div>
-        <div class="design-item">
-          <img src="images/130.png" alt="ステッカー1">
-          <p>鳥居マーク</p>
-        </div>
-        <div class="design-item">
-          <img src="images/130.png" alt="ステッカー1">
-          <p>鳥居マーク</p>
-        </div>
-        <div class="design-item">
-          <img src="images/130.png" alt="ステッカー1">
-          <p>鳥居マーク</p>
-        </div>
-        <div class="design-item">
-          <img src="images/130.png" alt="ステッカー1">
-          <p>鳥居マーク</p>
-        </div>
+        <c:forEach var="sticker" items="${stickerList}">
+	        <div class="design-item">
+	          <img src="/goshuin/saved_images/sticker/${sticker.imagePath}" alt="${sticker.name}">
+	          <p>${sticker.name}</p>
+	        </div>
+        </c:forEach>
 
       </div>
 	</c:param>

@@ -6,10 +6,8 @@ import java.util.Map;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-import bean.Operator;
 import bean.RegdGoshuin;
 import dao.RegdGoshuinDao;
 import dao.ShrineAndTempleDao;
@@ -63,9 +61,6 @@ public class GoshuinRegistExecuteAction extends Action {
 
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-
-		HttpSession session = req.getSession();
-		Operator operator = (Operator)session.getAttribute("operator");
 
 
 		//ローカル変数の宣言 1

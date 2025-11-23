@@ -4,6 +4,6 @@
 <c:import url="../base.jsp">
 	<c:param name="content">
 		<h3>デジタル御朱印登録完了</h3>
-      <a href="#">神社仏閣情報へ</a>
+      <a href="ShrineAndTempleSearchForRegistGoshuin.action">神社仏閣情報へ</a>
 	</c:param>
 </c:import>

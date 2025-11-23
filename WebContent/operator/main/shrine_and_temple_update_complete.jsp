@@ -4,6 +4,6 @@
 <c:import url="../base.jsp">
 	<c:param name="content">
 		<h3>神社仏閣情報変更完了</h3>
-     	<a href="#">一覧へ</a>
+     	<a href="ShrineAndTempleSearchForChangeInfo.action">一覧へ</a>
 	</c:param>
 </c:import>

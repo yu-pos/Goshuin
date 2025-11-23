@@ -66,4 +66,31 @@ public class ImageUtils {
 	    return savedFilename;
 	}
 
+	 /**
+     * deleteImageメソッド
+     * 指定されたディレクトリとファイル名の画像を削除
+     *
+     * @param dir      保存ディレクトリ名
+     * @param filename 削除したいファイル名
+     * @return true: 削除成功 / false: 削除失敗（ファイルなし等）
+     */
+    public static boolean deleteImage(String dir, String filename, HttpServletRequest req) {
+
+        String basePath = req.getServletContext().getRealPath("/saved_images/" + dir + "/");
+        File targetFile = new File(basePath, filename);
+
+        System.out.println("[DEBUG] 削除対象ファイルの絶対パス: " + targetFile.getAbsolutePath());
+
+        if (!targetFile.exists()) {
+            System.out.println("[DEBUG] ファイルが存在しません: " + filename);
+            return false;
+        }
+
+        boolean deleted = targetFile.delete();
+        System.out.println("[DEBUG] 削除結果: " + deleted);
+
+        return deleted;
+    }
+
+
 }

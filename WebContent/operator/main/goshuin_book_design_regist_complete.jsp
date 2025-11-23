@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:import url="../base.jsp">
 	<c:param name="content">
-		<h3>デザイン登録完了</h3>
-      	<a href="#">一覧へ</a>
+		<h3>登録完了</h3>
+      	<a href="GoshuinBookDesignList.action">一覧へ</a>
 	</c:param>
 </c:import>

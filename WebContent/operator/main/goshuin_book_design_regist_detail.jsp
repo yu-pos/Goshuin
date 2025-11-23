@@ -7,27 +7,26 @@
       	<!--表紙デザイン新規登録画面で指定した数字分表示する-->
       	<div class="block">
 
-        	<form class="temple-form">
+        	<form action="GoshuinBookDesignRegistExecute.action" method="POST" enctype="multipart/form-data" >
+				<c:forEach begin="1" end="${amount}" var="i" >
+					<div class="temple-form">
+		          		<h4>デザイン(${i})</h4>
+		          		<label>画像アップロード：</label>
+		          		<input type="file" accept="image/*" name="image${i}" required>
 
-          		<h4>デザイン(1)</h4>
-          		<label>画像アップロード：</label>
-          		<input type="file" accept="image/*" name="designImg${i}" required>
-
-          		<label>色：</label>
-          		<input type="text" name="designColor" value="紫">
+		          		<label>色：</label>
+		          		<input type="text" name="color${i}" >
+	          		</div>
+	          	</c:forEach>
+	          	<input type="hidden" name="groupName" value="${groupName}">
+	          	<input type="hidden" name="amount" value="${amount}">
+	          	<div class="button">
+            		<a href="GoshuinBookDesignList.action" type="button" class="button1">戻る</a>
+            		<input type="submit" value="登録" class="button2">
+        		</div>
         	</form>
-        	<form class="temple-form">
-          		<h4>デザイン(2)</h4>
-          		<label>画像アップロード：</label>
-          		<input type="file" accept="image/*" name="designImg${i}" required>
 
-          		<label>色：</label>
-          		<input type="text" name="designColor" value="紫">
-        	</form>
       	</div>
-        <div class="button">
-            <button type="button" class="button1">戻る</button>
-            <button type="button" class="button2">登録</button>
-        </div>
+
 	</c:param>
 </c:import>
