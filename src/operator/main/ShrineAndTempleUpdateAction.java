@@ -30,7 +30,6 @@ public class ShrineAndTempleUpdateAction extends Action {
 		Map<Integer, String> tagTypeMap = new HashMap<>();
 		Map<Integer, List<ShrineAndTempleTag>> tagsByType = new HashMap<>();
 
-
 		List<ShrineAndTempleTag> selectedTagList = new ArrayList<>();
 
 		ShrineAndTempleDao shrineAndTempleDao = new ShrineAndTempleDao();
