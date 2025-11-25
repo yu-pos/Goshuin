@@ -316,7 +316,7 @@ public class GoshuinBookDao extends Dao {
 
 			// 情報を更新
 			// プリペアードステートメントにUPDATE文をセット
-			statement = connection.prepareStatement("UPDATE goshuin_book SET user_id = ?, goshuin_book_design_id = ?, updated_at = CURRENT_DATETIME WHERE id = ?");
+			statement = connection.prepareStatement("UPDATE goshuin_book SET user_id = ?, goshuin_book_design_id = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?");
 			// プリペアードステートメントに値をバインド
 			statement.setInt(1, goshuinBook.getUserId());
 			statement.setInt(2, goshuinBook.getGoshuinBookDesign().getId());
