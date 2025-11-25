@@ -189,7 +189,7 @@ public class OperatorDao extends Dao {
         	// SQL文を準備
             statement = connection.prepareStatement(
                 "UPDATE operator SET password = ?, is_admin = ?, is_first_login_completed = ?,"
-                + "is_enable = ?, updated_at = CURRENT_TIMESTAMP, WHERE id = ?"
+                + "is_enable = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?"
             );
 
             statement.setString(1, operator.getPassword());
