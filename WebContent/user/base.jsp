@@ -22,9 +22,9 @@
       <header class="app-header">
         <button id="menu-btn" class="header-btn left" aria-label="メニュー">☰</button>
         <h1 class="header-title">ポケ御朱帳 in 山形</h1>
-        <button class="header-btn right" aria-label="QRコード">
+        <a href="QrCodeScan.action" class="header-btn right" aria-label="QRコード">
           <img src="/goshuin/user/images/qr-icon.png" alt="QRコード読み取り" class="qr-icon">
-        </button>
+        </a>
       </header>
 
 
@@ -33,7 +33,7 @@
 
 	  <footer class="footer-nav">
 	     	<nav>
-	        	<a href="menu.html" class="nav-btn active">🏠<br><span>ホーム</span></a>
+	        	<a href="Main.action" class="nav-btn active">🏠<br><span>ホーム</span></a>
 	            <a href="GoshuinBookView.action" class="nav-btn">📙<br><span>御朱印帳</span></a>
 	            <a href="ShrineAndTempleSearch.action" class="nav-btn">⛩️<br><span>神社仏閣<br>情報</span></a>
 	            <a href="PointExchange.action" class="nav-btn">🦃<br><span>ポイント交換</span></a>
