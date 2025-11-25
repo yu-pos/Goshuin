@@ -61,7 +61,7 @@ public class ShrineAndTempleUpdateAction extends Action {
 		// 1. selectedTagList から選択済みタグIDのセットを作る
 		Set<Integer> selectedIds = new HashSet<>();
 		for (ShrineAndTempleTag selected : selectedTagList) {
-		    selectedIds.add(selected.getId());  // getTagId() ならそちらに変更
+		    selectedIds.add(selected.getId());
 		}
 
 		// 2. tagList のタグが selectedIds に含まれていれば isSelected = true

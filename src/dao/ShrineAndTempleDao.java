@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -330,7 +331,85 @@ public class ShrineAndTempleDao extends Dao{
 
 	public boolean insert(ShrineAndTemple shrineAndTemple) throws Exception {
 
-		return false;
+		// コネクションを確立
+		Connection connection = getConnection();
+		// プリペアードステートメント
+		PreparedStatement statement = null;
+
+		ResultSet keys = null;
+
+		// 実行件数
+		int count = 0;
+
+		try {
+
+			// 利用者が存在した場合、情報を更新
+			// プリペアードステートメントにUPDATE文をセット
+			statement = connection.prepareStatement("INSERT INTO shrine_and_temple(name, address, description, area_info, map_link, image_path) "
+					+ " VALUES(?, ?, ?, ?, ?, ?)",
+					Statement.RETURN_GENERATED_KEYS);
+			// プリペアードステートメントに値をバインド
+			statement.setString(1, shrineAndTemple.getName());
+			statement.setString(2, shrineAndTemple.getAddress());
+			statement.setString(3, shrineAndTemple.getDescription());
+			statement.setString(4, shrineAndTemple.getAreaInfo());
+			statement.setString(5, shrineAndTemple.getMapLink());
+			statement.setString(6, shrineAndTemple.getImagePath());
+
+			// プリペアードステートメントを実行
+			count = statement.executeUpdate();
+
+			// ② 発番された user.id を取得
+	        keys = statement.getGeneratedKeys();
+	        int shrineAndTempleId;
+	        if (keys.next()) {
+	            shrineAndTempleId = keys.getInt(1);
+	            shrineAndTemple.setId(shrineAndTempleId);
+	        } else {
+	            throw new Exception("神社仏閣IDの取得に失敗しました");
+	        }
+
+			statement.close();
+
+			//タグ情報を登録
+			for (ShrineAndTempleTag tag : shrineAndTemple.getTagList()) {
+
+				statement = connection.prepareStatement("INSERT INTO shrine_and_temple_tagging(tag_id, shrine_and_temple_id)"
+						+ " VALUES(?, ?)");
+				statement.setInt(1, tag.getId());
+				statement.setInt(2, shrineAndTemple.getId());
+				statement.executeUpdate();
+				statement.close();
+			}
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			// プリペアードステートメントを閉じる
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+			// コネクションを閉じる
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+		}
+
+		if (count == 1) {
+			// 実行件数1件の場合
+			return true;
+		} else {
+			// 実行件数がそれ以外の場合
+			return false;
+		}
 	}
 
 	public boolean update(ShrineAndTemple shrineAndTemple) throws Exception {
