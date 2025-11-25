@@ -5,6 +5,14 @@
 	<c:param name="content">
 		 <h3>神社仏閣情報変更</h3>
 
+		<c:if test="${not empty errors}">
+                <div class="error" style="color:red;">
+                    <c:forEach var="e" items="${errors}">
+                        <p>${e.value}</p>
+                    </c:forEach>
+                </div>
+        </c:if>
+
       <form action="ShrineAndTempleUpdateExecute.action" method="POST" enctype="multipart/form-data" class="temple-form">
         <label for="name">名称:</label>
         <input type="text" id="name" name="name" value="${shrineAndTemple.name}" placeholder="例：熊野大社" required>

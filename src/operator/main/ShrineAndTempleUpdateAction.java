@@ -30,7 +30,6 @@ public class ShrineAndTempleUpdateAction extends Action {
 		Map<Integer, String> tagTypeMap = new HashMap<>();
 		Map<Integer, List<ShrineAndTempleTag>> tagsByType = new HashMap<>();
 
-
 		List<ShrineAndTempleTag> selectedTagList = new ArrayList<>();
 
 		ShrineAndTempleDao shrineAndTempleDao = new ShrineAndTempleDao();
@@ -62,7 +61,7 @@ public class ShrineAndTempleUpdateAction extends Action {
 		// 1. selectedTagList から選択済みタグIDのセットを作る
 		Set<Integer> selectedIds = new HashSet<>();
 		for (ShrineAndTempleTag selected : selectedTagList) {
-		    selectedIds.add(selected.getId());  // getTagId() ならそちらに変更
+		    selectedIds.add(selected.getId());
 		}
 
 		// 2. tagList のタグが selectedIds に含まれていれば isSelected = true

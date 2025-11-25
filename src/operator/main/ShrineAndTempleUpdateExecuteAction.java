@@ -37,6 +37,7 @@ public class ShrineAndTempleUpdateExecuteAction extends Action {
 		int shrineAndTempleId = Integer.parseInt(req.getParameter("shrineAndTempleId"));
 
 		String name = req.getParameter("name");
+		String address = req.getParameter("address");
 		String[] tagIds = req.getParameterValues("tag");
 		String description = req.getParameter("description");
 		String areaInfo = req.getParameter("areaInfo");
@@ -79,6 +80,7 @@ public class ShrineAndTempleUpdateExecuteAction extends Action {
 	    if (errors.isEmpty()) {
 
 	    	shrineAndTemple.setName(name);
+	    	shrineAndTemple.setAddress(address);
 	    	shrineAndTemple.setDescription(description);
 	    	shrineAndTemple.setTagList(tagList);
 	    	shrineAndTemple.setAreaInfo(areaInfo);
@@ -89,7 +91,7 @@ public class ShrineAndTempleUpdateExecuteAction extends Action {
 	    	}
 
 	    	if(!shrineAndTempleDao.update(shrineAndTemple)) {
-	    		errors.put("1", "神社仏閣情報の更新に失敗しました");
+	    		errors.put("2", "神社仏閣情報の更新に失敗しました");
 	    	}
 	    }
 
