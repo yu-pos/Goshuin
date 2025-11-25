@@ -19,11 +19,6 @@ public class VoucherUseAction extends Action {
             return;
         }
 
-//      //セッションにユーザーを登録（ログイン代わり。動作テスト用。ログイン部分が完成したら削除）
-//      	UserDao userDao = new UserDao();
-//      	HttpSession session = req.getSession(true);
-//      	session.setAttribute("user", userDao.login("111-1111-1111", "test"));
-
         User user = (User) session.getAttribute("user");
         String voucherIdStr = req.getParameter("voucherId");
         if (voucherIdStr == null) {
@@ -38,7 +33,7 @@ public class VoucherUseAction extends Action {
 
         if (voucher == null || voucher.getUserId() != user.getId()) {
             req.setAttribute("errorMessage", "指定された商品券が見つからないか、利用できません。");
-            req.getRequestDispatcher("voucher.action").forward(req, res);
+            req.getRequestDispatcher("Voucher.action").forward(req, res);
             return;
         }
 

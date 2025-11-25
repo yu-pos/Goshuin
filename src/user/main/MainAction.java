@@ -1,6 +1,11 @@
 package user.main;
 
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,28 +22,41 @@ public class MainAction extends Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-//    	//セッションにユーザーを登録（ログイン代わり。動作テスト用。ログイン部分が完成したら削除）
-//    	UserDao userDao = new UserDao();
-//    	HttpSession session = req.getSession(true);
-//    	session.setAttribute("user", userDao.login("111-1111-1111", "test"));
+        HttpSession session = req.getSession();
+        User user = (User)session.getAttribute("user");
 
-    	HttpSession session = req.getSession(); // セッション
-		User user = (User)session.getAttribute("user");
+        if (user == null) {
+            res.sendRedirect("login.jsp");
+            return;
+        }
 
-		// 現在のランク（6〜0）
+        // 現在のランク（数値）
         int currentRank = user.getRank();
         int goshuinCount = user.getGoshuinCount();
+
+        // 数値ランクを漢字に変換
+        String rankName;
+        switch (currentRank) {
+            case 6: rankName = "陸"; break;
+            case 5: rankName = "伍"; break;
+            case 4: rankName = "肆"; break;
+            case 3: rankName = "参"; break;
+            case 2: rankName = "弐"; break;
+            case 1: rankName = "壱"; break;
+            case 0: rankName = "零"; break;
+            default: rankName = ""; break;
+        }
 
         // ランクアップに必要な御朱印数を計算
         int requiredForNext = 0;
         switch (currentRank) {
-            case 6: requiredForNext = 3; break;   // 陸→伍
-            case 5: requiredForNext = 7; break;   // 伍→肆
-            case 4: requiredForNext = 10; break;  // 肆→参
-            case 3: requiredForNext = 10; break;  // 参→弐
-            case 2: requiredForNext = 10; break;  // 弐→壱
-            case 1: requiredForNext = 20; break;  // 壱→零
-            case 0: requiredForNext = 0; break;   // 零（最高ランク）
+            case 6: requiredForNext = 3; break;
+            case 5: requiredForNext = 7; break;
+            case 4:
+            case 3:
+            case 2: requiredForNext = 10; break;
+            case 1: requiredForNext = 20; break;
+            case 0: requiredForNext = 0; break;
             default: requiredForNext = 0; break;
         }
 
@@ -47,15 +65,13 @@ public class MainAction extends Action {
         int nextCouponRemaining = 0;
 
         if (currentRank > 0) {
-            // ランクアップ可能な場合
             remaining = requiredForNext - goshuinCount;
             if (remaining < 0) remaining = 0;
         } else {
-            // 最高ランク(零)の場合 → 30個ごとに商品券
             couponCount = goshuinCount / 30;
             nextCouponRemaining = 30 - (goshuinCount % 30);
             if (nextCouponRemaining == 30) {
-                nextCouponRemaining = 0; // ちょうど区切りなら「残り0」
+                nextCouponRemaining = 0;
             }
         }
 
@@ -67,16 +83,32 @@ public class MainAction extends Action {
                                          .limit(3)
                                          .collect(Collectors.toList());
 
+        // LocalDateTime → Date に変換したビュー用リスト
+        List<Map<String, Object>> eventsView = new ArrayList<>();
+        for (Event e : topEvents) {
+            Map<String, Object> vm = new HashMap<>();
+            vm.put("id", e.getId());
+            vm.put("title", e.getTitle());
+            vm.put("text", e.getText());
+            vm.put("imagePath", e.getImagePath());
+
+            Date createdAtDate = Date.from(e.getCreatedAt()
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
+            vm.put("createdAtDate", createdAtDate);
+
+            eventsView.add(vm);
+        }
+
         // JSPに渡す属性を設定
+        req.setAttribute("rankName", rankName);
         req.setAttribute("currentRank", currentRank);
         req.setAttribute("remainingStamp", remaining);
         req.setAttribute("couponCount", couponCount);
         req.setAttribute("nextCouponRemaining", nextCouponRemaining);
-        req.setAttribute("events", topEvents);
+        req.setAttribute("eventsView", eventsView);
 
         // メイン画面へフォワード
         req.getRequestDispatcher("/user/main/main.jsp").forward(req, res);
-
-
     }
 }
