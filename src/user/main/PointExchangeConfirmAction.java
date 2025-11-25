@@ -1,40 +1,42 @@
 package user.main;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import bean.RegdGoshuinBookDesignGroup;
 import bean.RegdGoshuinBookSticker;
-import dao.UserDao;
+import dao.RegdGoshuinBookDesignGroupDao;
+import dao.RegdGoshuinBookStickerDao;
+import tool.Action;
 
-public class PointExchangeConfirmAction {
+public class PointExchangeConfirmAction extends Action {
 
 
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
 
-		//セッションにユーザーを登録（ログイン代わり。動作テスト用。ログイン部分が完成したら削除）
-		UserDao userDao = new UserDao();
-		HttpSession session = req.getSession(true);
-		session.setAttribute("user", userDao.login("111-1111-1111", "test"));
+		//ローカル変数の宣言
+		RegdGoshuinBookDesignGroup designGroup = new RegdGoshuinBookDesignGroup();
+		RegdGoshuinBookSticker sticker = new RegdGoshuinBookSticker();
 
+		int designGroupId = -1;
+		int stickerId = -1;
 
-		//ローカル変数の宣言 1
-		List<RegdGoshuinBookDesignGroup> regdGoshuinBookDesignGroupList = new ArrayList<>();
-		List<RegdGoshuinBookSticker> regdGoshuinBookList = new ArrayList<>();
-		List<RegdGoshuinBookDesignGroup> regdBookDesignGroupList = new ArrayList<>();
-		List<Regdownedgoshuin> regdownedgoshuinList = new ArrayList<>();
+		RegdGoshuinBookDesignGroupDao designGroupDao = new RegdGoshuinBookDesignGroupDao();
+		RegdGoshuinBookStickerDao stickerDao = new RegdGoshuinBookStickerDao();
 
 		//リクエストパラメータ―の取得 2
-		//なし
-
 		//DBからデータ取得 3
-		//なし
+		String type = req.getParameter("type");
+
+		if(type.equals("design")) {
+			designGroupId = Integer.parseInt(req.getParameter("designGroupId"));
+			designGroup = designGroupDao.getById(designGroupId);
+		} else if (type.equals("sticker")) {
+			stickerId = Integer.parseInt(req.getParameter("stickerId"));
+			sticker = stickerDao.getById(stickerId);
+		}
 
 		//ビジネスロジック 4
 		//なし
@@ -43,10 +45,12 @@ public class PointExchangeConfirmAction {
 		//なし
 
 		//レスポンス値をセット 6
-		//なし
+		req.setAttribute("type", type);
+		req.setAttribute("designGroup", designGroup);
+		req.setAttribute("sticker", sticker);
 
 		//JSPへフォワード 7
-		req.getRequestDispatcher("qr_code_scan.jsp").forward(req, res);
+		req.getRequestDispatcher("point_exchange_confirm.jsp").forward(req, res);
 	}
 
 }

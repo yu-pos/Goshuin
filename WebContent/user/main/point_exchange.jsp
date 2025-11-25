@@ -14,7 +14,7 @@
           <div class="scroll-container">
           	<c:forEach var="regdGoshuinBookDesignGroup" items="${regdGoshuinBookDesignGroupList}">
 	            <div class="point-card">
-	              <img src="images/129.png" alt="表紙1" class="reward-img">
+	              <img src="/goshuin/saved_images/goshuin_book_design/${regdGoshuinBookDesignGroup.imagePath}" alt="表紙" class="reward-img">
 	              <div class="point-info">
 	                <h4>${regdGoshuinBookDesignGroup.name}</h4>
 	                <p>必要：5pt</p>
@@ -26,8 +26,9 @@
 							<div><font color="red">ポイントが不足しています</font></div>
 	                	</c:when>
 	                	<c:otherwise>
-	                		<form action="PointExchangeExecute.action" method="GET">
-	                			<input type="hidden" name="regdGoshuinBookDesignGroupId" value="${regdGoshuinBookDesignGroup.id}">
+	                		<form action="PointExchangeConfirm.action" method="GET">
+	                			<input type="hidden" name="designGroupId" value="${regdGoshuinBookDesignGroup.id}">
+	                			<input type="hidden" name="type" value="design">
 	                			<input type="submit" value="交換" class="exchange-btn">
 	                		</form>
 	                	</c:otherwise>
@@ -46,14 +47,27 @@
           <div class="scroll-container">
           	<c:forEach var="regdGoshuinBookSticker" items="${regdGoshuinBookStickerList}">
 	            <div class="point-card">
-	              <img src="images/130.png" alt="ステッカー1" class="reward-img">
+	              <img src="/goshuin/saved_images/sticker/${regdGoshuinBookSticker.imagePath}" alt="ステッカー" class="reward-img">
 	              <div class="point-info">
 	                <h4>${regdGoshuinBookSticker.name}</h4>
 	                <p>必要：2pt</p>
-	                <form action="PointExchangeExecute.action" method="GET">
-	                	<input type="hidden" name="regdGoshuinBookStickerId" value="${regdGoshuinBookSticker.id}">
-	                	<input type="submit" value="交換" class="exchange-btn">
-	                </form>
+
+	                <c:choose>
+	                	<c:when test="${regdGoshuinBookSticker.isOwned()}">
+	                		<div><font color="red">既に購入済みのデザインです</font></div>
+	                	</c:when>
+	                	<c:when test="${2 > point}">
+							<div><font color="red">ポイントが不足しています</font></div>
+	                	</c:when>
+	                	<c:otherwise>
+	                			<form action="PointExchangeConfirm.action" method="GET">
+	                			<input type="hidden" name="stickerId" value="${regdGoshuinBookSticker.id}">
+	                			<input type="hidden" name="type" value="sticker">
+	                			<input type="submit" value="交換" class="exchange-btn">
+	                		</form>
+	                	</c:otherwise>
+
+	                </c:choose>
 	              </div>
 	            </div>
             </c:forEach>

@@ -99,7 +99,7 @@ public class OwnedGoshuinBookDesignGroupDao extends Dao {
         try {
             // SQL文を準備（created_at / updated_at はDB側で現在時刻をセット）
             statement = connection.prepareStatement(
-                "INSERT INTO owned_goshuin_book_design_group (goshuin_group_design_group_id, user_id) " +
+                "INSERT INTO owned_goshuin_book_design_group (goshuin_book_design_group_id, user_id) " +
                 "VALUES (?, ?)"
             );
 

@@ -252,7 +252,7 @@ public class OperatorDao extends Dao {
 		PreparedStatement statement = null;
 
 		try {
-			statement = connection.prepareStatement("SELECT * FROM operator");
+			statement = connection.prepareStatement("SELECT * FROM operator ORDER BY id ASC");
 
 			// プリペアードステートメントを実行
 			ResultSet resultSet = statement.executeQuery();

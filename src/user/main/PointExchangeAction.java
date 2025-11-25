@@ -69,7 +69,7 @@ public class PointExchangeAction extends Action{
 
 		//購入可能判定処理
 		for (int i = 0; i < regdGoshuinBookDesignGroupList.size(); i++) {
-			//ユーザーが所持している御朱印の場合、isOwnedをtrueに
+			//ユーザーが所持しているデザインの場合、isOwnedをtrueに
 			if (ownedGoshuinBookDesignGroupIdList.contains(regdGoshuinBookDesignGroupList.get(i).getId())) {
 				regdGoshuinBookDesignGroupList.get(i).setOwned(true);
 			}
@@ -77,7 +77,7 @@ public class PointExchangeAction extends Action{
 		}
 
 		for (int i = 0; i < regdGoshuinBookStickerList.size(); i++) {
-			//ユーザーが所持している御朱印の場合、isOwnedをtrueに
+			//ユーザーが所持しているステッカーの場合、isOwnedをtrueに
 			if (ownedGoshuinBookStickerIdList.contains(regdGoshuinBookStickerList.get(i).getId())) {
 				regdGoshuinBookStickerList.get(i).setOwned(true);
 			}

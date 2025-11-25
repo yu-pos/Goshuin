@@ -4,6 +4,6 @@
 <c:import url="../base.jsp">
 	<c:param name="content">
 		<h1>交換完了</h1>
-        <a href="points.html">交換画面に戻る</a>
+        <a href="PointExchange.action">交換画面に戻る</a>
 	</c:param>
 </c:import>
