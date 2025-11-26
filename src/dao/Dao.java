@@ -18,12 +18,14 @@ public class Dao {
 	 * @throws Exception
 	 */
 	public Connection getConnection() throws Exception {
+//		System.out.println("[DEBUG](Dao) Dao.java起動");
 		// データソースがnullの場合
 		if (ds == null) {
 			// InitialContextを初期化
 			InitialContext ic = new InitialContext();
 			// データベースへ接続
 			ds = (DataSource) ic.lookup("java:/comp/env/jdbc/goshuin");
+//			System.out.println("[DEBUG](Dao) DB接続成功");
 		}
 		// データベースへのコネクションを返却
 		return ds.getConnection();
