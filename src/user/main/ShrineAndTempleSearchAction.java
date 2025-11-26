@@ -47,7 +47,7 @@ public class ShrineAndTempleSearchAction extends Action  {
 			req.setAttribute("tagTypeMap", tagTypeMap);
 
 	        // 表示ページへフォワード
-	        req.getRequestDispatcher("shrine_and_temple_search_results.jsp").forward(req, res);
+	        req.getRequestDispatcher("shrine_and_temple_search.jsp").forward(req, res);
 
 
 }
