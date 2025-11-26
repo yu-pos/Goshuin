@@ -17,30 +17,36 @@
 
     <!-- おみくじボタン -->
     <section class="omikuji">
-      <button class="omikuji-btn left" aria-label="おみくじ">
-        <img src="../images/omikuji.png" alt="おみくじ" class="omikuji-icon">
-      </button>
+      <a href="omikuji.jsp" class="omikuji-btn left" aria-label="おみくじ">
+        <img src="${pageContext.request.contextPath}/user/images/omikuji.png" alt="おみくじ" class="omikuji-icon">
+      </a>
     </section>
 
     <!-- ランク情報 -->
     <section class="card rank-section">
       <h2>
         ランク
-        <img src="../images/123.png" alt="ランクアイコン" class="rank-icon">
+        <img src="${rankImagePath}" alt="ランクアイコン" class="rank-icon">
       </h2>
 
       <c:choose>
         <c:when test="${currentRank > 0}">
-          <button class="btn">
-             ランクアップまであと ${remainingStamp} 個
-          </button>
+          <form action="Rank.action" method="get">
+            <button class="btn" type="submit">
+              ランクアップまであと ${remainingStamp} 個
+            </button>
+          </form>
         </c:when>
         <c:otherwise>
           <p>最高ランク(零)です！</p>
-          <p>御朱印 ${user.goshuinCount} 個 → 商品券 ${couponCount} 枚獲得済み</p>
+          <p>御朱印 ${goshuinCount} 個 → 商品券 ${couponCount} 枚獲得済み</p>
           <c:choose>
             <c:when test="${nextCouponRemaining > 0}">
-              <button class="btn">次の商品券まであと ${nextCouponRemaining} 個</button>
+              <form action="Rank.action" method="get">
+                <button class="btn" type="submit">
+                  次の商品券まであと ${nextCouponRemaining} 個
+                </button>
+              </form>
             </c:when>
             <c:otherwise>
               <button class="btn">ちょうど区切りです。次は30個で商品券</button>
@@ -55,8 +61,7 @@
       <h2>⛩️ イベント情報</h2>
       <div class="event-list">
         <c:forEach var="event" items="${eventsView}">
-          <a href="event${event.id}.html" class="event-card">
-
+          <a href="EventDetail.action?eventId=${event.id}" class="event-card">
             <img src="${event.imagePath}" alt="${event.title}" class="event-img">
             <div class="event-info">
               <h3>${event.title}</h3>
