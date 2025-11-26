@@ -65,8 +65,8 @@
 
         <div class="form-buttons">
           <!-- 次へ：表紙デザインを保存してステッカー画面へ -->
-          <input type="submit" value="次へ（表紙を確定）" />
-          <a href="GoshuinBookView.action">キャンセル</a>
+          <input type="submit" value="ステッカー貼付画面へ" />
+          <a href="GoshuinBookEditCancel.action">キャンセル</a>
         </div>
       </form>
     </c:if>

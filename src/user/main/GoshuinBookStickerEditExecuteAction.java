@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import bean.GoshuinBook;
 import bean.GoshuinBookStickerAttachment;
@@ -14,68 +15,62 @@ import tool.Action;
 
 public class GoshuinBookStickerEditExecuteAction extends Action {
 
+    private static final String EDITING_BOOK_KEY = "editingGoshuinBook";
+
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-        req.setCharacterEncoding("UTF-8");
+        HttpSession session = req.getSession();
+        GoshuinBookDao bookDao = new GoshuinBookDao();
+        RegdGoshuinBookStickerDao stickerDao = new RegdGoshuinBookStickerDao();
 
-        int bookId;
-        try {
-            bookId = Integer.parseInt(req.getParameter("bookId"));
-        } catch (Exception e) {
-            // bookId が取れない → 一旦ビューに戻す
-            res.sendRedirect("GoshuinBookView.action");
-            return;
+        int bookId = Integer.parseInt(req.getParameter("bookId"));
+
+        GoshuinBook book = (GoshuinBook) session.getAttribute(EDITING_BOOK_KEY);
+        if (book == null || book.getId() != bookId) {
+            // 念のため
+            book = bookDao.getById(bookId);
         }
 
-        GoshuinBookDao gdao = new GoshuinBookDao();
-        GoshuinBook goshuinBook = gdao.getById(bookId);
-        if (goshuinBook == null) {
-            res.sendRedirect("GoshuinBookView.action");
-            return;
-        }
-
-        // 送信されたステッカー情報（複数）
+        // 送信されたステッカー情報を GoshuinBook に詰め直す
         String[] stickerIds = req.getParameterValues("stickerId");
-        String[] xPosArray = req.getParameterValues("xPos");
-        String[] yPosArray = req.getParameterValues("yPos");
+        String[] xPosArray  = req.getParameterValues("xPos");
+        String[] yPosArray  = req.getParameterValues("yPos");
 
-        List<GoshuinBookStickerAttachment> newList = new ArrayList<>();
+        List<GoshuinBookStickerAttachment> attachList = new ArrayList<>();
 
-        if (stickerIds != null && xPosArray != null && yPosArray != null) {
-            RegdGoshuinBookStickerDao sdao = new RegdGoshuinBookStickerDao();
-
+        if (stickerIds != null) {
             for (int i = 0; i < stickerIds.length; i++) {
                 if (stickerIds[i] == null || stickerIds[i].isEmpty()) continue;
-                if (xPosArray[i] == null || xPosArray[i].isEmpty()) continue;
-                if (yPosArray[i] == null || yPosArray[i].isEmpty()) continue;
 
-                try {
-                    int stickerId = Integer.parseInt(stickerIds[i]);
-                    double x = Double.parseDouble(xPosArray[i]);
-                    double y = Double.parseDouble(yPosArray[i]);
+                GoshuinBookStickerAttachment att = new GoshuinBookStickerAttachment();
+                att.setGoshuinBookId(bookId);
 
-                    GoshuinBookStickerAttachment att = new GoshuinBookStickerAttachment();
-                    att.setGoshuinBookId(bookId);
-                    att.setGoshuinBookSticker(sdao.getById(stickerId));
-                    att.setxPos(x);
-                    att.setyPos(y);
-                    att.setRotation(0.0);  // とりあえず回転は0固定
+                int stickerId = Integer.parseInt(stickerIds[i]);
+                att.setGoshuinBookSticker(stickerDao.getById(stickerId));
 
-                    newList.add(att);
-                } catch (Exception ignore) {
-                    // パース失敗したものはスキップ
-                }
+                double x = Double.parseDouble(xPosArray[i]);
+                double y = Double.parseDouble(yPosArray[i]);
+                att.setxPos(x);
+                att.setyPos(y);
+                att.setRotation(0.0); // 回転をまだ使っていないなら 0
+
+                attachList.add(att);
             }
         }
 
-        // 新しいステッカーリストで置き換え
-        goshuinBook.setAttachedStickerList(newList);
+        book.setAttachedStickerList(attachList);
 
-        // 更新（GoshuinBookStickerAttachmentDao.update が内部で走る）
-        gdao.update(goshuinBook);
+        // ここで初めて DB 更新！（表紙デザインも含めて）
+        bookDao.update(book);
 
-        // 保存後は御朱印帳ビューへ
-        res.sendRedirect("GoshuinBookView.action");
+	     // ・・・ステッカー情報を book に詰めて bookDao.update(book) したあと
+
+	     // 編集用セッションを消す
+	     session.removeAttribute("editingGoshuinBook");
+
+	     // ✅ 完了画面用の Action に飛ばす
+	     res.sendRedirect("GoshuinBookEditComplete.action?bookId=" + bookId);
+
     }
 }

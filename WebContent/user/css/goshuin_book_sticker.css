@@ -5,11 +5,11 @@
   text-align: center;
 }
 
-/* ここでは大きめサイズ（約2倍イメージ） */
+/* 御朱印帳本体（大きめ） */
 .goshuin-book-cover {
   position: relative;
-  width: 90%;          /* 色選択(55%)より大きく */
-  max-width: 360px;    /* 端末によってはさらに大きく */
+  width: 90%;
+  max-width: 360px;
   margin: 0 auto 16px;
   aspect-ratio: 3 / 4;
   border-radius: 16px;
@@ -18,14 +18,17 @@
   background: #f7f7f7;
 }
 
+/* 表紙画像（奥側） */
 .goshuin-book-cover-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  position: relative;
+  z-index: 1;           /* ★ 奥に置く */
 }
 
-/* 本の上に貼られたステッカー */
+/* 御朱印帳の上に貼られたステッカー（手前側） */
 .placed-sticker {
   position: absolute;
   width: 20%;
@@ -33,6 +36,7 @@
   touch-action: none;
   cursor: grab;
   transform-origin: center center;
+  z-index: 2;           /* ★ 画像より前に出す */
 }
 
 /* ▼ ステッカーパレット */
@@ -58,7 +62,7 @@
   cursor: pointer;
 }
 
-/* フォームボタン（必要なら） */
+/* フォームボタン */
 .form-buttons {
   margin-top: 16px;
   text-align: center;
@@ -66,4 +70,102 @@
 
 .form-buttons input[type="submit"] {
   margin-right: 12px;
+}
+
+/* ===== 御朱印帳 ステッカー貼り画面用 ===== */
+
+.goshuin-book-preview {
+  margin: 16px 0;
+  text-align: center;
+}
+
+/* 御朱印帳本体（大きめ） */
+.goshuin-book-cover {
+  position: relative;
+  width: 90%;
+  max-width: 360px;
+  margin: 0 auto 16px;
+  aspect-ratio: 3 / 4;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,0,0,0.25);
+  background: #f7f7f7;
+}
+
+/* 表紙画像（奥側） */
+.goshuin-book-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+/* 御朱印帳の上に貼られたステッカー（手前側） */
+.placed-sticker {
+  position: absolute;
+  width: 20%;
+  max-width: 80px;
+  touch-action: none;
+  cursor: grab;
+  transform-origin: center center;
+  z-index: 2;
+}
+
+/* ★ 削除対象として選択されているステッカー */
+.placed-sticker.selected-for-delete {
+  outline: 3px solid red;
+  box-shadow: 0 0 8px rgba(255,0,0,0.7);
+}
+
+/* ▼ ステッカーパレット */
+.sticker-select {
+  margin: 18px 0 10px;
+}
+
+.sticker-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.palette-sticker {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 0 3px rgba(0,0,0,0.15);
+  padding: 4px;
+  cursor: pointer;
+}
+
+/* フォームボタン */
+.form-buttons {
+  margin-top: 16px;
+  text-align: center;
+}
+
+.form-buttons input[type="submit"] {
+  margin-right: 12px;
+}
+
+/* ★ ステッカー削除ボタン */
+.delete-sticker-btn {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: none;
+  background: #ff6666;
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.delete-sticker-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
 }

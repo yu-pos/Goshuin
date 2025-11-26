@@ -5,6 +5,9 @@
 <c:import url="../base.jsp">
   <c:param name="content">
 
+    <!-- ★ ここに置けばちゃんと読み込まれる -->
+    <link rel="stylesheet" href="/goshuin/user/css/goshuin_book_view.css" />
+
     <h1 class="page-title">御朱印帳</h1>
 
     <c:if test="${not empty message}">
@@ -16,41 +19,50 @@
     </c:if>
 
     <c:if test="${not empty goshuinBook}">
-      <!-- 表紙プレビュー -->
+
+      <!-- ▼ 御朱印帳プレビュー -->
       <section class="goshuin-book-preview">
         <div class="goshuin-book-cover">
+          <!-- 表紙画像 -->
           <img
             src="/goshuin/saved_images/goshuin_book_design/${goshuinBook.goshuinBookDesign.imagePath}"
             alt="${goshuinBook.goshuinBookDesign.name}"
             class="goshuin-book-cover-img" />
+
+          <!-- 保存されたステッカー -->
+          <c:forEach var="att" items="${goshuinBook.attachedStickerList}">
+            <img
+              src="/goshuin/saved_images/sticker/${att.goshuinBookSticker.imagePath}"
+              alt="${att.goshuinBookSticker.name}"
+              class="placed-sticker"
+              style="left:${att.xPos}%; top:${att.yPos}%;" />
+          </c:forEach>
         </div>
       </section>
 
-      <!-- 御朱印一覧（必要なら） -->
+      <!-- 御朱印一覧（今まで通り） -->
       <section>
         <h2>この御朱印帳に登録されている御朱印</h2>
         <div class="goshuin-gallery">
           <div class="gallery-track">
             <c:forEach var="owned" items="${goshuinBook.goshuinList}">
-			  <c:if test="${not empty owned.goshuin.imagePath}">
-			    <%-- alt は description を使う --%>
-			    <img
-			      src="/goshuin/saved_images/goshuin/${owned.goshuin.imagePath}"
-			      alt="${owned.goshuin.description}"
-			      class="goshuin-img" />
-			  </c:if>
-			</c:forEach>
+              <c:if test="${not empty owned.goshuin.imagePath}">
+                <img
+                  src="/goshuin/saved_images/goshuin/${owned.goshuin.imagePath}"
+                  alt="${owned.goshuin.description}"
+                  class="goshuin-img" />
+              </c:if>
+            </c:forEach>
           </div>
         </div>
       </section>
 
-      <!-- ボタン -->
       <div class="kasutamubtn-row">
         <a href="PastGoshuinBookList.action" class="nav-btn custom-left">一覧</a>
-        <!-- 👍 ここから色選択画面へ -->
         <a href="GoshuinBookEdit.action?bookId=${goshuinBook.id}"
            class="nav-btn custom-right">編集</a>
       </div>
+
     </c:if>
 
   </c:param>

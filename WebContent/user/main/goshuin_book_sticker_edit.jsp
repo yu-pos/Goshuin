@@ -24,48 +24,58 @@
       <section class="goshuin-book-preview">
         <h2>御朱印帳</h2>
         <div id="goshuinBookCover" class="goshuin-book-cover">
-          <img
-            src="/goshuin/saved_images/goshuin_book_design/${goshuinBook.goshuinBookDesign.imagePath}"
-            alt="${goshuinBook.goshuinBookDesign.name}"
-            class="goshuin-book-cover-img" />
+		  <img
+		    src="/goshuin/saved_images/goshuin_book_design/${goshuinBook.goshuinBookDesign.imagePath}"
+		    alt="${goshuinBook.goshuinBookDesign.name}"
+		    class="goshuin-book-cover-img" />
 
-          <!-- 既に貼られているステッカー（あれば） -->
-          <c:forEach var="att" items="${goshuinBook.attachedStickerList}">
-            <img
-              src="/goshuin/saved_images/sticker/${att.goshuinBookSticker.imagePath}"
-              alt="${att.goshuinBookSticker.name}"
-              class="placed-sticker"
-              data-sticker-id="${att.goshuinBookSticker.id}"
-              style="left:${att.xPos}%; top:${att.yPos}%;" />
-          </c:forEach>
-        </div>
+		  <c:forEach var="att" items="${goshuinBook.attachedStickerList}">
+		    <img
+		      src="/goshuin/saved_images/sticker/${att.goshuinBookSticker.imagePath}"
+		      alt="${att.goshuinBookSticker.name}"
+		      class="placed-sticker"
+		      data-sticker-id="${att.goshuinBookSticker.id}"
+		      style="left:${att.xPos}%; top:${att.yPos}%;" />
+		  </c:forEach>
+		</div>
       </section>
 
       <!-- ステッカーパレット -->
       <section class="sticker-select">
-        <h2>ステッカー</h2>
-        <p>下のステッカーをタップして、御朱印帳の上にドラッグで配置できます。</p>
+	  <h2>ステッカー</h2>
+	  <p>下のステッカーをタップして、御朱印帳の上にドラッグで配置できます。</p>
 
-        <div id="stickerPalette" class="sticker-palette">
-          <c:forEach var="os" items="${ownedStickerList}">
-            <img
-              src="/goshuin/saved_images/sticker/${os.goshuinBookSticker.imagePath}"
-              alt="${os.goshuinBookSticker.name}"
-              class="palette-sticker"
-              data-sticker-id="${os.goshuinBookSticker.id}" />
-          </c:forEach>
-        </div>
-      </section>
+	  <div id="stickerPalette" class="sticker-palette">
+	  <c:forEach var="os" items="${ownedStickerList}">
+	    <img
+	      src="/goshuin/saved_images/sticker/${os.goshuinBookSticker.imagePath}"
+	      alt="${os.goshuinBookSticker.name}"
+	      class="palette-sticker"
+	      data-sticker-id="${os.goshuinBookSticker.id}" />
+	  </c:forEach>
+	</div>
+	</section>
 
-      <!-- 保存フォーム -->
-      <form id="stickerForm" action="GoshuinBookStickerEditExecute.action" method="post">
-        <input type="hidden" name="bookId" value="${goshuinBook.id}" />
+          <!-- 保存フォーム -->
+	    <form id="stickerForm" action="GoshuinBookStickerEditExecute.action" method="post">
+	      <input type="hidden" name="bookId" value="${goshuinBook.id}" />
 
-        <div class="form-buttons">
-          <input type="submit" value="ステッカー配置を保存" />
-          <a href="GoshuinBookView.action">キャンセル</a>
-        </div>
-      </form>
+	      <!-- ▼ ここを追加：選択ステッカー削除ボタン -->
+	      <div class="form-buttons">
+	        <button type="button" id="deleteStickerBtn"
+	                class="delete-sticker-btn"
+	                style="display:none;">
+	          選択したステッカーを削除
+	        </button>
+	      </div>
+	      <!-- ▲ 追加ここまで -->
+
+	      <div class="form-buttons">
+	        <input type="submit" value="ステッカー配置を保存" />
+	        <a href="GoshuinBookEditCancel.action">キャンセル</a>
+	      </div>
+	    </form>
+
 
       <!-- 送信前にステッカー位置情報を hidden に詰める -->
       <script>
@@ -80,7 +90,7 @@
 
             const stickers = document.querySelectorAll("#goshuinBookCover .placed-sticker");
             stickers.forEach((st, index) => {
-              const id = st.dataset.stickerId || "";
+            const id = st.dataset.stickerId || "";
               const left = st.style.left.replace("%", "");
               const top = st.style.top.replace("%", "");
 

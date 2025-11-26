@@ -8,61 +8,37 @@ import javax.servlet.http.HttpSession;
 
 import bean.GoshuinBook;
 import bean.OwnedGoshuinBookSticker;
-import bean.User;
 import dao.GoshuinBookDao;
 import dao.OwnedGoshuinBookStickerDao;
 import tool.Action;
 
 public class GoshuinBookStickerEditAction extends Action {
 
+    private static final String EDITING_BOOK_KEY = "editingGoshuinBook";
+
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-        String url = "user/main/goshuin_book_sticker_edit.jsp";
+        int bookId = Integer.parseInt(req.getParameter("bookId"));
 
-        HttpSession session = req.getSession(false);
-        if (session == null) {
-            url = "user/main/login.jsp";
-            req.getRequestDispatcher(url).forward(req, res);
-            return;
+        HttpSession session = req.getSession();
+        GoshuinBook book = (GoshuinBook) session.getAttribute(EDITING_BOOK_KEY);
+
+        GoshuinBookDao bookDao = new GoshuinBookDao();
+
+        if (book == null || book.getId() != bookId) {
+            // セッションに何もなければ DB の状態をそのまま使う
+            book = bookDao.getById(bookId);
         }
 
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            url = "user/main/login.jsp";
-            req.getRequestDispatcher(url).forward(req, res);
-            return;
-        }
+        // ステッカー一覧（本当は所持している分だけにするなら DAO を変える）
+        OwnedGoshuinBookStickerDao ownedStickerDao = new OwnedGoshuinBookStickerDao();
+        int userId = ((bean.User)session.getAttribute("user")).getId();
+        List<OwnedGoshuinBookSticker> ownedStickerList = ownedStickerDao.searchByUser(userId);
 
-        int bookId;
-        try {
-            bookId = Integer.parseInt(req.getParameter("bookId"));
-        } catch (Exception e) {
-            // 取得失敗 → アクティブ御朱印帳
-            if (user.getActiveGoshuinBook() != null) {
-                bookId = user.getActiveGoshuinBook().getId();
-            } else {
-                req.setAttribute("error", "編集対象の御朱印帳が指定されていません。");
-                req.getRequestDispatcher(url).forward(req, res);
-                return;
-            }
-        }
-
-        GoshuinBookDao gdao = new GoshuinBookDao();
-        GoshuinBook goshuinBook = gdao.getById(bookId);
-        if (goshuinBook == null) {
-            req.setAttribute("error", "御朱印帳が見つかりません。");
-            req.getRequestDispatcher(url).forward(req, res);
-            return;
-        }
-
-        // 所持ステッカー一覧（本当は「所持しているものだけ」にしたい場合はこちら）
-        OwnedGoshuinBookStickerDao osdao = new OwnedGoshuinBookStickerDao();
-        List<OwnedGoshuinBookSticker> ownedStickerList = osdao.searchByUser(user.getId());
+        req.setAttribute("goshuinBook", book);
         req.setAttribute("ownedStickerList", ownedStickerList);
 
-        req.setAttribute("goshuinBook", goshuinBook);
-
-        req.getRequestDispatcher(url).forward(req, res);
+        req.getRequestDispatcher("goshuin_book_sticker_edit.jsp").forward(req, res);
     }
 }
