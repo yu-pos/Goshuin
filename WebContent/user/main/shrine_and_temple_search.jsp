@@ -31,12 +31,12 @@
 
 
         <!-- 🔍 名称検索フォーム -->
-        <section class="search-section">
-          <label for="search-name">神社・寺院名で検索</label>
+        <form action="ShrineAndTempleSearchExecute.action" method="GET" class="search-section">
+          <label for="search-name">神社・寺院名で探す</label>
           <div class="search-box">
-            <input type="text" id="search-name" placeholder="例：上杉神社">
-            <a href="name.html" class="search-btn">検索</a>
+            <input type="text" id="search-name" name="name" placeholder="例：上杉神社">
+            <input type="submit" value="検索" class="search-btn">
           </div>
-        </section>
+        </form>
 	</c:param>
 </c:import>

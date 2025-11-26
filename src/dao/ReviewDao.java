@@ -87,7 +87,15 @@ public class ReviewDao extends Dao {
 
 		try {
 			// プリペアードステートメントにSQL文をセット
-			statement = connection.prepareStatement("SELECT * FROM review WHERE id=?");
+			statement = connection.prepareStatement(
+		            "SELECT review.id AS review_id, review.shrine_and_temple_id AS shrine_and_temple_id,"
+		            + " review.user_id AS user_id, user.user_name AS user_name, user.profile_image_path AS user_image_path, review.text AS text, "
+		            + " review.image_path AS image_path, review.like_count AS like_count, "
+		            + " review.updated_at AS updated_at, review.created_at AS created_at"
+		            + " FROM review"
+		            + " JOIN user ON review.user_id = user.id "
+		            + " WHERE review.id = ?"
+			);
 			// プリペアードステートメントに神社仏閣IDをバインド
 			statement.setInt(1, reviewId);
 			// プリペアードステートメントを実行
@@ -98,8 +106,10 @@ public class ReviewDao extends Dao {
 				// リザルトセットが存在する場合
 				// レビューインスタンスに検索結果をセット
 
-	            review.setId(resultSet.getInt("id"));
+	            review.setId(resultSet.getInt("review_id"));
 	            review.setUserId(resultSet.getInt("user_id"));
+	            review.setUserName(resultSet.getString("user_name"));
+	            review.setUserImagePath(resultSet.getString("user_image_path"));
 	            review.setShrineAndTempleId(resultSet.getInt("shrine_and_temple_id"));
 	            review.setImagePath(resultSet.getString("image_path"));
 	            review.setText(resultSet.getString("text"));
@@ -148,8 +158,13 @@ public class ReviewDao extends Dao {
 		try {
 			// プリペアードステートメントにSQL文をセット
 			statement = connection.prepareStatement(
-		            "SELECT  id,shrine_and_temple_id,user_id,text,image_path, like_count"
-		            +"FROM review WHERE shurain_and_temple_id = ?"
+		            "SELECT review.id AS review_id, review.shrine_and_temple_id AS shrine_and_temple_id,"
+		            + " review.user_id AS user_id, user.user_name AS user_name, user.profile_image_path AS user_image_path, review.text AS text, "
+		            + " review.image_path AS image_path, review.like_count AS like_count, "
+		            + " review.updated_at AS updated_at, review.created_at AS created_at"
+		            + " FROM review"
+		            + " JOIN user ON review.user_id = user.id "
+		            + " WHERE review.shrine_and_temple_id = ?"
 			);
 
 			// 神社仏閣IDをバインド
@@ -161,8 +176,10 @@ public class ReviewDao extends Dao {
 			// 複数件をリストに追加
 	        while (resultSet.next()) {
 	            Review review = new Review();
-	            review.setId(resultSet.getInt("id"));
+	            review.setId(resultSet.getInt("review_id"));
 	            review.setUserId(resultSet.getInt("user_id"));
+	            review.setUserName(resultSet.getString("user_name"));
+	            review.setUserImagePath(resultSet.getString("user_image_path"));
 	            review.setShrineAndTempleId(resultSet.getInt("shrine_and_temple_id"));
 	            review.setImagePath(resultSet.getString("image_path"));
 	            review.setText(resultSet.getString("text"));
@@ -222,8 +239,8 @@ public class ReviewDao extends Dao {
 			statement.setInt(5, review.getLikeCount());
 			statement.setInt(6, review.getId());
 
-			
-			
+
+
 
 
 			// プリペアードステートメントを実行

@@ -11,6 +11,10 @@ public class Review implements Serializable {
 
 	private int userId;
 
+	private String userName;
+
+	private String userImagePath;
+
 	private String text;
 
 	private String imagePath;
@@ -43,6 +47,22 @@ public class Review implements Serializable {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUserImagePath() {
+		return userImagePath;
+	}
+
+	public void setUserImagePath(String userImagePath) {
+		this.userImagePath = userImagePath;
 	}
 
 	public String getText() {

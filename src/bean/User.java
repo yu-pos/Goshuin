@@ -13,7 +13,7 @@ public class User implements Serializable {
 
 	private LocalDateTime birthDate;
 
-	private String  address;
+	private String address;
 
 	private String telNumber;
 

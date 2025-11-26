@@ -4,25 +4,32 @@
 <c:import url="../base.jsp">
     <c:param name="content">
         <div class="page-header">
-            <a href="temples.html" class="back-btn">←<span>戻る</span></a>
-            <h1 class="page-title">${searchKeyword}での検索結果</h1>
+            <a href="ShrineAndTempleSearch.action" class="back-btn">←<span>戻る</span></a>
+            <h1 class="page-title">検索結果</h1>
         </div>
 
         <!-- 🔍 検索結果リスト -->
         <section class="result-list">
-            <c:forEach var="temple" items="${templeList}">
+            <c:forEach var="temple" items="${shrineAndTempleList}">
                 <div class="temple-card">
-                    <img src="${temple.imagePath}" alt="${temple.name}" class="temple-img">
+                    <img src="/goshuin/saved_images/shrine_and_temple/${temple.imagePath}" alt="${temple.name}" class="temple-img">
                     <div class="temple-info">
                         <h3>${temple.name}</h3>
-                        <p>所在地：${temple.address}</p>
-                        <p>ご利益：${temple.benefits}</p>
-                        <a href="temple_detail.html?id=${temple.id}" class="detail-btn">詳細を見る</a>
+                        <c:forEach var="tagType" items="${tagTypeMap}">
+			                <c:if test="${temple.tagsByType[tagType.key] != null}">
+			                    <p><strong>${tagType.value}:</strong>
+			                        <c:forEach var="tag" items="${temple.tagsByType[tagType.key]}" varStatus="status">
+			                            ${tag.name}<c:if test="${!status.last}">・</c:if>
+			                        </c:forEach>
+			                    </p>
+			                </c:if>
+            			</c:forEach>
+                        <a href="ShrineAndTempleInfo.action?id=${temple.id}" class="detail-btn">詳細を見る</a>
                     </div>
                 </div>
             </c:forEach>
 
-            <c:if test="${empty templeList}">
+            <c:if test="${empty shrineAndTempleList}">
                 <p class="no-result">該当する神社仏閣は見つかりませんでした。</p>
             </c:if>
         </section>

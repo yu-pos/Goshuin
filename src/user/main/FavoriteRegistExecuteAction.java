@@ -12,7 +12,6 @@ import bean.ShrineAndTemple;
 import bean.User;
 import dao.FavoriteShrineAndTempleDao;
 import dao.ShrineAndTempleDao;
-import dao.UserDao;
 import tool.Action;
 
 public class FavoriteRegistExecuteAction extends Action {
@@ -20,17 +19,12 @@ public class FavoriteRegistExecuteAction extends Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-		//セッションにユーザーを登録（ログイン代わり。動作テスト用。ログイン部分が完成したら削除）
-		UserDao userDao = new UserDao();
-		HttpSession session = req.getSession(true);
-		session.setAttribute("user", userDao.login("11111111111", "test"));
 
-//		HttpSession session = req.getSession(); // セッション
+		HttpSession session = req.getSession(); // セッション
 		User user = (User)session.getAttribute("user");
 
     	// パラメータ取得
-//        int shrineAndTempleId = Integer.parseInt(req.getParameter("shrineAndTempleId"));
-        int shrineAndTempleId = 4; //テスト用。完成したら上と入れ替え
+        int shrineAndTempleId = Integer.parseInt(req.getParameter("id"));
         int userId = user.getId();
 
         // DAOインスタンス生成
@@ -62,8 +56,8 @@ public class FavoriteRegistExecuteAction extends Action {
             boolean success = dao.insert(favorite);
 
             // 登録成功フラグを渡して完了画面へ
-            req.setAttribute("registSuccess", success);
-            req.getRequestDispatcher("favorite_complete.jsp").forward(req, res);
+            req.setAttribute("favoriteSuccess", success);
+            req.getRequestDispatcher("ShrineAndTempleInfo.action").forward(req, res);
         }
     }
 }

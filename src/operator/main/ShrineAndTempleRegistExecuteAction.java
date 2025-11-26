@@ -14,6 +14,7 @@ import bean.ShrineAndTempleTag;
 import dao.ShrineAndTempleDao;
 import dao.ShrineAndTempleTagDao;
 import tool.Action;
+import tool.IframeSrcExtractor;
 import tool.ImageUtils;
 
 public class ShrineAndTempleRegistExecuteAction extends Action {
@@ -59,12 +60,20 @@ public class ShrineAndTempleRegistExecuteAction extends Action {
 
 		//ビジネスロジック 4
 
-	    //アップロードされた画像を保存
-	    imagePath = ImageUtils.saveImage(image, "shrine_and_temple", req);
+        //埋め込みタグからURLを抽出
+        String extractedMapLink = IframeSrcExtractor.extractGoogleMapEmbedUrl(mapLink);
+        if (extractedMapLink == null) {
+        	errors.put("1", "埋め込みリンクの指定が不正です。");
+        }
 
-	    if (imagePath == null) {
-	    	errors.put("1", "画像のアップロードに失敗しました。");
-	    }
+	    //アップロードされた画像を保存
+        if(errors.isEmpty()) {
+		    imagePath = ImageUtils.saveImage(image, "shrine_and_temple", req);
+
+		    if (imagePath == null) {
+		    	errors.put("2", "画像のアップロードに失敗しました。");
+		    }
+        }
 
 
 
@@ -78,12 +87,12 @@ public class ShrineAndTempleRegistExecuteAction extends Action {
 	    	shrineAndTemple.setDescription(description);
 	    	shrineAndTemple.setTagList(tagList);
 	    	shrineAndTemple.setAreaInfo(areaInfo);
-	    	shrineAndTemple.setMapLink(mapLink);
+	    	shrineAndTemple.setMapLink(extractedMapLink);
 
 	    	shrineAndTemple.setImagePath(imagePath);
 
 	    	if(!shrineAndTempleDao.insert(shrineAndTemple)) {
-	    		errors.put("2", "神社仏閣情報の登録に失敗しました");
+	    		errors.put("3", "神社仏閣情報の登録に失敗しました");
 	    		ImageUtils.deleteImage("shrine_and_temple", shrineAndTemple.getImagePath(), req);
 	    	}
 	    }

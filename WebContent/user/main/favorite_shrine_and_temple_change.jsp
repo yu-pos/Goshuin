@@ -12,7 +12,7 @@
       <img src="${favorite.imagePath}" alt="${favorite.name}" class="favorite-img">
       <p class="favorite-name">${favorite.name}</p>
 
-      <form action="replaceFavorite" method="post">
+      <form action="FavoriteShrineAndTempleDeleteExecute.action" method="post">
         <input type="hidden" name="oldFavoriteId" value="${favorite.id}" />
         <input type="hidden" name="newShrineId" value="${shrineAndTemple.id}" />
         <button type="submit" class="replace-btn">入れ替える</button>
