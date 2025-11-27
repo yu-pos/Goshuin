@@ -31,6 +31,34 @@
             class="goshuin-book-view-cover-img" />
         </div>
 
+        <!-- ▼ ここから追加：現在の御朱印帳に登録されている御朱印一覧 -->
+		<c:if test="${not empty goshuinBook.goshuinList}">
+		  <section class="current-book-goshuin">
+		    <h2>この御朱印帳の御朱印</h2>
+
+		    <div class="goshuin-list">
+		      <c:forEach var="owned" items="${goshuinBook.goshuinList}">
+		        <div class="goshuin-item">
+		          <img
+		            src="/goshuin/saved_images/goshuin/${owned.goshuin.imagePath}"
+		            alt="${owned.goshuin.description}"
+		            class="goshuin-img" />
+		          <div class="goshuin-name">
+		            ${owned.goshuin.description}
+		          </div>
+		        </div>
+		      </c:forEach>
+		    </div>
+		  </section>
+		</c:if>
+
+		<c:if test="${empty goshuinBook.goshuinList}">
+		  <section class="current-book-goshuin">
+		    <h2>この御朱印帳の御朱印</h2>
+		    <p>この御朱印帳にはまだ御朱印が登録されていません。</p>
+		  </section>
+		</c:if>
+
         <!-- ここはお好みで：御朱印帳編集などのボタン -->
         <div class="goshuin-book-view-buttons">
           <a href="GoshuinBookEdit.action" class="btn">表紙デザインの変更</a>

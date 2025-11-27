@@ -8,7 +8,7 @@
     <script src="/goshuin/user/scripts/past_goshuin_swipe.js"></script>
 
     <div class="page-header">
-	  <button class="back-btn" onclick="location.href='GoshuinBookView.action'">
+	  <button class="back-btn" onclick="location.href='PastGoshuinBookList.action'">
 	    ← 戻る
 	  </button>
 	  <h1 class="page-title">過去の御朱印</h1>
