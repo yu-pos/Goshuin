@@ -1,0 +1,41 @@
+/* ===============================
+   過去御朱印：横スワイプギャラリー用
+   =============================== */
+
+/* ギャラリー全体（スマホ画面内で横長エリア） */
+.goshuin-gallery {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 12px 0;
+  overflow: hidden;
+  background: #000; /* 画像の余白を黒に */
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* 画像を横に並べるレーン */
+.gallery-track {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  transition: transform 0.3s ease-out;
+  cursor: grab;
+}
+
+.gallery-track:active {
+  cursor: grabbing;
+}
+
+.gallery-track .gallery-image {
+  flex: 0 0 100%;
+  width: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+/* 画像の下に余白が付くのを防止 */
+.gallery-track img {
+  vertical-align: middle;
+}
