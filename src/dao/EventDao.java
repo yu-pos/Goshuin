@@ -197,4 +197,31 @@ public class EventDao extends Dao{
        // 成功したら true を返す
        return count > 0;
    }
+   public boolean update(Event event) throws Exception {
+
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
+		int count = 0;
+
+		try {
+		    statement = connection.prepareStatement(
+		        "UPDATE event SET title=?, text=?, image_path=?, updated_at=NOW() WHERE id=?"
+		    );
+
+		    statement.setString(1, event.getTitle());
+		    statement.setString(2, event.getText());
+		    statement.setString(3, event.getImagePath());
+		    statement.setInt(4, event.getId());
+
+		    count = statement.executeUpdate();
+
+		} finally {
+		    if(statement != null) statement.close();
+		    if(connection != null) connection.close();
+		}
+
+		return count > 0;
+	}
+
 }
+

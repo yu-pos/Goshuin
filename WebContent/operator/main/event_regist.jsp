@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:import url="../base.jsp">
 	<c:param name="content">
-		<h3>イベント情報登録</h3>
+		<h3>イベント情報変更</h3>
 
       <form class="temple-form">
         <label for="name">名称:</label>
