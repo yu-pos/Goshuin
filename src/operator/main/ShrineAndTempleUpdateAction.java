@@ -1,5 +1,6 @@
 package operator.main;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -72,6 +73,24 @@ public class ShrineAndTempleUpdateAction extends Action {
 		        tag.setSelected(false);
 		    }
 		}
+
+		//QRコード生成URLを取得
+
+        // サーバ自身のURL取得
+        String serverUrl = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort();
+
+        // QRコード化するターゲットURL
+        String qrTargetUrl = serverUrl + req.getContextPath()
+            + "/user/main/GoshuinChoose.action?shrineAndTempleId=" + shrineAndTempleId;
+
+        // JSP に渡す
+        req.setAttribute("qrTargetUrl", qrTargetUrl);
+
+        // QRコード画像サーブレットへのURL
+        String qrImageUrl = req.getContextPath() + "/tool/QrGenerate.action?url="
+              + URLEncoder.encode(qrTargetUrl, "UTF-8");
+
+        req.setAttribute("qrImageUrl", qrImageUrl);
 
 		//DBへデータ保存 5
 		//なし

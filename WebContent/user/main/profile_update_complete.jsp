@@ -4,6 +4,6 @@
 <c:import url="../base.jsp">
 	<c:param name="content">
 		<h1>商品券使用完了</h1>
- 		<a href="menu.html" class="back-btn">メイン画面へ</a>
+ 		<a href="Main.action" class="back-btn">メイン画面へ</a>
 	</c:param>
 </c:import>

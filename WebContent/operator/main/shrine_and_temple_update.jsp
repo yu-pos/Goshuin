@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:import url="../base.jsp">
 	<c:param name="content">
-		 <h3>神社仏閣情報変更</h3>
+		 <h3>神社仏閣情報編集</h3>
 
 		<c:if test="${not empty errors}">
                 <div class="error" style="color:red;">
@@ -12,6 +12,7 @@
                     </c:forEach>
                 </div>
         </c:if>
+	    <a href="${qrImageUrl}">QRコード画像をダウンロード</a>
 
       <form action="ShrineAndTempleUpdateExecute.action" method="POST" enctype="multipart/form-data" class="temple-form">
         <label for="name">名称:</label>

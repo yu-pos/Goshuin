@@ -18,7 +18,7 @@
   <div id="wrapper">
     <header class="header">
         <div class="logo">ポケ御朱帳 in 山形</div>
-        <div class="header-link"><a href="Logout.action">ログアウト</a></div>
+        <div class="header-link"><a href="LogoutExecute.action">ログアウト</a></div>
     </header>
 
     <aside id="sidebar">

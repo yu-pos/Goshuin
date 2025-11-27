@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import bean.ShrineAndTemple;
 import bean.ShrineAndTempleTag;
 
@@ -329,7 +331,7 @@ public class ShrineAndTempleDao extends Dao{
 	}
 
 
-	public boolean insert(ShrineAndTemple shrineAndTemple) throws Exception {
+	public Pair<Boolean, Integer> insert(ShrineAndTemple shrineAndTemple) throws Exception {
 
 		// コネクションを確立
 		Connection connection = getConnection();
@@ -337,6 +339,7 @@ public class ShrineAndTempleDao extends Dao{
 		PreparedStatement statement = null;
 
 		ResultSet keys = null;
+		int shrineAndTempleId = -1;
 
 		// 実行件数
 		int count = 0;
@@ -361,7 +364,7 @@ public class ShrineAndTempleDao extends Dao{
 
 			// ② 発番された user.id を取得
 	        keys = statement.getGeneratedKeys();
-	        int shrineAndTempleId;
+
 	        if (keys.next()) {
 	            shrineAndTempleId = keys.getInt(1);
 	            shrineAndTemple.setId(shrineAndTempleId);
@@ -405,10 +408,10 @@ public class ShrineAndTempleDao extends Dao{
 
 		if (count == 1) {
 			// 実行件数1件の場合
-			return true;
+			return Pair.of(true, shrineAndTempleId);
 		} else {
 			// 実行件数がそれ以外の場合
-			return false;
+			return Pair.of(false, -1);
 		}
 	}
 
