@@ -1,41 +1,45 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <c:import url="../base.jsp">
-	<c:param name="content">
-		 <div class="page-header">
-          <a href="goshuin.html" class="back-btn">←<span>戻る</span></a>
-          <h1 class="page-title">御朱印帳一覧</h1>
-        </div>
+  <c:param name="content">
 
-        <!-- 📚 御朱印帳ギャラリー -->
-        <div class="goshuin-list">
-          <div class="goshuin-item">
-            <a href="goshuin2.html">
-              <img src="images/129.png" alt="御朱印帳1">
-            </a>
-            <button class="add-btn" data-id="goshuin1" data-name="御朱印帳1" data-img="images/129.png" data-url="goshuin2.html">
-              ＋ My御朱印帳に登録
-            </button>
-          </div>
+    <!-- この画面専用 CSS -->
+    <link rel="stylesheet" href="/goshuin/user/css/past_goshuin_book_list.css" />
 
-          <div class="goshuin-item">
-            <a href="#">
-              <img src="images/129.png" alt="御朱印帳2">
-            </a>
-            <button class="add-btn" data-id="goshuin2" data-name="御朱印帳2" data-img="images/129.png" data-url="#">
-              ＋ My御朱印帳に登録
-            </button>
-          </div>
+    <h1 class="page-title">過去の御朱印帳一覧</h1>
 
-          <div class="goshuin-item">
-            <a href="#">
-              <img src="images/129.png" alt="御朱印帳3">
-            </a>
-            <button class="add-btn" data-id="goshuin3" data-name="御朱印帳3" data-img="images/129.png" data-url="#">
-              ＋ My御朱印帳に登録
-            </button>
+    <!-- 0冊の場合 -->
+    <c:if test="${empty bookList}">
+      <p>過去の御朱印帳はありません。</p>
+    </c:if>
+
+    <!-- 過去の御朱印帳がある場合 -->
+    <c:if test="${not empty bookList}">
+      <div class="book-list">
+
+        <c:forEach var="b" items="${bookList}">
+          <div class="book-item">
+
+            <!-- 表紙画像 -->
+            <div class="book-cover">
+              <img src="/goshuin/saved_images/goshuin_book_design/${b.goshuinBookDesign.imagePath}"
+                   alt="${b.goshuinBookDesign.name}"
+                   class="book-cover-img">
+            </div>
+
+            <!-- ボタン -->
+            <div class="book-buttons">
+              <a href="PastGoshuinBookView.action?bookId=${b.id}" class="btn">御朱印を見る</a>
+              <a href="GoshuinBookStickerEdit.action?bookId=${b.id}" class="btn">編集</a>
+            </div>
+
           </div>
-        </div>
-	</c:param>
+        </c:forEach>
+
+      </div>
+    </c:if>
+
+  </c:param>
 </c:import>

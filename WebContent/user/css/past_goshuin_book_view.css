@@ -1,0 +1,57 @@
+/* ===== 過去の御朱印帳 詳細画面 ===== */
+
+.past-book-container {
+  width: 100%;
+  text-align: center;
+  padding: 12px 0;
+}
+
+/* 御朱印帳本体（編集画面より大きめ） */
+.past-book-cover {
+  position: relative;
+  width: 95%;
+  max-width: 420px;           /* 編集時より大きく */
+  margin: 0 auto 18px;
+  aspect-ratio: 3 / 4;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #eee;
+  box-shadow: 0 0 12px rgba(0,0,0,0.3);
+}
+
+.past-book-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ページ送り（左右スワイプをイメージ） */
+.goshuin-page-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.goshuin-page-track {
+  display: flex;
+  transition: transform 0.3s ease;
+}
+
+.goshuin-page {
+  min-width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+/* 御朱印一覧（1ページに10個表示） */
+.goshuin-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.goshuin-item img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.2);
+}

@@ -1,0 +1,43 @@
+/* ===== 御朱印帳の「閲覧用」大きめ表示 ===== */
+
+.goshuin-book-view-section {
+  margin: 16px 0;
+  text-align: center;
+}
+
+.goshuin-book-view-cover-large {
+  position: relative;
+  width: 95%;
+  max-width: 420px;     /* 編集時(360px)より少し大きく */
+  margin: 0 auto 20px;
+  aspect-ratio: 3 / 4;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 0 12px rgba(0,0,0,0.25);
+  background: #f4f4f4;
+}
+
+.goshuin-book-view-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ボタン類（ざっくり） */
+.goshuin-book-view-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.goshuin-book-view-buttons .btn {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: #ff9800;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+}

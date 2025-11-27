@@ -2249,4 +2249,3 @@ input:checked + .slider:before {
   flex: 1;
   margin-bottom: 2px; /* ⬅️ 少し下に寄せる */
 }
-

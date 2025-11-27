@@ -106,131 +106,118 @@ public class GoshuinBookDao extends Dao {
 	 * @return 御朱印帳クラスのインスタンス 存在しない場合はnull
 	 * @throws Exception
 	 */
-	public List<GoshuinBook> searchByUser(int userId) throws Exception{
+	public List<GoshuinBook> searchByUser(int userId) throws Exception {
 
-		// 御朱印帳リスト
-		List<GoshuinBook> list = new ArrayList<>();
+	    List<GoshuinBook> list = new ArrayList<>();
+	    Map<Integer, GoshuinBook> goshuinBookMap = new HashMap<>();
 
-		//御朱印帳ID格納リスト
-		Map<Integer, GoshuinBook> goshuinBookMap = new HashMap<>();
+	    Connection connection = getConnection();
+	    PreparedStatement statement = null;
 
-		// コネクションを確立
-		Connection connection = getConnection();
-		// プリペアードステートメント
-		PreparedStatement statement = null;
+	    try {
+	        statement = connection.prepareStatement(
+	            "SELECT " +
+	            "  gb.id AS goshuin_book_id," +
+	            "  gb.user_id AS user_id," +
+	            "  gb.goshuin_book_design_id AS design_id," +
+	            "  d.goshuin_book_design_group_id AS design_group_id," +
+	            "  d.name AS design_name," +
+	            "  d.image_path AS design_image_path," +
+	            "  s.goshuin_book_sticker_id AS sticker_id," +
+	            "  s.x_pos AS x_pos," +
+	            "  s.y_pos AS y_pos," +
+	            "  s.rotation AS rotation," +
+	            "  s.name AS sticker_name," +
+	            "  s.image_path AS sticker_image_path," +
+	            "  gb.updated_at AS updated_at," +
+	            "  gb.created_at AS created_at " +
+	            "FROM goshuin_book gb " +
+	            // ★ ステッカーは LEFT JOIN（0枚でも本は出す）
+	            "LEFT JOIN (" +
+	            "  SELECT " +
+	            "    a.goshuin_book_id, a.goshuin_book_sticker_id, a.x_pos, a.y_pos, a.rotation," +
+	            "    r.name, r.image_path " +
+	            "  FROM goshuin_book_sticker_attachment a " +
+	            "  JOIN regd_goshuin_book_sticker r " +
+	            "    ON a.goshuin_book_sticker_id = r.id" +
+	            ") s ON gb.id = s.goshuin_book_id " +
+	            "JOIN regd_goshuin_book_design d " +
+	            "  ON gb.goshuin_book_design_id = d.id " +
+	            "WHERE gb.user_id = ? " +
+	            "ORDER BY gb.id DESC"
+	        );
 
-		try {
+	        statement.setInt(1, userId);
+	        ResultSet resultSet = statement.executeQuery();
 
-			// プリペアードステートメントにSQL文をセット
-			statement = connection.prepareStatement("SELECT goshuin_book.id AS goshuin_book_id, goshuin_book.user_id AS user_id,"
-													+ " goshuin_book.goshuin_book_design_id AS design_id, regd_goshuin_book_design.goshuin_book_design_group_id AS design_group_id, regd_goshuin_book_design.name AS design_name, regd_goshuin_book_design.image_path AS design_image_path,"
-													+ " goshuin_book_sticker_attachment.goshuin_book_sticker_id AS sticker_id, goshuin_book_sticker_attachment.x_pos AS x_pos , goshuin_book_sticker_attachment.y_pos AS y_pos, goshuin_book_sticker_attachment.rotation AS rotation, goshuin_book_sticker_attachment.name AS sticker_name, goshuin_book_sticker_attachment.image_path AS sticker_image_path,"
-													+ " goshuin_book.updated_at AS updated_at, goshuin_book.created_at AS created_at"
-													+ " FROM goshuin_book "
-													+ " JOIN (SELECT goshuin_book_id, goshuin_book_sticker_id, x_pos, y_pos, rotation, name, image_path FROM goshuin_book_sticker_attachment JOIN regd_goshuin_book_sticker ON goshuin_book_sticker_attachment.goshuin_book_sticker_id = regd_goshuin_book_sticker.id) as goshuin_book_sticker_attachment  ON goshuin_book.id = goshuin_book_sticker_attachment.goshuin_book_id"
-													+ " JOIN regd_goshuin_book_design ON goshuin_book.goshuin_book_design_id = regd_goshuin_book_design.id"
-													+ " WHERE user_id = ?"
-													+ " ORDER BY goshuin_book.id desc"
-													);
-			// プリペアードステートメントに御朱印帳IDをバインド
-			statement.setInt(1, userId);
-			// プリペアードステートメントを実行
-			ResultSet resultSet = statement.executeQuery();
+	        OwnedGoshuinDao ownedGoshuinDao = new OwnedGoshuinDao();
 
+	        while (resultSet.next()) {
 
-			// Daoを初期化
-			OwnedGoshuinDao ownedGoshuinDao = new OwnedGoshuinDao();
+	            int bookId = resultSet.getInt("goshuin_book_id");
 
+	            GoshuinBook goshuinBook = goshuinBookMap.get(bookId);
+	            if (goshuinBook == null) {
+	                goshuinBook = new GoshuinBook();
+	                goshuinBook.setId(bookId);
+	                goshuinBook.setUserId(resultSet.getInt("user_id"));
 
-			while(resultSet.next())  {
-				// リザルトセットが存在する場合
-				// 御朱印帳インスタンスに検索結果をセット
-				GoshuinBook goshuinBook = new GoshuinBook();
-				RegdGoshuinBookSticker regdGoshuinBookSticker = new RegdGoshuinBookSticker();
-				GoshuinBookStickerAttachment attachedSticker = new GoshuinBookStickerAttachment();
+	                RegdGoshuinBookDesign design = new RegdGoshuinBookDesign();
+	                design.setId(resultSet.getInt("design_id"));
+	                design.setGoshuinBookDesignGroupId(resultSet.getInt("design_group_id"));
+	                design.setName(resultSet.getString("design_name"));
+	                design.setImagePath(resultSet.getString("design_image_path"));
+	                goshuinBook.setGoshuinBookDesign(design);
 
+	                // この御朱印帳の御朱印リスト
+	                goshuinBook.setGoshuinList(ownedGoshuinDao.searchByGoshuinBook(bookId));
 
-				if (!goshuinBookMap.containsKey(resultSet.getInt("goshuin_book_id"))) {
+	                goshuinBook.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
+	                goshuinBook.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
 
-					RegdGoshuinBookDesign regdGoshuinBookDesign = new RegdGoshuinBookDesign();
+	                goshuinBookMap.put(bookId, goshuinBook);
+	            }
 
-					goshuinBook.setId(resultSet.getInt("goshuin_book_id"));
-					goshuinBook.setUserId(resultSet.getInt("user_id"));
+	            // ★ sticker_id が NULL の行（ステッカーなし）の場合はスキップ
+	            Integer stickerIdObj = (Integer) resultSet.getObject("sticker_id");
+	            if (stickerIdObj != null) {
+	                GoshuinBookStickerAttachment attachedSticker = new GoshuinBookStickerAttachment();
+	                attachedSticker.setGoshuinBookId(bookId);
 
-					// 登録デザインインスタンスに情報をセットし、インスタンスを御朱印帳にセット
-					regdGoshuinBookDesign.setId(resultSet.getInt("design_id"));
-					regdGoshuinBookDesign.setGoshuinBookDesignGroupId(resultSet.getInt("design_group_id"));
-					regdGoshuinBookDesign.setName(resultSet.getString("design_name"));
-					regdGoshuinBookDesign.setImagePath(resultSet.getString("design_image_path"));
+	                RegdGoshuinBookSticker regdSticker = new RegdGoshuinBookSticker();
+	                regdSticker.setId(stickerIdObj);
+	                regdSticker.setName(resultSet.getString("sticker_name"));
+	                regdSticker.setImagePath(resultSet.getString("sticker_image_path"));
+	                attachedSticker.setGoshuinBookSticker(regdSticker);
 
-					goshuinBook.setGoshuinBookDesign(regdGoshuinBookDesign);
+	                attachedSticker.setxPos(resultSet.getDouble("x_pos"));
+	                attachedSticker.setyPos(resultSet.getDouble("y_pos"));
+	                attachedSticker.setRotation(resultSet.getDouble("rotation"));
 
+	                goshuinBook.addAttachedStickerList(attachedSticker);
+	            }
+	        }
 
-					// 貼付ステッカーインスタンスに情報をセットし、インスタンスを御朱印帳にセット
-					attachedSticker.setGoshuinBookId(resultSet.getInt("goshuin_book_id"));
-					attachedSticker.setxPos(resultSet.getDouble("x_pos"));
-					attachedSticker.setyPos(resultSet.getDouble("y_pos"));
-					attachedSticker.setRotation(resultSet.getDouble("rotation"));
+	        // map → list に変換
+	        list = new ArrayList<>(goshuinBookMap.values());
 
-					regdGoshuinBookSticker.setId(resultSet.getInt("sticker_id"));
-					regdGoshuinBookSticker.setName(resultSet.getString("sticker_name"));
-					regdGoshuinBookSticker.setImagePath(resultSet.getString("sticker_image_path"));
+	        System.out.println("[DEBUG] searchByUser: 本の件数 = " + list.size());
 
-					attachedSticker.setGoshuinBookSticker(regdGoshuinBookSticker);
+	    } catch (Exception e) {
+	        throw e;
+	    } finally {
+	        if (statement != null) {
+	            try { statement.close(); } catch (SQLException sqle) { throw sqle; }
+	        }
+	        if (connection != null) {
+	            try { connection.close(); } catch (SQLException sqle) { throw sqle; }
+	        }
+	    }
 
-
-					goshuinBook.setGoshuinList(ownedGoshuinDao.searchByGoshuinBook(goshuinBook.getId()));
-					goshuinBook.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
-					goshuinBook.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
-
-				} else {
-
-					goshuinBook = goshuinBookMap.get(resultSet.getInt("goshuin_book.id"));
-
-					// 貼付ステッカーインスタンスに情報をセットし、インスタンスを御朱印帳にセット
-					attachedSticker.setGoshuinBookId(resultSet.getInt("goshuin_book.id"));
-					attachedSticker.setxPos(resultSet.getDouble("goshuin_book_sticker_attachment.x_pos"));
-					attachedSticker.setyPos(resultSet.getDouble("goshuin_book_sticker_attachment.y_pos"));
-					attachedSticker.setRotation(resultSet.getDouble("goshuin_book_sticker_attachment.rotation"));
-
-					regdGoshuinBookSticker.setId(resultSet.getInt("regd_goshuin_book_sticker.id"));
-					regdGoshuinBookSticker.setName(resultSet.getString("regd_goshuin_book_sticker.name"));
-					regdGoshuinBookSticker.setImagePath(resultSet.getString("regd_goshuin_book_sticker.image_path"));
-
-					goshuinBook.addAttachedStickerList(attachedSticker);
-
-				}
-
-				goshuinBookMap.put(goshuinBook.getId(), goshuinBook);
-			}
-
-
-
-
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			// プリペアードステートメントを閉じる
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException sqle) {
-					throw sqle;
-				}
-			}
-			// コネクションを閉じる
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException sqle) {
-					throw sqle;
-				}
-			}
-		}
-
-		return list;
-
+	    return list;
 	}
+
+
 
 	/**
 	 * insertメソッド 御朱印帳情報を登録
