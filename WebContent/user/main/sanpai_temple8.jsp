@@ -14,8 +14,8 @@
         <!-- 📖 情報 -->
         <section class="temple-info">
           <p><strong>開祖：</strong><br>法然</p>
-          <p><strong>浄土宗情報：</strong><br>法然が開いた</p>
-          <p><strong>山形県の浄土宗の寺院：</strong><br> ]常安寺</p>
+          <p><strong>日蓮宗情報：</strong><br>法然が開いた</p>
+          <p><strong>山形県の日蓮宗の寺院：</strong><br> ]常安寺</p>
           <p><strong>参拝方法：</strong><br>〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇</p>
         </section>
 	</c:param>
