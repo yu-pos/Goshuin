@@ -13,7 +13,7 @@
   <div id="wrapper">
     <header class="header">
         <div class="logo">ポケ御朱帳 in 山形</div>
-        <div class="header-link"><a href="#">ログアウト</a></div>
+        <div class="header-link"><a href="Logout.action">ログアウト</a></div>
     </header>
 
     <aside id="sidebar">
@@ -21,13 +21,14 @@
             <nav class="nav_content">
                 <ul class="nav_list">
                     <li><h4>システムメニュー</h4></li>
-                    <li class="nav_item" style="--delay:0.2s;"><a href="main.html">メインメニュー</a></li>
-                    <li class="nav_item" style="--delay:0.3s;"><a href="dezi.html">デジタル御朱印登録</a></li>
-                    <li class="nav_item" style="--delay:0.4s;"><a href="tourok.html">神社仏閣情報登録</a></li>
-                    <li class="nav_item" style="--delay:0.5s;"><a href="henko.html">神社仏閣情報変更</a></li>
-                    <li class="nav_item" style="--delay:0.6s;"><a href="gosyutyo.html">御朱印帳登録一覧</a></li>
-                    <li class="nav_item" style="--delay:0.7;"><a href="event.html">イベント情報一覧</a></li>
-                    <li class="nav_item" style="--delay:0.8s;"><a href="#">アカウント管理</a></li>
+                    <li class="nav_item" style="--delay:0.2s;"><a href="main.jsp">メインメニュー</a></li>
+                    <li class="nav_item" style="--delay:0.3s;"><a href="ShrineAndTempleSearchForRegistGoshuin.action">デジタル御朱印登録</a></li>
+                    <li class="nav_item" style="--delay:0.4s;"><a href="ShrineAndTempleRegist.action">神社仏閣情報登録</a></li>
+                    <li class="nav_item" style="--delay:0.5s;"><a href="ShrineAndTempleSearchForChangeInfo.action">神社仏閣情報変更</a></li>
+                    <li class="nav_item" style="--delay:0.6s;"><a href="GoshuinBookDesignList.action">御朱印帳デザイン・ステッカー管理</a></li>
+                    <li class="nav_item" style="--delay:0.7s;"><a href="EventListForOperator.action">イベント情報管理</a></li>
+                    <li class="nav_item" style="--delay:0.8s;"><a href="OperatorRegistConfirm.action">アカウント発行</a></li>
+                    <li class="nav_item" style="--delay:0.8s;"><a href="OperatorAccountList.action">アカウント管理</a></li>
                 </ul>
             </nav>
         </section>
