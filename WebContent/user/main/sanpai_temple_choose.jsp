@@ -11,7 +11,7 @@
             <p>南都六宗</p>
             <a href="sanpai_temple.jsp" class="choose-btn">法相宗</a>
             <a href="sanpai_temple2.jsp" class="choose-btn">華厳宗</a>
-            <a href="sanpai_temple3.jspl" class="choose-btn">律宗</a>
+            <a href="sanpai_temple3.jsp" class="choose-btn">律宗</a>
         </div>
         <div class="tensin">
             <p>平安二宗</p>

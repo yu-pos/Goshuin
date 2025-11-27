@@ -5,7 +5,7 @@
 	<c:param name="content">
 		<div class="page-header">
           <a href="sanpai_temple_choose.jsp" class="back-btn">← <span>戻る</span></a>
-          <h1 class="page-title">浄土宗</h1>
+          <h1 class="page-title">日蓮宗</h1>
         </div>
 
         <!-- 📸 神社画像 -->
