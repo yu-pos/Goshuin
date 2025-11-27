@@ -26,7 +26,7 @@ public class FavoriteShrineAndTempleDao extends Dao {
 		try {
 			// プリペアードステートメントにSQL文をセット
 			statement = connection.prepareStatement("SELECT * from shrine_and_temple_favorite");
-             
+
 			// プリペアードステートメントを実行
 			ResultSet resultSet = statement.executeQuery();
 
@@ -134,7 +134,7 @@ public class FavoriteShrineAndTempleDao extends Dao {
             // SQL文を準備（created_at / updated_at はDB側で現在時刻をセット）
             statement = connection.prepareStatement(
                 "DELETE FROM shrine_and_temple_favorite " +
-                "WHERE shrine_and_temple_id = ?, user_id = ?"
+                "WHERE shrine_and_temple_id = ? AND user_id = ?"
             );
 
             // パラメータをバインド

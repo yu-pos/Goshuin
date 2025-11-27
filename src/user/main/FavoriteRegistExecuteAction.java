@@ -44,8 +44,10 @@ public class FavoriteRegistExecuteAction extends Action {
         		favSATList.add(shrineAndTempleDao.getById(favSAT.getShrineAndTempleId()));
         	}
 
+
+
             req.setAttribute("favoriteList", favSATList);
-            req.setAttribute("newShrineAndTempleId", shrineAndTempleId);
+            req.setAttribute("shrineAndTemple", shrineAndTempleDao.getById(shrineAndTempleId));
             req.getRequestDispatcher("favorite_shrine_and_temple_change.jsp").forward(req, res);
         } else {
             // 登録処理を実行

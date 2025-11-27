@@ -104,6 +104,7 @@ public class ShrineAndTempleSearchExecuteAction extends Action {
 	    		if(errors.isEmpty()) {
 	    			req.getRequestDispatcher("shrine_and_temple_search_results.jsp").forward(req, res);
 	    		} else {
+	    			req.setAttribute("errors", errors);
 	    			req.getRequestDispatcher("ShrineAndTempleSearch.action").forward(req, res);
 	    		}
 

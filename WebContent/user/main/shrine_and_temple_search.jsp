@@ -5,6 +5,14 @@
 	<c:param name="content">
 		<h1 class="page-title">神社仏閣情報検索</h1>
 
+		<c:if test="${not empty errors}">
+                <div class="error" style="color:red;">
+                    <c:forEach var="e" items="${errors}">
+                        <p>${e.value}</p>
+                    </c:forEach>
+                </div>
+        </c:if>
+
         <!-- 🏷️ タグ選択フォーム -->
         <section class="tag-select-section">
 		<h2>タグから探す</h2>
