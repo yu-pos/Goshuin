@@ -38,21 +38,22 @@
           </form>
         </c:when>
         <c:otherwise>
-          <p>最高ランク(零)です！</p>
-          <p>御朱印 ${goshuinCount} 個 → 商品券 ${couponCount} 枚獲得済み</p>
-          <c:choose>
-            <c:when test="${nextCouponRemaining > 0}">
-              <form action="Rank.action" method="get">
-                <button class="btn" type="submit">
-                  次の商品券まであと ${nextCouponRemaining} 個
-                </button>
-              </form>
-            </c:when>
-            <c:otherwise>
-              <button class="btn">ちょうど区切りです。次は30個で商品券</button>
-            </c:otherwise>
-          </c:choose>
-        </c:otherwise>
+		  <p>最高ランク(零)です！</p>
+		  <p>御朱印 ${goshuinCount} 個 → 商品券 ${couponCount} 枚獲得済み</p>
+		  <c:choose>
+		    <c:when test="${nextCouponRemaining > 0}">
+		      <p>次の商品券まであと ${nextCouponRemaining} 個の御朱印が必要です。</p>
+		    </c:when>
+		    <c:otherwise>
+		      <!-- ここだけ Rank.action に飛ぶ -->
+		      <form action="Rank.action" method="get">
+		        <button class="btn" type="submit">
+		          ちょうど区切りです。次は30個で商品券
+		        </button>
+		      </form>
+		    </c:otherwise>
+		  </c:choose>
+		</c:otherwise>
       </c:choose>
     </section>
 
