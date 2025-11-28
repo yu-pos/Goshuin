@@ -42,11 +42,11 @@
         </div>
       </div>
 
-      <div class="return-current-book">
+    </c:forEach>
+
+    <div class="return-current-book">
 	  <a href="GoshuinBookView.action">現在の御朱印帳へ戻る</a>
 	</div>
-
-    </c:forEach>
 
   </c:param>
 </c:import>
