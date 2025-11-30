@@ -12,6 +12,11 @@ import javax.servlet.http.Part;
 
 public class ImageUtils {
 
+	//実行中環境がローカルかEC2上か判定
+	private static boolean isProd() {
+	    String env = System.getenv("APP_ENV");
+	    return "prod".equalsIgnoreCase(env);
+	}
 
 	/**
 	 * saveImageメソッド 画像とディレクトリ名を指定してアップロードされた画像を保存
@@ -25,8 +30,16 @@ public class ImageUtils {
 	 */
 	public static String saveImage(Part image, String dir, HttpServletRequest req) throws IOException {
 
+		String basePath;
 
-	    String basePath = req.getServletContext().getRealPath("/saved_images/" + dir + "/"); //保存ディレクトリ
+		if (isProd()) {
+			//EC2上のアップロード場所
+			basePath = "/var/www/saved_images/" + dir + "/";
+		} else {
+			//ローカルのアップロード場所
+		    basePath = req.getServletContext().getRealPath("/saved_images/" + dir + "/");
+		}
+
 		File uploadDir = new File(basePath);
 		//.exists() で「そのフォルダがすでにあるか？」をチェック
 	    //.mkdirs() は、なければフォルダを自動で作る命令
@@ -66,6 +79,26 @@ public class ImageUtils {
 	    return savedFilename;
 	}
 
+
+	/**
+	 * getBasePathメソッド 保存パスを出力
+	 * JSP側で「${sessionScope.basePath}/(保存フォルダ名)/${imagePath}」などといった書き方で画像を指定可能
+	 *
+	 *
+	 * @param なし
+	 * @return 画像の保存されているパス
+	 * @throws Exception
+	 */
+	public static String getBasePath() {
+
+	    if (isProd()) {
+	        return "/saved_images";  // Nginx/Tomcat mapping
+	    } else {
+	        return "/goshuin/saved_images";  // 静的フォルダをローカルで設定
+	    }
+	}
+
+
 	 /**
      * deleteImageメソッド
      * 指定されたディレクトリとファイル名の画像を削除
@@ -76,7 +109,15 @@ public class ImageUtils {
      */
     public static boolean deleteImage(String dir, String filename, HttpServletRequest req) {
 
-        String basePath = req.getServletContext().getRealPath("/saved_images/" + dir + "/");
+    	String basePath;
+		if (isProd()) {
+			//EC2上のアップロード場所
+			basePath = "/var/www/saved_images/" + dir + "/";
+		} else {
+			//ローカルのアップロード場所
+		    basePath = req.getServletContext().getRealPath("/saved_images/" + dir + "/");
+		}
+
         File targetFile = new File(basePath, filename);
 
         System.out.println("[DEBUG] 削除対象ファイルの絶対パス: " + targetFile.getAbsolutePath());

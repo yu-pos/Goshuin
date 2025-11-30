@@ -4,7 +4,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:if test="${empty sessionScope.operator}">
-	<jsp:forward page="/user/operator/Login.action" />
+	<jsp:forward page="/operator/main/Login.action" />
 </c:if>
 
 <!DOCTYPE html>

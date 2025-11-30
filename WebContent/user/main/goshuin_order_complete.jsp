@@ -14,7 +14,7 @@
              </div>
         </c:if>
 
-        <a href="main.jsp">メイン画面へ</a>
+        <a href="Main.action">メイン画面へ</a>
 
 	</c:param>
 </c:import>

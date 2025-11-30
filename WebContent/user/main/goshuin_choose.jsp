@@ -10,7 +10,7 @@
 
 	        <!-- 御朱印画像 -->
 	        <div class="goshuin-image-area">
-	          <img src="/goshuin/saved_images/goshuin/${regdGoshuin.imagePath}" alt="御朱印イメージ" class="goshuin-img">
+	          <img src="${sessionScope.basePath}/goshuin/${regdGoshuin.imagePath}" alt="御朱印イメージ" class="goshuin-img">
 	        </div>
 
 				<!-- 販売期間 -->

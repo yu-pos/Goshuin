@@ -9,6 +9,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @WebFilter(urlPatterns = { "/*" })
 public class EncodingFilter implements Filter {
@@ -22,6 +24,12 @@ public class EncodingFilter implements Filter {
 		response.setCharacterEncoding("UTF-8");
 		//response.setContentType("text/html; charset=UTF-8");
 
+
+        HttpSession session = ((HttpServletRequest) request).getSession();
+
+        if (session.getAttribute("basePath") == null) {
+            session.setAttribute("basePath", ImageUtils.getBasePath());
+        }
 
 		// System.out.println("フィルタの前処理");
 		chain.doFilter(request, response);

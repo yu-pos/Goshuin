@@ -3,9 +3,12 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+
+<%-- ログインしていなかった場合、ログイン画面へ --%>
 <c:if test="${empty sessionScope.user}">
 	<jsp:forward page="/user/main/Login.action" />
 </c:if>
+
 
 <!doctype html>
 <html lang="ja">
