@@ -27,7 +27,7 @@ public class User implements Serializable {
 
 	private int goshuinCount;
 
-	private String profileImagePath;
+	private String profileImagePath = "default.png";
 
 	private GoshuinBook myGoshuinBook;
 
@@ -132,7 +132,11 @@ public class User implements Serializable {
 	}
 
 	public void setProfileImagePath(String profileImagePath) {
-		this.profileImagePath = profileImagePath;
+		//もしnullじゃなかったら画像パスをセット
+		if (profileImagePath != null) {
+			this.profileImagePath = profileImagePath;
+		}
+
 	}
 
 	public GoshuinBook getMyGoshuinBook() {

@@ -25,7 +25,8 @@ public class FavoriteShrineAndTempleDao extends Dao {
 
 		try {
 			// プリペアードステートメントにSQL文をセット
-			statement = connection.prepareStatement("SELECT * from shrine_and_temple_favorite");
+			statement = connection.prepareStatement("SELECT * from shrine_and_temple_favorite WHERE user_id = ?");
+			statement.setInt(1, userId);
 
 			// プリペアードステートメントを実行
 			ResultSet resultSet = statement.executeQuery();

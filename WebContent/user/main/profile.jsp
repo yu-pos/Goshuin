@@ -4,17 +4,25 @@
 <c:import url="../base.jsp">
 	<c:param name="content">
 		 <div class="profile-header">
-          <h1 class="page-title">○○さんのプロフィール</h1>
-          <a href="profile2.html" class="edit-btn" aria-label="プロフィール編集">✏️ 編集</a>
+		  <c:choose>
+		  <c:when test="${selectedUser.id == sessionScope.user.id}">
+		  	<h1 class="page-title">プロフィール</h1>
+          	<a href="ProfileEdit.action" class="edit-btn" aria-label="プロフィール編集">✏️ 編集</a>
+		  </c:when>
+		  <c:otherwise>
+		  	<h1 class="page-title">${selectedUser.userName}さんのプロフィール</h1>
+		  </c:otherwise>
+		  </c:choose>
+
         </div>
 
         <!-- 👤 ユーザー情報 -->
         <section class="profile-section">
-          <img src="images/134.png" alt="プロフィール写真" class="profile-img">
+          <img src="${sessionScope.basePath}/profile/${selectedUser.profileImagePath}" alt="プロフィール写真" class="profile-img">
           <div class="profile-info">
-            <h2 class="username">山形太郎</h2>
+            <h2 class="username">${selectedUser.userName}</h2>
             <p class="rank">
-              <img src="images/123.png" alt="ランクアイコン" class="rank-icon">
+              <img src="/goshuin/user/images/${rank.imagePath}" alt="ランクアイコン" class="rank-icon">
             </p>
           </div>
         </section>
@@ -24,30 +32,31 @@
           <h3>お気に入りの神社・仏閣</h3>
           <div class="favorite-slider">
 
-            <a href="tera-uesugi.html" class="favorite-item">
-              <img src="images/126.jpg" alt="上杉神社">
-            <p>上杉神社</p>
-            </a>
+			<c:forEach var="shrineAndTemple" items="${shrineAndTempleList}">
+				<a href="ShrineAndTempleInfo.action?id=${shrineAndTemple.id}" class="favorite-item">
+              		<img src="${sessionScope.basePath}/shrine_and_temple/${shrineAndTemple.imagePath}" alt="${shrineAndTemple.name}">
+            		<p>${shrineAndTemple.name}</p>
+            	</a>
+			</c:forEach>
 
-            <a href="tera-rissyaku.html" class="favorite-item">
-              <img src="images/tera1.jpg" alt="立石寺">
-              <p>立石寺</p>
-            </a>
-
-            <a href="tera-kumano.html" class="favorite-item">
-              <img src="images/tera2.jpg" alt="熊野大社">
-              <p>熊野大社</p>
-            </a>
           </div>
         </section>
 
-        <!-- 📖 My御朱印帳 -->
-        <section class="goshuin-section">
-          <h3>My御朱印帳</h3>
-          <a href="goshuin.html" class="goshuin-book">
-            <img src="images/129.png" alt="御朱印帳の表紙" class="goshuin-img">
-          </a>
-        </section>
+		<c:if test="${selectedUser.id == sessionScope.user.id or selectedUser.isMyGoshuinBookPublic()}">
+	        <!-- 📖 My御朱印帳 -->
+	        <section class="goshuin-section">
+	          <h3>My御朱印帳</h3>
+	            <div class="goshuin-gallery">
+	                <div class="gallery-track">
+	                    <img src="${sessionScope.basePath}/goshuin_book_design/${selectedUser.myGoshuinBook.goshuinBookDesign.imagePath}" alt="御朱印帳の表紙">
+	                	<c:forEach var="goshuin" items="${selectedUser.myGoshuinBook.goshuinList}">
+	              			<img src="${sessionScope.basePath}/goshuin/${goshuin.goshuin.imagePath}" alt="御朱印">
+	                	</c:forEach>
+
+	                </div>
+	           	</div>
+	        </section>
+        </c:if>
 
 	</c:param>
 </c:import>
