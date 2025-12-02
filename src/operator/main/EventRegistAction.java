@@ -2,9 +2,8 @@ package operator.main;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import bean.Event;
-import dao.EventDao;
 import tool.Action;
 
 public class EventRegistAction extends Action {
@@ -12,13 +11,14 @@ public class EventRegistAction extends Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-        int id = Integer.parseInt(req.getParameter("id"));
+    	// セッション確認
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("operator") == null) {
+            res.sendRedirect("login.jsp");
+            return;
+        }
 
-        EventDao dao = new EventDao();
-        Event event = dao.getById(id);
-
-        req.setAttribute("event", event);
-
+    	// そのままイベント登録画面へフォワード
         req.getRequestDispatcher("/operator/main/event_regist.jsp").forward(req, res);
     }
 }
