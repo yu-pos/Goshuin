@@ -24,15 +24,35 @@
       <section class="goshuin-book-view-section">
         <h2>現在の御朱印帳</h2>
 
-        <div class="goshuin-book-view-cover-large">
-          <img
-            src="/goshuin/saved_images/goshuin_book_design/${goshuinBook.goshuinBookDesign.imagePath}"
-            alt="${goshuinBook.goshuinBookDesign.name}"
-            class="goshuin-book-view-cover-img" />
-        </div>
+        <div class="goshuin-gallery">
+	                <div class="gallery-track">
+		                <div class="slide">
+					      <div class="book-cover">
+					        <img
+					          src="/goshuin/saved_images/goshuin_book_design/${goshuinBook.goshuinBookDesign.imagePath}"
+					          alt="${goshuinBook.goshuinBookDesign.name}"
+					          class="book-cover-img" />
+
+					        <c:forEach var="att" items="${goshuinBook.attachedStickerList}">
+					          <img
+					            src="/goshuin/saved_images/sticker/${att.goshuinBookSticker.imagePath}"
+					            alt="${att.goshuinBookSticker.name}"
+					            class="book-sticker"
+					            style="left:${att.xPos}%; top:${att.yPos}%;"
+					          />
+					        </c:forEach>
+					      </div>
+					    </div>
+
+                	<c:forEach var="goshuin" items="${goshuinBook.goshuinList}">
+              			<div class="slide"><img src="${sessionScope.basePath}/goshuin/${goshuin.goshuin.imagePath}" alt="御朱印"></div>
+                	</c:forEach>
+
+	                </div>
+	           	</div>
 
         <!-- ▼ ここから追加：現在の御朱印帳に登録されている御朱印一覧 -->
-		<c:if test="${not empty goshuinBook.goshuinList}">
+		<!-- <c:if test="${not empty goshuinBook.goshuinList}">
 		  <section class="current-book-goshuin">
 		    <h2>この御朱印帳の御朱印</h2>
 
@@ -50,7 +70,7 @@
 		      </c:forEach>
 		    </div>
 		  </section>
-		</c:if>
+		</c:if> -->
 
 		<c:if test="${empty goshuinBook.goshuinList}">
 		  <section class="current-book-goshuin">
