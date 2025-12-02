@@ -48,10 +48,27 @@
 	          <h3>My御朱印帳</h3>
 	            <div class="goshuin-gallery">
 	                <div class="gallery-track">
-	                    <img src="${sessionScope.basePath}/goshuin_book_design/${selectedUser.myGoshuinBook.goshuinBookDesign.imagePath}" alt="御朱印帳の表紙">
-	                	<c:forEach var="goshuin" items="${selectedUser.myGoshuinBook.goshuinList}">
-	              			<img src="${sessionScope.basePath}/goshuin/${goshuin.goshuin.imagePath}" alt="御朱印">
-	                	</c:forEach>
+		                <div class="slide">
+					      <div class="book-cover">
+					        <img
+					          src="/goshuin/saved_images/goshuin_book_design/${selectedUser.myGoshuinBook.goshuinBookDesign.imagePath}"
+					          alt="${selectedUser.myGoshuinBook.goshuinBookDesign.name}"
+					          class="book-cover-img" />
+
+					        <c:forEach var="att" items="${selectedUser.myGoshuinBook.attachedStickerList}">
+					          <img
+					            src="/goshuin/saved_images/sticker/${att.goshuinBookSticker.imagePath}"
+					            alt="${att.goshuinBookSticker.name}"
+					            class="book-sticker"
+					            style="left:${att.xPos}%; top:${att.yPos}%;"
+					          />
+					        </c:forEach>
+					      </div>
+					    </div>
+
+                	<c:forEach var="goshuin" items="${selectedUser.myGoshuinBook.goshuinList}">
+              			<div class="slide"><img src="${sessionScope.basePath}/goshuin/${goshuin.goshuin.imagePath}" alt="御朱印"></div>
+                	</c:forEach>
 
 	                </div>
 	           	</div>
