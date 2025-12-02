@@ -437,15 +437,17 @@ h1 {
   background: #000; /* 背景が透けないように黒 */
   margin: 0;
   padding: 0;
+  cursor: grab; /* ← PCでマウス操作の見た目を自然に */
+
 }
 
 .gallery-track {
   display: flex;
   transition: transform 0.4s ease-in-out;
-  width: 100%;
+  width: auto;
   height: 100%;
   align-items: center; /* 画像を上下中央に */
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .gallery-track img {
@@ -460,13 +462,14 @@ h1 {
   object-fit: contain; /* ← トリミングなし・黒背景で調整 */
 }
 
-.gallery-track {
-  cursor: grab; /* ← PCでマウス操作の見た目を自然に */
-}
-
 .gallery-track:active {
   cursor: grabbing;
 }
+
+.gallery-track > * {
+  flex: 0 0 100%; /* 必須：これが無いとズレる */
+}
+
 .kasutamubtn-row {
   display: flex;
   justify-content: space-around;
@@ -2248,4 +2251,11 @@ input:checked + .slider:before {
   text-align: center;
   flex: 1;
   margin-bottom: 2px; /* ⬅️ 少し下に寄せる */
+}
+
+
+img {
+	user-drag: none;
+	-webkit-user-drag: none;
+	-moz-user-select: none;
 }

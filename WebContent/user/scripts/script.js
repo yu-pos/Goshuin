@@ -30,6 +30,8 @@ overlay.addEventListener("click", closeMenu);
 // スワイプ操作
 document.addEventListener("DOMContentLoaded", () => {
   const track = document.querySelector(".gallery-track");
+  const gallery = document.querySelector(".goshuin-gallery");
+
   if (!track) return;
 
   let startX = 0;
@@ -41,29 +43,30 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // スマホスワイプ
-  track.addEventListener("touchstart", (e) => (startX = e.touches[0].clientX));
-  track.addEventListener("touchend", (e) => {
+  gallery.addEventListener("touchstart", (e) => (startX = e.touches[0].clientX));
+  gallery.addEventListener("touchend", (e) => {
     const diff = startX - e.changedTouches[0].clientX;
     handleSwipe(diff);
   });
 
   // PCドラッグ
   let dragging = false;
-  track.addEventListener("mousedown", (e) => {
+  gallery.addEventListener("mousedown", (e) => {
     dragging = true;
     startX = e.clientX;
   });
-  track.addEventListener("mouseup", (e) => {
+  gallery.addEventListener("mouseup", (e) => {
     if (!dragging) return;
     dragging = false;
     handleSwipe(startX - e.clientX);
   });
-  track.addEventListener("mouseleave", () => (dragging = false));
+  gallery.addEventListener("mouseleave", () => (dragging = false));
 
   function handleSwipe(diff) {
     if (diff > 50 && currentIndex < total - 1) currentIndex++;
     else if (diff < -50 && currentIndex > 0) currentIndex--;
     moveTo(currentIndex);
+
   }
 });
 
