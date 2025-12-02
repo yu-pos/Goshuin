@@ -7,24 +7,23 @@
 
         <!-- 👤 プロフィール画像変更 -->
         <div class="edit-profile-img">
-          <img id="preview" src="images/profile-sample.jpg" alt="プロフィール画像" class="profile-img">
+          <img id="preview" src="${sessionScope.basePath}/profile/${sessionScope.user.profileImagePath}" alt="プロフィール画像" class="profile-img">
           <label for="profileImage" class="change-btn">画像を変更</label>
           <input type="file" id="profileImage" accept="image/*" hidden>
         </div>
 
         <!-- 🧾 入力フォーム -->
-        <form id="profileForm">
+        <form action="ProfileUpdateExecute.action" method="POST" id="profileForm">
           <div class="form-group">
             <label for="username">ユーザー名</label>
-            <input type="text" id="username" value="山形太郎">
+            <input type="text" name="userName" id="username" value="${sessionScope.user.userName}">
           </div>
 
 
           <div class="form-group">
             <label>My御朱印帳</label>
             <div class="my-goshuin-area">
-                <img id="myGoshuinPreview" src="images/blank.jpg" alt="My御朱印帳" class="goshuin-preview">
-                <button type="button" id="clearMyGoshuin" class="clear-btn">解除</button>
+                <img id="myGoshuinPreview" src="${sessionScope.basePath}/goshuin_book_design/${sessionScope.user.myGoshuinBook.goshuinBookDesign.imagePath}" alt="My御朱印帳" class="goshuin-preview">
             </div>
             <p class="note">※ 御朱印帳一覧から登録できます。</p>
         </div>
@@ -32,13 +31,17 @@
           <div class="form-group toggle-area">
             <label for="showGoshuin">My御朱印帳の表示</label>
             <label class="switch">
-              <input type="checkbox" id="showGoshuin" checked>
+              <input type="checkbox" name="isMyGoshuinBookPublic" value="true" id="showGoshuin"
+	               <c:if test="${sessionScope.user.isMyGoshuinBookPublic()}">
+	               checked
+	               </c:if>
+	               >
               <span class="slider"></span>
             </label>
           </div>
 
           <div class="btn-area">
-            <a href="profile.html" class="cancel-btn">キャンセル</a>
+            <a href="Profile.action" class="cancel-btn">キャンセル</a>
             <button type="submit" class="save-btn">保存</button>
           </div>
         </form>
