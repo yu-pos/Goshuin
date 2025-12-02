@@ -56,7 +56,7 @@
        <section class="review-section">
 		  <div class="review-header">
 		    <h2>口コミ</h2>
-		    <a href="ReviewInput.action" class="tuokou-btn">＋ 投稿</a>
+		    <a href="ReviewInput.action?id=${shrineAndTemple.id}" class="tuokou-btn">＋ 投稿</a>
 		  </div>
 
 		  <div class="review-slider">
