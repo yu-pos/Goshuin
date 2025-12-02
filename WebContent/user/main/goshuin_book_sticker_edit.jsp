@@ -43,7 +43,7 @@
       <!-- ステッカーパレット -->
       <section class="sticker-select">
 	  <h2>ステッカー</h2>
-	  <p>下のステッカーをタップして、御朱印帳の上にドラッグで配置できます。</p>
+	  <p>下のステッカーをタップして、御朱印帳の上で操作できます。</p>
 
 	  <div id="stickerPalette" class="sticker-palette">
 	  <c:forEach var="os" items="${ownedStickerList}">

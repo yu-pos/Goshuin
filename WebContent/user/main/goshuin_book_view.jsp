@@ -62,9 +62,6 @@
         <!-- ここはお好みで：御朱印帳編集などのボタン -->
         <div class="goshuin-book-view-buttons">
           <a href="GoshuinBookEdit.action" class="btn">表紙デザインの変更</a>
-          <a href="GoshuinBookStickerEdit.action?bookId=${goshuinBook.id}" class="btn">
-            ステッカー配置
-          </a>
           <a href="PastGoshuinBookList.action" class="btn">過去の御朱印帳一覧</a>
         </div>
       </section>
