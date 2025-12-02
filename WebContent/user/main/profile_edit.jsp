@@ -23,7 +23,21 @@
           <div class="form-group">
             <label>My御朱印帳</label>
             <div class="my-goshuin-area">
-                <img id="myGoshuinPreview" src="${sessionScope.basePath}/goshuin_book_design/${sessionScope.user.myGoshuinBook.goshuinBookDesign.imagePath}" alt="My御朱印帳" class="goshuin-preview">
+                <div class="book-cover">
+					        <img
+					          src="${sessionScope.basePath}/goshuin_book_design/${sessionScope.user.myGoshuinBook.goshuinBookDesign.imagePath}"
+					          alt="${sessionScope.user.myGoshuinBook.goshuinBookDesign.name}"
+					          class="book-cover-img" />
+
+					        <c:forEach var="att" items="${sessionScope.user.myGoshuinBook.attachedStickerList}">
+					          <img
+					            src="${sessionScope.basePath}/sticker/${att.goshuinBookSticker.imagePath}"
+					            alt="${att.goshuinBookSticker.name}"
+					            class="book-sticker"
+					            style="left:${att.xPos}%; top:${att.yPos}%;"
+					          />
+					         </c:forEach>
+				</div>
             </div>
             <p class="note">※ 御朱印帳一覧から登録できます。</p>
         </div>

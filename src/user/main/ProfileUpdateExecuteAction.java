@@ -18,12 +18,12 @@ public class ProfileUpdateExecuteAction extends Action {
 		HttpSession session = req.getSession();
 		User user = (User)session.getAttribute("user");
 
-		
-		
-		
+
+
+
 
 		UserDao userDao = new UserDao();
-		
+
 
 
 		//リクエストパラメータ―の取得 2

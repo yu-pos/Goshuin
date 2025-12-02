@@ -45,7 +45,7 @@
 	            <a href="GoshuinBookView.action" class="nav-btn">📙<br><span>御朱印帳</span></a>
 	            <a href="ShrineAndTempleSearch.action" class="nav-btn">⛩️<br><span>神社仏閣<br>情報</span></a>
 	            <a href="PointExchange.action" class="nav-btn">🦃<br><span>ポイント交換</span></a>
-	            <a href="profile.html" class="nav-btn">👤<br><span>プロフィール</span></a>
+	            <a href="Profile.action" class="nav-btn">👤<br><span>プロフィール</span></a>
 	        </nav>
 	   </footer>
        <aside id="side-menu" class="side-menu">
