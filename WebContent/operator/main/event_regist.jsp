@@ -6,6 +6,11 @@
   <c:param name="content">
     <h3>イベント情報変更</h3>
 
+    <!-- エラーメッセージ表示 -->
+    <c:if test="${not empty errorMessage}">
+      <p style="color:red;">${errorMessage}</p>
+    </c:if>
+
     <!-- EventRegistExecuteAction を呼ぶフォーム -->
     <form class="temple-form" action="EventRegistExecute.action" method="post" enctype="multipart/form-data">
       <label for="name">名称:</label>
