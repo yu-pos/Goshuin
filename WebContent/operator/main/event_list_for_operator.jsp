@@ -7,14 +7,14 @@
     <div class="main-header">
       <h3>イベント情報一覧</h3>
       <!-- イベント登録ボタン -->
-      <a href="EventRegistAction" class="addt-btn">＋ イベント登録</a>
+      <a href="EventRegist.action" class="addt-btn">＋ イベント登録</a>
     </div>
 
     <div id="result" class="scroll-area">
       <c:choose>
         <c:when test="${hasEvent}">
           <c:forEach var="event" items="${events}">
-            <form action="EventUpdateAction" method="post">
+            <form action="EventUpdate.action" method="post">
               <div class="event-info">
                 <img src="${event.imagePath}" alt="${event.title}" class="event-img" />
                 <h3>${event.title}</h3>
