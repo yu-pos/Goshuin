@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public abstract class Action {
 
-	public abstract void execute(
+	public abstract String execute(
 			HttpServletRequest req, HttpServletResponse res
 		) throws Exception;
 

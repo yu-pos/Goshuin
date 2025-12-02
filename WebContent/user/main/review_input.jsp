@@ -5,11 +5,11 @@
 	<c:param name="content">
 		<h1>口コミを投稿する</h1>
 
-          <form id="review-form">
+          <form action="ReviewPostExecute.action"  method="POST" id="review-form" enctype="multipart/form-data">
             <!-- ユーザー名（自動入力） -->
             <div class="form-group">
               <label for="username">ユーザー名</label>
-              <input type="text" id="username" name="username" value="山形太郎" readonly>
+              <input type="text" id="username" name="username" value="${sessionScope.user.userName }" readonly>
             </div>
 
             <!-- 口コミ内容 -->
@@ -29,7 +29,7 @@
             <!-- 投稿ボタン -->
             <div class="form-buttons">
               <a href="templesview.html" class="cancel-btn">戻る</a>
-              <a href="kutikomi2.html" class="cancel-btn">投稿</a>
+              <input type="submit" value="投稿" class="cancel-btn">
             </div>
           </form>
 	</c:param>
