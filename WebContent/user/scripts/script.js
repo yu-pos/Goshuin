@@ -132,6 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+/*
    // ❤️ いいねボタン
   const likeBtns = document.querySelectorAll(".like-btn");
   const message = document.getElementById("like-message");
@@ -161,6 +162,47 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+*/
+
+//❤️ いいねボタン
+const message = document.getElementById("like-message");
+document.querySelectorAll(".like-btn").forEach(btn => {
+
+	  btn.addEventListener("click", () => {
+
+	    const reviewId = btn.dataset.reviewId;
+	    const countSpan = btn.querySelector(".like-count");
+
+	    const isLiked = btn.classList.contains("liked");
+	    const mode = isLiked ? "remove" : "add";
+
+	    fetch("ReviewLikeExecute.action", {
+	      method: "POST",
+	      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+	      body: `reviewId=${reviewId}&mode=${mode}`
+	    })
+	    .then(res => res.json())
+	    .then(data => {
+
+	      if (data.success) {
+	        // ボタンの状態更新
+	        if (mode === "add") {
+	          btn.classList.add("liked");
+	          message.classList.add("show");
+	          setTimeout(() => message.classList.remove("show"), 1500);
+	        } else {
+	          btn.classList.remove("liked");
+	        }
+
+	        // いいね数をサーバーの値で更新
+	        countSpan.textContent = data.likeCount;
+	      }
+	    })
+	    .catch(err => console.error("Like error:", err));
+	  });
+	});
+});
+
 /// 🖼️ プロフィール画像プレビュー
 document.getElementById("profileImage").addEventListener("change", function (e) {
   const file = e.target.files[0];
@@ -177,15 +219,8 @@ document.getElementById("profileImage").addEventListener("change", function (e) 
 document.getElementById("profileForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
-  const username = document.getElementById("username").value;
-  const showGoshuin = document.getElementById("showGoshuin").checked;
-
-  // LocalStorageに保存（デモ用）
-  localStorage.setItem("username", username);
-  localStorage.setItem("showGoshuin", showGoshuin);
-
   alert("プロフィールを保存しました！");
-  window.location.href = "profile.html";
+  this.submit();
 });
 
 // 🔁 ページ読み込み時に設定を復元

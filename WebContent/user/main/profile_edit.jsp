@@ -5,15 +5,19 @@
 	<c:param name="content">
 		<h2>プロフィールを編集</h2>
 
-        <!-- 👤 プロフィール画像変更 -->
-        <div class="edit-profile-img">
-          <img id="preview" src="${sessionScope.basePath}/profile/${sessionScope.user.profileImagePath}" alt="プロフィール画像" class="profile-img">
-          <label for="profileImage" class="change-btn">画像を変更</label>
-          <input type="file" name="image" id="profileImage" accept="image/*" hidden>
-        </div>
+
 
         <!-- 🧾 入力フォーム -->
         <form action="ProfileUpdateExecute.action" method="POST" id="profileForm"  enctype="multipart/form-data">
+
+           <!-- 👤 プロフィール画像変更 -->
+	        <div class="edit-profile-img">
+	          <img id="preview" src="${sessionScope.basePath}/profile/${sessionScope.user.profileImagePath}" alt="プロフィール画像" class="profile-img">
+	          <label for="profileImage" class="change-btn">画像を変更</label>
+	          <input type="file" name="image" id="profileImage" accept="image/*" hidden>
+	        </div>
+
+
           <div class="form-group">
             <label for="username">ユーザー名</label>
             <input type="text" name="userName" id="username" value="${sessionScope.user.userName}">

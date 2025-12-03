@@ -25,6 +25,8 @@ public class Review implements Serializable {
 
 	private  LocalDateTime createdAt;
 
+	private boolean isLiked; //ログイン中のユーザーがいいねを押してるかどうか
+
 	public int getId() {
 		return id;
 	}
@@ -107,6 +109,16 @@ public class Review implements Serializable {
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
+
+	public boolean isLiked() {
+		return isLiked;
+	}
+
+	public void setLiked(boolean isLiked) {
+		this.isLiked = isLiked;
+	}
+
+
 
 
 

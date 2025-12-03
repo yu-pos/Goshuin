@@ -40,6 +40,12 @@ public  class ShrineAndTempleInfoAction extends Action  {
 
     // 口コミ一覧を取得
     List<Review> reviewList = reviewDao.searchByShrineAndTempleId(shrineAndTempleId);
+    
+    // 口コミをログイン中ユーザーがいいねしてるかどうか
+    List<Integer> likedReviewIdList = reviewDao.searchIdBySATIdAndisLiked(shrineAndTempleId, user.getId());
+    for (Review review : reviewList) {
+    	review.setLiked(likedReviewIdList.contains(review.getId())); 
+    }
 
     //お気に入り登録済みか確認
     List<FavoriteShrineAndTemple> favoriteList = new ArrayList<>();

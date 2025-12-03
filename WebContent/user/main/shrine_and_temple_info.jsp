@@ -67,7 +67,9 @@
 			      <div class="review-content">
 			      <h4>${review.userName} さん</h4>
 			       <p>${review.text}</p>
-			        <button class="like-btn">♡ <span class="like-count">${review.likeCount}</span></button>
+			        <button class="like-btn ${review.liked ? 'liked' : ''}" data-review-id="${review.id}">
+        				♡ <span class="like-count">${review.likeCount}</span>
+        			</button>
 			      </div>
 			    </div>
 
