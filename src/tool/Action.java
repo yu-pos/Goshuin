@@ -3,6 +3,7 @@ package tool;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+//編集厳禁！！
 public abstract class Action {
 
 	public abstract void execute(
