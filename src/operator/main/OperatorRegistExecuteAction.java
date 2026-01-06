@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import bean.Operator;
 import dao.OperatorDao;
 import tool.Action;
@@ -60,11 +62,11 @@ public class OperatorRegistExecuteAction extends Action {
             boolean isAdmin = "admin".equalsIgnoreCase(role);
 
             // 登録処理
-            boolean success = operatorDao.insert(nextId, randomPassword, isAdmin);
+            Pair<Boolean, Integer> result = operatorDao.insert(randomPassword, isAdmin);
 
-            if (success) {
+            if (result.getLeft()) {
                 req.setAttribute("message", "発行が完了しました");
-                req.setAttribute("operatorId", nextId);
+                req.setAttribute("operatorId", result.getRight());
                 req.setAttribute("operatorPassword", randomPassword);
             } else {
                 errors.add("DBへの登録に失敗しました");

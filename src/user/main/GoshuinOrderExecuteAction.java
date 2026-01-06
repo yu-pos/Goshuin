@@ -101,7 +101,7 @@ public class GoshuinOrderExecuteAction extends Action {
 
 			voucherDao.insert(voucher);
 
-			messages.put("2", "御朱印を規定数集めたため、商品券が発行されました！");
+			messages.put("2", "御朱印を30個集めたため、商品券が発行されました！");
 			System.out.println(user.getGoshuinCount());
 			//ランクが最大(0)ではなかった場合
 			if (user.getRank() > 0) {

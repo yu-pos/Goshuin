@@ -64,6 +64,19 @@
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
 
+    const pattern = new RegExp(
+    		  '^https?:\\/\\/' +                                      // http / https
+    		  '(' +
+    		    'localhost' +                                         // localhost
+    		    '|\\d{1,3}(?:\\.\\d{1,3}){3}' +                        // IPv4
+    		    '|(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}' +                // domain
+    		  ')' +
+    		  '(?::\\d+)?' +                                          // port (optional)
+    		  '\\/goshuin\\/user\\/main\\/GoshuinChoose\\.action' +   // path
+    		  '\\?shrineAndTempleId=\\d+' +                            // query
+    		  '$'
+    		);
+
     canvas.width = cameraView.videoWidth;
     canvas.height = cameraView.videoHeight;
 
@@ -73,14 +86,22 @@
     const code = jsQR(imageData.data, imageData.width, imageData.height);
 
     if (code) {
-      scanning = false;
-      qrText.textContent = "読み取り成功: " + code.data;
-      qrText.style.color = "#00ff55";
+    	qrText.textContent = "読み取り成功: " + code.data;
+        qrText.style.color = "#00ff55";
 
-      // 読み取り後にページ遷移
-      setTimeout(() => {
-        window.location.href = code.data;
-      }, 1000);
+      if (code.data !== undefined && pattern.test(code.data)) {
+          scanning = false;
+
+
+          // 読み取り後にページ遷移
+          setTimeout(() => {
+            window.location.href = code.data;
+          }, 1000);
+      } else {
+    	  qrText.textContent = "不正なQRコードです";
+          qrText.style.color = "#ff0000";
+          requestAnimationFrame(scanLoop);
+      }
 
     } else {
       requestAnimationFrame(scanLoop);

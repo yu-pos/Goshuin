@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 import bean.Operator;
 
@@ -90,18 +93,19 @@ public class OperatorDao extends Dao {
 	 * @return
 	 * @throws
 	 */
-    public boolean insert(int id, String password, boolean isAdmin) throws Exception {
+    public Pair<Boolean, Integer> insert(String password, boolean isAdmin) throws Exception {
 
         // コネクションを取得
         Connection connection = getConnection();
         PreparedStatement statement = null;
         int count = 0;
-
+        int operatorId = -1;
         try {
             // SQL文を準備（created_at / updated_at はDB側で現在時刻をセット）
             statement = connection.prepareStatement(
                 "INSERT INTO operator (password, is_admin) " +
-                "VALUES (?, ?)"
+                "VALUES (?, ?)",
+	            Statement.RETURN_GENERATED_KEYS
             );
 
             // パラメータをバインド
@@ -110,6 +114,14 @@ public class OperatorDao extends Dao {
 
             // 実行（INSERTなので executeUpdate）
             count = statement.executeUpdate();
+
+            ResultSet keys = statement.getGeneratedKeys();
+
+	        if (keys.next()) {
+	            operatorId = keys.getInt(1);
+	        } else {
+	            throw new Exception("運営者IDの取得に失敗しました");
+	        }
 
         } catch (Exception e) {
             throw e;
@@ -134,7 +146,7 @@ public class OperatorDao extends Dao {
         }
 
         // 成功したら true を返す
-        return count > 0;
+        return Pair.of(count > 0, operatorId);
     }
 
 
