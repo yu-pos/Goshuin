@@ -11,18 +11,7 @@ html, body {
   font-family: "Noto Serif JP", "Yu Mincho", serif;
 }
 
-/* ===========================
-   仮想スマホ枠
-   =========================== */
-.phone-frame {
-  position: relative;
-  width: 300px;
-  height: 600px;
-  border-radius: 30px;
-  background: #000;
-  box-shadow: 0 0 25px rgba(0,0,0,0.4);
-  overflow: hidden;
-}
+
 
 /* ===========================
    和風背景（鳥居＋和紙風）
