@@ -5,10 +5,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import bean.Review;
+import bean.User;
 import dao.ReviewDao;
 import tool.Action;
+import tool.ImageUtils;
 
 public class ReviewPostExecuteAction extends Action {
 
@@ -18,10 +21,11 @@ public class ReviewPostExecuteAction extends Action {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
             // パラメータ取得
-            int userId = Integer.parseInt(request.getParameter("userId"));
+
+            User user = (User) request.getSession().getAttribute("user");
             int shrineAndTempleId = Integer.parseInt(request.getParameter("shrineAndTempleId"));
             String text = request.getParameter("text");
-            String imagePath = request.getParameter("imagePath"); // ファイルアップロード処理が別途必要
+            String imagePath = null; // ファイルアップロード処理が別途必要
 
             // バリデーション①：未入力チェック
             if (text == null || text.trim().isEmpty()) {
@@ -39,9 +43,14 @@ public class ReviewPostExecuteAction extends Action {
                 }
             }
 
+            Part photo = request.getPart("photo");
+            if (photo != null && photo.getSize() > 0) {
+            	imagePath = ImageUtils.saveImage(photo, "review", request);
+            }
+
             // Reviewインスタンス生成
             Review review = new Review();
-            review.setUserId(userId);
+            review.setUserId(user.getId());
             review.setShrineAndTempleId(shrineAndTempleId);
             review.setText(text);
             review.setImagePath(imagePath);

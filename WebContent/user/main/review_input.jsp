@@ -15,9 +15,9 @@
             <!-- 口コミ内容 -->
             <div class="form-group">
               <label for="review">口コミ内容</label>
-              <textarea id="review" name="review" rows="4" placeholder="例：雰囲気がとても良かったです。"></textarea>
+              <textarea id="review" name="review" rows="4" placeholder="例：雰囲気がとても良かったです。" required></textarea>
             </div>
-
+			<input type="hidden" id="shrineAndTempleId" value="${shrine.id}">
 
 
             <!-- 画像アップロード -->
@@ -28,8 +28,9 @@
 
             <!-- 投稿ボタン -->
             <div class="form-buttons">
-              <a href="templesview.html" class="cancel-btn">戻る</a>
-              <input type="submit" value="投稿" class="cancel-btn">
+              <a href="ShrineAndTempleInfo.action" class="cancel-btn">戻る</a>
+             <input type="submit" value="投稿" class="cancel-btn">
+
             </div>
           </form>
 	</c:param>
