@@ -9,6 +9,11 @@
 
     <h1 class="page-title">過去の御朱印帳一覧</h1>
 
+    <!-- ▼ 追加：My御朱印帳更新メッセージ -->
+	<c:if test="${not empty message}">
+	  <p class="mybook-message">${message}</p>
+	</c:if>
+
     <c:if test="${empty bookList}">
       <p class="empty-message">過去の御朱印帳はありません。</p>
     </c:if>
@@ -40,6 +45,16 @@
             編集
           </a>
         </div>
+
+        <!-- ▼ ここを追加：この御朱印帳を My御朱印帳に登録 -->
+	  <form action="MyGoshuinBookRegister.action" method="post" class="mybook-form">
+	    <input type="hidden" name="bookId" value="${book.id}" />
+	    <button type="submit" class="btn mybook-btn">
+	      ＋ My御朱印帳に登録
+	    </button>
+	  </form>
+	  <!-- ▲ 追加ここまで -->
+
       </div>
 
     </c:forEach>
