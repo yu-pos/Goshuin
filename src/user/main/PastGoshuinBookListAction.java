@@ -38,11 +38,9 @@ public class PastGoshuinBookListAction extends Action {
 
         for (GoshuinBook b : allBooks) {
             System.out.println("[DEBUG] loop bookId = " + b.getId());
-//            if (b.getId() != activeBookId) {
-//                pastBooks.add(b);
-//                System.out.println("[DEBUG]  -> added as past");
-//            }
-            pastBooks.add(b);
+                pastBooks.add(b);
+                System.out.println("[DEBUG]  -> added as past");
+
         }
 
         req.setAttribute("bookList", pastBooks);
