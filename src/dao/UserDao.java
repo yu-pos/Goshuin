@@ -326,7 +326,15 @@ public class UserDao extends Dao {
 			statement.setInt(2, user.getActiveGoshuinBook().getId());
 			statement.setInt(3, user.getRank());
 			statement.setInt(4, user.getGoshuinCount());
-			statement.setString(5, user.getProfileImagePath());
+
+			//プロフィール画像が未設定の場合(インスタンスでdefault.pngが設定されている場合)、nullを指定
+			String profileImagePath = user.getProfileImagePath();
+			if (profileImagePath.equals("default.png")) {
+				statement.setString(5, null);
+			} else {
+				statement.setString(5, user.getProfileImagePath());
+			}
+
 			statement.setInt(6, user.getMyGoshuinBook().getId());
 			statement.setBoolean(7, user.isMyGoshuinBookPublic());
 			statement.setTimestamp(8, Timestamp.valueOf(user.getLastLoginAt()));
