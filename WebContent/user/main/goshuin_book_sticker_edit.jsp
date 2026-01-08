@@ -6,8 +6,8 @@
   <c:param name="content">
 
     <!-- この画面専用 CSS / JS -->
-    <link rel="stylesheet" href="/goshuin/user/css/goshuin_book_sticker.css" />
-    <script src="/goshuin/user/scripts/goshuin_book_sticker.js"></script>
+    <link rel="stylesheet" href="/goshuin/user/css/goshuin_book_sticker.css?v=10" />
+    <script src="/goshuin/user/scripts/goshuin_book_sticker.js?v=10"></script>
 
     <h1 class="page-title">御朱印帳 ステッカー配置</h1>
 

@@ -4,6 +4,9 @@
 
 <c:import url="../base2.jsp">
     <c:param name="content">
+    <link rel="stylesheet" href="/goshuin/user/css/password_toggle.css?v=1" />
+	<script src="/goshuin/user/scripts/password_toggle.js?v=1"></script>
+
         <div class="register">
             <h1>新規登録</h1>
 
@@ -39,6 +42,13 @@
 
 			    <label for="password">パスワード</label>
 			    <input type="password" id="password" name="password" required>
+			    <div class="password-row">
+				  <input type="password" name="password" id="password" required />
+				  <label class="showpass">
+				    <input type="checkbox" id="togglePassword" />
+				    パスワードを表示
+				  </label>
+				</div>
 
 			    <input type="submit" value="登録">
 			</form>

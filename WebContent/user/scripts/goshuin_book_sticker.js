@@ -1,163 +1,162 @@
 // ==============================
-// 御朱印帳 ステッカー貼り画面 JS
-//  - パレットのステッカーをタップ → 御朱印帳の中央に出す
-//  - 御朱印帳上のステッカーはドラッグで動かせる
-//  - ステッカーをタップで選択（赤枠）→ 「選択したステッカーを削除」
+// 御朱印帳 ステッカー貼り画面 JS（完成・安定版）
+//  - パレットのステッカーをタップ/クリック → 御朱印帳に追加
+//  - ステッカーはドラッグで移動（指が少し動いたらドラッグ扱い）
+//  - 動かなければタップ扱い → 選択（赤枠）→ 削除ボタン表示
+//  - PC / スマホ実機 / DevToolsデバイスモードでも安定させる
 // ==============================
 document.addEventListener("DOMContentLoaded", function () {
 
   const cover = document.getElementById("goshuinBookCover");
   const deleteBtn = document.getElementById("deleteStickerBtn");
 
-  if (!cover) {
-    console.log("[DEBUG] goshuinBookCover が見つかりません");
-    return;
-  }
-  console.log("[DEBUG] goshuinBookCover 初期化");
+  if (!cover) return;
 
-  // ---- 共通: マウス/タッチの座標を取るヘルパー ----
-  function getPoint(ev) {
-    return ev.touches ? ev.touches[0] : ev;
-  }
+  // cover上のタッチ操作でページスクロールが混ざらないように保険
+  // （CSSの touch-action:none と合わせて効く）
+  cover.addEventListener("touchmove", (e) => {
+    e.preventDefault();
+  }, { passive: false });
 
-  // ---- 削除ボタンの表示/非表示更新 ----
+  // ---- 削除ボタン更新 ----
   function updateDeleteButton() {
     if (!deleteBtn) return;
     const selected = cover.querySelectorAll(".placed-sticker.selected-for-delete");
-    if (selected.length > 0) {
-      deleteBtn.style.display = "inline-block";
-    } else {
-      deleteBtn.style.display = "none";
-    }
+    deleteBtn.style.display = (selected.length > 0) ? "inline-block" : "none";
   }
 
-  // ---- ステッカーの選択／解除（赤くする） ----
+  // ---- 選択トグル ----
   function toggleSelect(sticker) {
     sticker.classList.toggle("selected-for-delete");
     updateDeleteButton();
   }
 
-  // ---- 共通: ステッカーをドラッグ移動させる処理 ----
-  function startDrag(sticker, ev) {
-    const pt = getPoint(ev);
-    const coverRect = cover.getBoundingClientRect();
-    const stickerRect = sticker.getBoundingClientRect();
+  // ---- ステッカー初期化（ドラッグ＋タップ選択）----
+  function initSticker(sticker) {
+    // pointerで統一（マウス/タッチ両対応）
+    sticker.style.touchAction = "none";
 
-    let offsetX = pt.clientX - stickerRect.left;
-    let offsetY = pt.clientY - stickerRect.top;
-    let moved   = false;  // ← ドラッグしたかどうか判定用
+    let dragging = false;
+    let pointerDown = false;
 
-    function move(e2) {
-      const p2 = getPoint(e2);
-      let leftPx = p2.clientX - coverRect.left - offsetX;
-      let topPx  = p2.clientY - coverRect.top  - offsetY;
+    let startX = 0, startY = 0;
+    let offsetX = 0, offsetY = 0;
 
-      // 1px 以上動いたらドラッグと判断
-      if (Math.abs(leftPx) > 1 || Math.abs(topPx) > 1) {
-        moved = true;
+    // 「タップ」と「ドラッグ」の境界（px）
+    // デバイスモードやスマホで誤判定が出やすいので 5px 推奨
+    const DRAG_THRESHOLD = 5;
+
+    sticker.addEventListener("pointerdown", (e) => {
+      pointerDown = true;
+      dragging = false;
+
+      startX = e.clientX;
+      startY = e.clientY;
+
+      const stickerRect = sticker.getBoundingClientRect();
+      offsetX = e.clientX - stickerRect.left;
+      offsetY = e.clientY - stickerRect.top;
+
+      try { sticker.setPointerCapture(e.pointerId); } catch (_) {}
+
+      e.preventDefault();
+      e.stopPropagation();
+    });
+
+    sticker.addEventListener("pointermove", (e) => {
+      if (!pointerDown) return;
+
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+
+      // しきい値を超えたらドラッグ開始
+      if (!dragging && (Math.abs(dx) > DRAG_THRESHOLD || Math.abs(dy) > DRAG_THRESHOLD)) {
+        dragging = true;
       }
 
-      // 枠からはみ出ないように制限
+      if (!dragging) return;
+
+      const coverRect = cover.getBoundingClientRect();
+      const stickerRect = sticker.getBoundingClientRect();
+
+      let leftPx = e.clientX - coverRect.left - offsetX;
+      let topPx  = e.clientY - coverRect.top  - offsetY;
+
+      // 枠内に収める
       const maxLeft = coverRect.width  - stickerRect.width;
       const maxTop  = coverRect.height - stickerRect.height;
+
       if (leftPx < 0) leftPx = 0;
       if (topPx  < 0) topPx  = 0;
       if (leftPx > maxLeft) leftPx = maxLeft;
       if (topPx  > maxTop)  topPx  = maxTop;
 
-      const leftPercent = (leftPx / coverRect.width)  * 100;
+      // %で保存（レスポンシブでも位置維持しやすい）
+      const leftPercent = (leftPx / coverRect.width) * 100;
       const topPercent  = (topPx  / coverRect.height) * 100;
 
       sticker.style.left = leftPercent + "%";
       sticker.style.top  = topPercent + "%";
 
-      e2.preventDefault();
-    }
-
-    function end() {
-      document.removeEventListener("mousemove", move);
-      document.removeEventListener("touchmove", move);
-      document.removeEventListener("mouseup", end);
-      document.removeEventListener("touchend", end);
-
-      // ドラッグしていた場合は、次の click を一度だけ無視する
-      if (moved) {
-        sticker.dataset.skipClickOnce = "true";
-      }
-    }
-
-    document.addEventListener("mousemove", move);
-    document.addEventListener("touchmove", move, { passive: false });
-    document.addEventListener("mouseup", end);
-    document.addEventListener("touchend", end);
-  }
-
-  // ---- 既存ステッカー / 新規ステッカー共通の初期化 ----
-  function initSticker(sticker) {
-    // ドラッグ
-    sticker.addEventListener("mousedown", (e) => {
-      e.preventDefault();
-      startDrag(sticker, e);
-    });
-    sticker.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      startDrag(sticker, e);
-    });
-
-    // タップで選択／解除
-    sticker.addEventListener("click", (e) => {
-      // 直前にドラッグしていた場合は、この1回だけ click を無視
-      if (sticker.dataset.skipClickOnce === "true") {
-        sticker.dataset.skipClickOnce = "false";
-        return;
-      }
       e.preventDefault();
       e.stopPropagation();
-      toggleSelect(sticker);
+    });
+
+    sticker.addEventListener("pointerup", (e) => {
+      if (!pointerDown) return;
+      pointerDown = false;
+
+      // 動いていない＝タップ → 選択
+      if (!dragging) {
+        toggleSelect(sticker);
+      }
+
+      e.preventDefault();
+      e.stopPropagation();
+    });
+
+    sticker.addEventListener("pointercancel", () => {
+      pointerDown = false;
+      dragging = false;
     });
   }
 
-  // ---- 1. すでに御朱印帳に貼ってあるステッカーを初期化 ----
-  cover.querySelectorAll(".placed-sticker").forEach((sticker) => {
-    initSticker(sticker);
-  });
+  // ---- 既存ステッカー初期化 ----
+  cover.querySelectorAll(".placed-sticker").forEach(initSticker);
 
-  // ---- 2. パレットのステッカーをタップ → 御朱印帳に新規ステッカー追加 ----
   document.querySelectorAll(".palette-sticker").forEach((pal) => {
+	  pal.addEventListener("pointerup", (e) => {
+	    e.preventDefault();
+	    e.stopPropagation();
 
-    pal.addEventListener("click", (ev) => {
-      ev.preventDefault();
-      console.log("[DEBUG] パレットクリック:", pal.dataset.stickerId);
+	    const newSticker = document.createElement("img");
+	    newSticker.src = pal.src;
+	    newSticker.alt = pal.alt || "";
+	    newSticker.className = "placed-sticker";
+	    newSticker.dataset.stickerId = pal.dataset.stickerId || "";
+	    newSticker.style.left = "50%";
+	    newSticker.style.top  = "50%";
 
-      const newSticker = document.createElement("img");
-      newSticker.src = pal.src;
-      newSticker.alt = pal.alt || "";
-      newSticker.className = "placed-sticker";
-      newSticker.dataset.stickerId = pal.dataset.stickerId || "";
+	    cover.appendChild(newSticker);
+	    initSticker(newSticker);
+	  });
 
-      // とりあえず御朱印帳の中央に出す
-      newSticker.style.left = "50%";
-      newSticker.style.top  = "50%";
+	  // ★ click を無効化（pointerup のあと click が来て2回になるのを防ぐ）
+	  pal.addEventListener("click", (e) => {
+	    e.preventDefault();
+	    e.stopPropagation();
+	  });
+	});
 
-      cover.appendChild(newSticker);
-
-      // ドラッグ & タップ選択を有効化
-      initSticker(newSticker);
-    });
-
-    // タッチ端末用（click 発火させるためのダミー）
-    pal.addEventListener("touchstart", (ev) => {
-      // ここでは何もしない（ブラウザがあとで click を出す）
-    }, { passive: true });
-  });
-
-  // ---- 3. 「選択したステッカーを削除」ボタン ----
+  // ---- 削除ボタン ----
   if (deleteBtn) {
-    deleteBtn.addEventListener("click", () => {
+    deleteBtn.addEventListener("click", (e) => {
+      e.preventDefault();
       const selected = cover.querySelectorAll(".placed-sticker.selected-for-delete");
       selected.forEach((st) => st.remove());
-      updateDeleteButton(); // 0 になったらボタン非表示
+      updateDeleteButton();
     });
   }
 
+  updateDeleteButton();
 });
