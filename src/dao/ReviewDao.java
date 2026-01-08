@@ -25,7 +25,7 @@ public class ReviewDao extends Dao {
 	        try {
 	            // SQL文を準備
 	            String sql = "INSERT INTO review " +
-	                         "(shrine_and_temple_id,user_id,text,imagePath) " +
+	                         "(shrine_and_temple_id,user_id,text,image_path) " +
 	                         "VALUES ( ?, ?,?,?)";
 
 	            statement = connection.prepareStatement(sql);
