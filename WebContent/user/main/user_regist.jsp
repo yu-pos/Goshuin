@@ -41,11 +41,11 @@
 			           value="${tel}" required>
 
 			    <label for="password">パスワード</label>
-			    <input type="password" id="password" name="password" required>
-			    <div class="password-row">
-				  <input type="password" name="password" id="password" required />
+				<input type="password" id="password" name="password" required>
+
+				<div class="password-row">
 				  <label class="showpass">
-				    <input type="checkbox" id="togglePassword" />
+				    <input type="checkbox" id="togglePassword">
 				    パスワードを表示
 				  </label>
 				</div>
