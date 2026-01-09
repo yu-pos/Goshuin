@@ -62,6 +62,7 @@ public class ReviewPostExecuteAction extends Action {
 
             if (success) {
             	request.setAttribute("shrineAndTempleId", shrineAndTempleId);
+            	System.out.println("shrineAndTempleId = " + shrineAndTempleId);
                 request.getRequestDispatcher("review_post_complete.jsp").forward(request, response);
             } else {
                 request.setAttribute("error", "口コミの登録に失敗しました。");

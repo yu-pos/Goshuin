@@ -26,9 +26,13 @@
               <input type="file" id="photo" name="photo" accept="image/*">
             </div>
 
+
+
             <!-- 投稿ボタン -->
             <div class="form-buttons">
-              <a href="ShrineAndTempleInfo.action" class="cancel-btn">戻る</a>
+            <a href="ShrineAndTempleInfo.action?id=${shrineAndTempleId}" class="cancel-btn">戻る</a>
+
+
              <input type="submit" value="投稿" class="cancel-btn">
 
             </div>

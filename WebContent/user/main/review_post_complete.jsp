@@ -4,8 +4,8 @@
 <c:import url="../base.jsp">
 	<c:param name="content">
 		<h1>口コミ登録完了</h1>
-        <a href="shrineAndTempleInfo.action?id=${shrineAndTempleId}">神社仏閣情報画面に戻る</a>
-        
+        <a href="ShrineAndTempleInfo.action?id=${requestScope.shrineAndTempleId}">神社仏閣情報画面に戻る</a>
+
 	</c:param>
 </c:import>
 
