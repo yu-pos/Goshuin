@@ -14,10 +14,10 @@
 
             <!-- 口コミ内容 -->
             <div class="form-group">
-              <label for="review">口コミ内容</label>
-              <textarea id="review" name="review" rows="4" placeholder="例：雰囲気がとても良かったです。" required></textarea>
+              <label for="text">口コミ内容</label>
+              <textarea id="text" name="text" rows="4" placeholder="例：雰囲気がとても良かったです。" required></textarea>
             </div>
-			<input type="hidden" id="shrineAndTempleId" value="${shrine.id}">
+			<input type="hidden"name="shrineAndTempleId" id="shrineAndTempleId" value="${shrineAndTempleId}">
 
 
             <!-- 画像アップロード -->

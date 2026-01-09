@@ -3,7 +3,10 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:import url="../base.jsp">
 	<c:param name="content">
-		<h1>プロフィール変更完了</h1>
-        <a href="templesview.html">プロフィールに戻る</a>
+		<h1>口コミ登録完了</h1>
+        <a href="shrineAndTempleInfo.action?id=${shrineAndTempleId}">神社仏閣情報画面に戻る</a>
+        
 	</c:param>
 </c:import>
+
+
