@@ -32,8 +32,10 @@
                     <li class="nav_item" style="--delay:0.5s;"><a href="ShrineAndTempleSearchForChangeInfo.action">神社仏閣情報変更</a></li>
                     <li class="nav_item" style="--delay:0.6s;"><a href="GoshuinBookDesignList.action">御朱印帳デザイン管理</a></li>
                     <li class="nav_item" style="--delay:0.7s;"><a href="EventListForOperator.action">イベント情報管理</a></li>
-                    <li class="nav_item" style="--delay:0.8s;"><a href="OperatorRegistConfirm.action">アカウント発行</a></li>
-                    <li class="nav_item" style="--delay:0.9s;"><a href="OperatorAccountList.action">アカウント管理</a></li>
+                    <c:if test="${sessionScope.operator.isAdmin()}">
+	                    <li class="nav_item" style="--delay:0.8s;"><a href="OperatorRegistConfirm.action">アカウント発行</a></li>
+	                    <li class="nav_item" style="--delay:0.9s;"><a href="OperatorAccountList.action">アカウント管理</a></li>
+                    </c:if>
                 </ul>
             </nav>
         </section>
