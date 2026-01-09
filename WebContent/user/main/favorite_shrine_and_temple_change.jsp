@@ -9,7 +9,7 @@
        <div class="favorite-list">
   <c:forEach var="favorite" items="${favoriteList}" varStatus="status">
     <div class="favorite-item">
-      <img src="/goshuin/saved_images/shrine_and_temple/${favorite.imagePath}" alt="${favorite.name}" class="favorite-img">
+      <img src="${sessionScope.basePath}/shrine_and_temple/${favorite.imagePath}" alt="${favorite.name}" class="favorite-img">
       <p class="favorite-name">${favorite.name}</p>
 
       <form action="FavoriteShrineAndTempleDeleteExecute.action" method="post">
@@ -26,7 +26,7 @@
 
         <div class="new-favorite">
           <h3>新しく登録する神社</h3>
-          <img src="/goshuin/saved_images/shrine_and_temple/${shrineAndTemple.imagePath}" alt="新神社" class="new-img" style="width: 100%;
+          <img src="${sessionScope.basePath}/shrine_and_temple/${shrineAndTemple.imagePath}" alt="新神社" class="new-img" style="width: 100%;
   border-radius: 10px 10px 0 0;">
           <p class="new-name">${shrineAndTemple.name}</p>
         </div>

@@ -24,13 +24,13 @@
         <!-- ★ 表紙＋ステッカーを重ね描画 -->
         <div class="past-book-cover">
           <img
-            src="/goshuin/saved_images/goshuin_book_design/${book.goshuinBookDesign.imagePath}"
+            src="${sessionScope.basePath}/goshuin_book_design/${book.goshuinBookDesign.imagePath}"
             alt="${book.goshuinBookDesign.name}"
             class="past-book-cover-img" />
 
           <c:forEach var="att" items="${book.attachedStickerList}">
             <img
-              src="/goshuin/saved_images/sticker/${att.goshuinBookSticker.imagePath}"
+              src="${sessionScope.basePath}/sticker/${att.goshuinBookSticker.imagePath}"
               alt="${att.goshuinBookSticker.name}"
               class="past-book-sticker"
               style="left:${att.xPos}%; top:${att.yPos}%;" />

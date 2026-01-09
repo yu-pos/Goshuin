@@ -24,7 +24,7 @@
 	    <div class="gallery-track">
 	      <c:forEach var="owned" items="${goshuinBook.goshuinList}">
 	        <img
-	          src="/goshuin/saved_images/goshuin/${owned.goshuin.imagePath}"
+	          src="${sessionScope.basePath}/goshuin/${owned.goshuin.imagePath}"
 	          alt="${owned.goshuin.description}"
 	          class="gallery-image" />
 	      </c:forEach>

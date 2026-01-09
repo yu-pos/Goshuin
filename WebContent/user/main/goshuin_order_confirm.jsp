@@ -6,7 +6,7 @@
 		<h2>上杉神社 御朱印</h2>
 
         <div class="goshuin-image-area">
-          <img src="/goshuin/saved_images/goshuin/${regdGoshuin.imagePath}" alt="御朱印イメージ" class="goshuin-img">
+          <img src="${sessionScope.basePath}/goshuin/${regdGoshuin.imagePath}" alt="御朱印イメージ" class="goshuin-img">
         </div>
 
         <p class="confirm-message">

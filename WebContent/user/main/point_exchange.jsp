@@ -14,7 +14,7 @@
           <div class="scroll-container">
           	<c:forEach var="regdGoshuinBookDesignGroup" items="${regdGoshuinBookDesignGroupList}">
 	            <div class="point-card">
-	              <img src="/goshuin/saved_images/goshuin_book_design/${regdGoshuinBookDesignGroup.imagePath}" alt="表紙" class="reward-img">
+	              <img src="${sessionScope.basePath}/goshuin_book_design/${regdGoshuinBookDesignGroup.imagePath}" alt="表紙" class="reward-img">
 	              <div class="point-info">
 	                <h4>${regdGoshuinBookDesignGroup.name}</h4>
 	                <p>必要：5pt</p>
@@ -47,7 +47,7 @@
           <div class="scroll-container">
           	<c:forEach var="regdGoshuinBookSticker" items="${regdGoshuinBookStickerList}">
 	            <div class="point-card">
-	              <img src="/goshuin/saved_images/sticker/${regdGoshuinBookSticker.imagePath}" alt="ステッカー" class="reward-img">
+	              <img src="${sessionScope.basePath}/sticker/${regdGoshuinBookSticker.imagePath}" alt="ステッカー" class="reward-img">
 	              <div class="point-info">
 	                <h4>${regdGoshuinBookSticker.name}</h4>
 	                <p>必要：2pt</p>

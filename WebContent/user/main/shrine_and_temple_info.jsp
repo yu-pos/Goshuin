@@ -35,7 +35,7 @@
 
 
         <!-- 📸 神社画像 -->
-        <img src="/goshuin/saved_images/shrine_and_temple/${shrineAndTemple.imagePath}" alt="${shrineAndTemple.name}" class="temple-img-large">
+        <img src="${sessionScope.basePath}/shrine_and_temple/${shrineAndTemple.imagePath}" alt="${shrineAndTemple.name}" class="temple-img-large">
 
         <!-- 📖 情報 -->
         <section class="temple-info">
@@ -63,11 +63,11 @@
 
 		  	<c:forEach var="review" items="${reviewList}">
 			    <div class="review-item">
-			      <img src="/goshuin/saved_images/user_image/${review.userImagePath}" alt="${review.userName}" class="user-icon">
+			      <img src="${sessionScope.basePath}/user_image/${review.userImagePath}" alt="${review.userName}" class="user-icon">
 			      <div class="review-content">
 			      <h4>${review.userName} さん</h4>
 			      	<c:if test="${review.imagePath != null}">
-			      		<img src="/goshuin/saved_images/review/${review.imagePath}" alt="画像" class="event-img">
+			      		<img src="${sessionScope.basePath}/review/${review.imagePath}" alt="画像" class="event-img">
 			      	</c:if>
 			       <p>${review.text}</p>
 			        <button class="like-btn ${review.liked ? 'liked' : ''}" data-review-id="${review.id}">

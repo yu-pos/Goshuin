@@ -12,7 +12,7 @@
         <section class="result-list">
             <c:forEach var="temple" items="${shrineAndTempleList}">
                 <div class="temple-card">
-                    <img src="/goshuin/saved_images/shrine_and_temple/${temple.imagePath}" alt="${temple.name}" class="temple-img">
+                    <img src="${sessionScope.basePath}/shrine_and_temple/${temple.imagePath}" alt="${temple.name}" class="temple-img">
                     <div class="temple-info">
                         <h3>${temple.name}</h3>
                         <c:forEach var="tagType" items="${tagTypeMap}">

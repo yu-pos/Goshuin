@@ -51,13 +51,13 @@
 		                <div class="slide">
 					      <div class="book-cover">
 					        <img
-					          src="/goshuin/saved_images/goshuin_book_design/${selectedUser.myGoshuinBook.goshuinBookDesign.imagePath}"
+					          src="${sessionScope.basePath}/goshuin_book_design/${selectedUser.myGoshuinBook.goshuinBookDesign.imagePath}"
 					          alt="${selectedUser.myGoshuinBook.goshuinBookDesign.name}"
 					          class="book-cover-img" />
 
 					        <c:forEach var="att" items="${selectedUser.myGoshuinBook.attachedStickerList}">
 					          <img
-					            src="/goshuin/saved_images/sticker/${att.goshuinBookSticker.imagePath}"
+					            src="${sessionScope.basePath}/sticker/${att.goshuinBookSticker.imagePath}"
 					            alt="${att.goshuinBookSticker.name}"
 					            class="book-sticker"
 					            style="left:${att.xPos}%; top:${att.yPos}%;"

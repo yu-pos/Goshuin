@@ -10,7 +10,7 @@
           <c:choose>
           <c:when test="${type=='design'}">
 	          <div class="confirm-item">
-	            <img src="/goshuin/saved_images/goshuin_book_design/${designGroup.imagePath}" alt="御朱印帳表紙" class="confirm-img">
+	            <img src="${sessionScope.basePath}/goshuin_book_design/${designGroup.imagePath}" alt="御朱印帳表紙" class="confirm-img">
 	            <h3>${designGroup.name}</h3>
 	            <p>必要ポイント：<span class="need-point">5 pt</span></p>
 	          </div>
@@ -25,7 +25,7 @@
           </c:when>
 	          <c:when test="${type=='sticker'}">
 	          <div class="confirm-item">
-	            <img src="/goshuin/saved_images/sticker/${sticker.imagePath}" alt="御朱印帳表紙" class="confirm-img">
+	            <img src="${sessionScope.basePath}/sticker/${sticker.imagePath}" alt="御朱印帳表紙" class="confirm-img">
 	            <h3>${sticker.name}</h3>
 	            <p>必要ポイント：<span class="need-point">2 pt</span></p>
 	          </div>

@@ -14,7 +14,7 @@
 
       	<c:forEach var="designGroup" items="${designGroupList}">
 	        <div class="design-item">
-	          <img src="/goshuin/saved_images/goshuin_book_design/${designGroup.imagePath}" alt="${designGroup.name}">
+	          <img src="${sessionScope.basePath}/goshuin_book_design/${designGroup.imagePath}" alt="${designGroup.name}">
 	          <p>${designGroup.name}</p>
 	        </div>
         </c:forEach>
@@ -29,7 +29,7 @@
       <div class="design-list">
         <c:forEach var="sticker" items="${stickerList}">
 	        <div class="design-item">
-	          <img src="/goshuin/saved_images/sticker/${sticker.imagePath}" alt="${sticker.name}">
+	          <img src="${sessionScope.basePath}/sticker/${sticker.imagePath}" alt="${sticker.name}">
 	          <p>${sticker.name}</p>
 	        </div>
         </c:forEach>

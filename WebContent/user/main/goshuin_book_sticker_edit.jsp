@@ -25,13 +25,13 @@
         <h2>御朱印帳</h2>
         <div id="goshuinBookCover" class="goshuin-book-cover">
 		  <img
-		    src="/goshuin/saved_images/goshuin_book_design/${goshuinBook.goshuinBookDesign.imagePath}"
+		    src="${sessionScope.basePath}/goshuin_book_design/${goshuinBook.goshuinBookDesign.imagePath}"
 		    alt="${goshuinBook.goshuinBookDesign.name}"
 		    class="goshuin-book-cover-img" />
 
 		  <c:forEach var="att" items="${goshuinBook.attachedStickerList}">
 		    <img
-		      src="/goshuin/saved_images/sticker/${att.goshuinBookSticker.imagePath}"
+		      src="${sessionScope.basePath}/sticker/${att.goshuinBookSticker.imagePath}"
 		      alt="${att.goshuinBookSticker.name}"
 		      class="placed-sticker"
 		      data-sticker-id="${att.goshuinBookSticker.id}"
@@ -48,7 +48,7 @@
 	  <div id="stickerPalette" class="sticker-palette">
 	  <c:forEach var="os" items="${ownedStickerList}">
 	    <img
-	      src="/goshuin/saved_images/sticker/${os.goshuinBookSticker.imagePath}"
+	      src="${sessionScope.basePath}/sticker/${os.goshuinBookSticker.imagePath}"
 	      alt="${os.goshuinBookSticker.name}"
 	      class="palette-sticker"
 	      data-sticker-id="${os.goshuinBookSticker.id}" />

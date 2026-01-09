@@ -29,13 +29,13 @@
 		                <div class="slide">
 					      <div class="book-cover">
 					        <img
-					          src="/goshuin/saved_images/goshuin_book_design/${goshuinBook.goshuinBookDesign.imagePath}"
+					          src="${sessionScope.basePath}/goshuin_book_design/${goshuinBook.goshuinBookDesign.imagePath}"
 					          alt="${goshuinBook.goshuinBookDesign.name}"
 					          class="book-cover-img" />
 
 					        <c:forEach var="att" items="${goshuinBook.attachedStickerList}">
 					          <img
-					            src="/goshuin/saved_images/sticker/${att.goshuinBookSticker.imagePath}"
+					            src="${sessionScope.basePath}/sticker/${att.goshuinBookSticker.imagePath}"
 					            alt="${att.goshuinBookSticker.name}"
 					            class="book-sticker"
 					            style="left:${att.xPos}%; top:${att.yPos}%;"
@@ -60,7 +60,7 @@
 		      <c:forEach var="owned" items="${goshuinBook.goshuinList}">
 		        <div class="goshuin-item">
 		          <img
-		            src="/goshuin/saved_images/goshuin/${owned.goshuin.imagePath}"
+		            src="${sessionScope.basePath}/goshuin/${owned.goshuin.imagePath}"
 		            alt="${owned.goshuin.description}"
 		            class="goshuin-img" />
 		          <div class="goshuin-name">
