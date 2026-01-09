@@ -29,7 +29,7 @@
           <div class="goshuin-book-cover">
             <img
               id="currentBookImg"
-              src="/goshuin/saved_images/goshuin_book_design/${goshuinBook.goshuinBookDesign.imagePath}"
+              src="${sessionScope.basePath}/goshuin_book_design/${goshuinBook.goshuinBookDesign.imagePath}"
               alt="${goshuinBook.goshuinBookDesign.name}"
               class="goshuin-book-cover-img" />
           </div>
@@ -46,13 +46,13 @@
                   class="design-radio"
                   name="designId"
                   value="${d.id}"
-                  data-image-path="/goshuin/saved_images/goshuin_book_design/${d.imagePath}"
+                  data-image-path="${sessionScope.basePath}/goshuin_book_design/${d.imagePath}"
                   data-design-name="${d.name}"
                   <c:if test="${goshuinBook.goshuinBookDesign.id == d.id}">checked</c:if>
                 />
                 <div class="design-content">
                   <img
-                    src="/goshuin/saved_images/goshuin_book_design/${d.imagePath}"
+                    src="${sessionScope.basePath}/goshuin_book_design/${d.imagePath}"
                     alt="${d.name}"
                     class="design-thumb" />
                   <div class="design-name">${d.name}</div>

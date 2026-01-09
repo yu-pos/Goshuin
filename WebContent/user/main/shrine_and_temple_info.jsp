@@ -63,9 +63,12 @@
 
 		  	<c:forEach var="review" items="${reviewList}">
 			    <div class="review-item">
-			      <img src="${sessionScope.basePath}/user_image/${review.userImagePath}" alt="${review.userName}" class="user-icon">
+			      <a href="Profile.action?userId=${review.userId}">
+			      	<img src="${sessionScope.basePath}/profile/${review.userImagePath}" alt="${review.userName}" class="user-icon">
+			      </a>
 			      <div class="review-content">
-			      <h4>${review.userName} さん</h4>
+
+			      <h4><a href="Profile.action?userId=${review.userId}">${review.userName} さん</a></h4>
 			      	<c:if test="${review.imagePath != null}">
 			      		<img src="${sessionScope.basePath}/review/${review.imagePath}" alt="画像" class="event-img">
 			      	</c:if>
