@@ -115,7 +115,7 @@ input[type="text"] {
     width: 220px;
     height: 100vh;
     background: linear-gradient(135deg, #ffffff, #cccccc);
-    padding: 110px 20px 30px;
+    padding: 70px 20px 30px;
     float: left;
     box-shadow: 4px 0 15px rgba(255, 255, 255, 0.2);
     color: #000;
@@ -123,7 +123,7 @@ input[type="text"] {
     backdrop-filter: blur(10px);
     border-right: 1px solid rgba(0, 0, 0, 0.1);
     animation: slideIn 0.6s ease-out forwards;
-    transform: translateX(-250px);
+    transform: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -152,7 +152,7 @@ input[type="text"] {
 }
 
 .nav_item {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     opacity: 0;
     transform: translateY(10px);
     animation: fadeInUp 0.6s forwards;
@@ -172,7 +172,8 @@ input[type="text"] {
     text-decoration: none;
     color: #000;
     font-weight: 500;
-    padding: 10px;
+    font-size: 16px;
+    padding: 8px;
     border-radius: 8px;
     transition: all 0.3s ease;
     background-color: rgba(0, 0, 0, 0.05);
