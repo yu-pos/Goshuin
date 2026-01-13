@@ -19,6 +19,7 @@ public class VoucherUseAction extends Action {
             return;
         }
 
+        
         User user = (User) session.getAttribute("user");
         String voucherIdStr = req.getParameter("voucherId");
         if (voucherIdStr == null) {
@@ -41,3 +42,4 @@ public class VoucherUseAction extends Action {
         req.getRequestDispatcher("/user/main/voucher_use.jsp").forward(req, res);
     }
 }
+

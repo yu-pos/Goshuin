@@ -1,0 +1,10 @@
+/* 電話番号 input を他と完全に揃える */
+#tel {
+  width: 100%;
+  padding: 8px;              /* ← ここ重要 */
+  font-size: 0.8rem;
+  line-height: normal;       /* ← UAスタイル打ち消し */
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+}
