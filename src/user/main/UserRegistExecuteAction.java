@@ -37,20 +37,14 @@ public class UserRegistExecuteAction extends Action{
 				tel          = req.getParameter("tel");
 				password     = req.getParameter("password");
 
-				// ★ 電話番号の「数字以外」を全部削除（ハイフン全角・半角・空白など）
-				if (tel != null) {
-				    tel = tel.replaceAll("[^0-9]", "");
-				}
-
 				// DBからデータ取得 3
 				// なし
 
 				// ビジネスロジック 4
 
 
-				// 電話番号チェック（有効な電話番号でなかった場合、代替フロー②）
-				if (!isEmpty(tel) && !tel.matches("\\d{10,11}")) {
-					errors.put("1", "有効な電話番号を入力してください");
+				if (tel == null || !tel.matches("\\d{10,11}")) {
+				    errors.put("1", "電話番号は10桁または11桁の数字で入力してください");
 				}
 
 				// 電話番号重複チェック（既に登録がある場合）

@@ -5,7 +5,10 @@
 <c:import url="../base2.jsp">
     <c:param name="content">
     <link rel="stylesheet" href="/goshuin/user/css/password_toggle.css?v=1" />
+    <link rel="stylesheet" href="/goshuin/user/css/user_regist.css?v=999">
+
 	<script src="/goshuin/user/scripts/password_toggle.js?v=1"></script>
+	<script src="/goshuin/user/scripts/phone_numeric_only.js"></script>
 
         <div class="register">
             <h1>新規登録</h1>
@@ -37,8 +40,16 @@
 			           value="${address}" required>
 
 			    <label for="tel">電話番号</label>
-			    <input type="text" id="tel" name="tel"
-			           value="${tel}" required>
+				<input
+				  type="tel"
+				  id="tel"
+				  name="tel"
+				  value="${tel}"
+				  pattern="[0-9]*"
+				  inputmode="numeric"
+				  maxlength="11"
+				  placeholder="数字で入力してください"
+				  required>
 
 			    <label for="password">パスワード</label>
 				<input type="password" id="password" name="password" required>
