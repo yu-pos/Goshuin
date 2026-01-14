@@ -33,6 +33,9 @@
           <p>利用可能な商品券はありません。</p>
         </c:otherwise>
       </c:choose>
+
+      <a href="Main.action">メイン画面へ</a>
+
     </section>
   </c:param>
 </c:import>
