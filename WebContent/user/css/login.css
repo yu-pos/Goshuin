@@ -1,0 +1,19 @@
+/* ===== 入力欄 共通（新規登録と同じ） ===== */
+input[type="text"],
+input[type="password"],
+input[type="tel"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #cbb88f;
+  border-radius: 8px;
+  font-size: 0.8rem;          /* ← 新規登録と同じ値 */
+  background-color: #fffef9;
+  box-sizing: border-box;
+}
+
+/* tel専用のUAスタイル打ち消し */
+input[type="tel"] {
+  appearance: none;
+  -webkit-appearance: none;
+  line-height: normal;
+}

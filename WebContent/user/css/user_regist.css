@@ -8,3 +8,14 @@
   appearance: none;
   -webkit-appearance: none;
 }
+
+/* パスワード input を他と完全に揃える（表示切替で type が変わっても崩れない） */
+#password {
+  width: 100%;
+  padding: 8px;
+  font-size: 0.8rem;
+  line-height: normal;
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+}

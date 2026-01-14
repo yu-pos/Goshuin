@@ -48,11 +48,12 @@
 				  pattern="[0-9]*"
 				  inputmode="numeric"
 				  maxlength="11"
-				  placeholder="数字で入力してください"
+				  placeholder="半角数字で入力してください"
 				  required>
 
 			    <label for="password">パスワード</label>
-				<input type="password" id="password" name="password" required>
+				<input type="password" id="password" name="password"
+				placeholder="パスワードを入力してください" required>
 
 				<div class="password-row">
 				  <label class="showpass">

@@ -32,10 +32,6 @@ public class LoginExecuteAction extends Action {
 
 	        System.out.println("[DEBUG](LoginExecute) telNumber = " + telNumber);
 	        System.out.println("[DEBUG](LoginExecute) password = " + password);
-	        // 🔹 電話番号の「数字以外」を全部削除（ハイフン・空白・全角など対応）
-	        if (telNumber != null) {
-	            telNumber = telNumber.replaceAll("[^0-9]", "");
-	        }
 
 	        // エラーリスト（ログイン画面は List<String> でOK）
 	        List<String> errors = new ArrayList<>();
