@@ -28,6 +28,7 @@
           <p>イベント情報はまだありません</p>
         </c:otherwise>
       </c:choose>
+      <a href="Main.action">メイン画面へ</a>
     </section>
 
 	</c:param>

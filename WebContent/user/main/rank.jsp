@@ -30,6 +30,7 @@
           </c:choose>
         </c:otherwise>
       </c:choose>
+      <a href="Main.action">メイン画面へ</a>
     </section>
 
   </c:param>
