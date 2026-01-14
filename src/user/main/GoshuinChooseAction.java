@@ -96,10 +96,16 @@ public class GoshuinChooseAction extends Action {
 
 				//販売開始日より販売終了日が前だった場合、販売終了日の年の値を増やす
 				if (startDate.isAfter(endDate)) {
-					endDate = endDate.plusYears(1);
+					if (startDate.isBefore(nowDateTime)) {
+						endDate = endDate.plusYears(1);
+					} else {
+						startDate = startDate.minusYears(1);
+					}
 				}
 
-
+				System.out.println("(GoshuinChooseAction)startDate = " + startDate);
+				System.out.println("(GoshuinChooseAction)endDate = " + endDate);
+				System.out.println("(GoshuinChooseAction)nowDateTime = " + nowDateTime);
 				//現在日が販売期間中だった場合、isAvilableをtrueに
 				if( (nowDateTime.isAfter(startDate) && nowDateTime.isBefore(endDate)) || nowDateTime == startDate || nowDateTime == endDate ) {
 					regdGoshuinList.get(i).setAvailable(true);
