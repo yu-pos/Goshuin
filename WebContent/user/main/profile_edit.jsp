@@ -20,7 +20,7 @@
 
           <div class="form-group">
             <label for="username">ユーザー名</label>
-            <input type="text" name="userName" id="username" value="${sessionScope.user.userName}">
+            <input type="text" name="userName" id="username" value="${sessionScope.user.userName}" required>
           </div>
 
 
