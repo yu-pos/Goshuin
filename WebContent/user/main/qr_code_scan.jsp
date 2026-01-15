@@ -72,7 +72,7 @@
     		    '|(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}' +                // domain
     		  ')' +
     		  '(?::\\d+)?' +                                          // port (optional)
-    		  '\\/goshuin\\/user\\/main\\/GoshuinChoose\\.action' +   // path
+    		  '\\/goshuin1?\\/user\\/main\\/GoshuinChoose\\.action' +   // path
     		  '\\?shrineAndTempleId=\\d+' +                            // query
     		  '$'
     		);

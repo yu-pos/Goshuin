@@ -30,6 +30,15 @@ public class GoshuinChooseAction extends Action {
 		HttpSession session = req.getSession(); // セッション
 		User user = (User)session.getAttribute("user");
 
+		String from = req.getHeader("REFERER");
+		System.out.println(from);
+
+		boolean isLegal = true;
+
+		if (from == null || !from.matches(".*QrCodeScan\\.action")) {
+		    isLegal = false;
+		}
+
 		//ローカル変数の宣言 1
 		int shrineAndTempleId; //神社仏閣ID
 		String shrineAndTempleName; //神社仏閣名
@@ -103,9 +112,6 @@ public class GoshuinChooseAction extends Action {
 					}
 				}
 
-				System.out.println("(GoshuinChooseAction)startDate = " + startDate);
-				System.out.println("(GoshuinChooseAction)endDate = " + endDate);
-				System.out.println("(GoshuinChooseAction)nowDateTime = " + nowDateTime);
 				//現在日が販売期間中だった場合、isAvilableをtrueに
 				if( (nowDateTime.isAfter(startDate) && nowDateTime.isBefore(endDate)) || nowDateTime == startDate || nowDateTime == endDate ) {
 					regdGoshuinList.get(i).setAvailable(true);
@@ -124,6 +130,7 @@ public class GoshuinChooseAction extends Action {
 		req.setAttribute("regdGoshuinList", regdGoshuinList);
 		req.setAttribute("shrineAndTempleName", shrineAndTempleName);
 		req.setAttribute("shrineAndTempleId", shrineAndTempleId);
+		req.setAttribute("isLegal", isLegal);
 
 
 		//JSPへフォワード 7
