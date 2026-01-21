@@ -16,7 +16,7 @@
           <p><strong>開祖：</strong><br>法然</p>
           <p><strong>臨済宗情報：</strong><br>法然が開いた</p>
           <p><strong>山形県の臨済宗の寺院：</strong><br> ]常安寺</p>
-          <p><strong>参拝方法：</strong><br>〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇</p>
+          <p><strong>参拝方法：</strong><br>まず山門前で一礼し、手水舎で手と口を清めます。本堂に入ったらお賽銭を供え、拍手はせず、合掌・礼拝をします。お焼香をする場合は、心を込めて丁寧に行いましょう。</p>
         </section>
 	</c:param>
 </c:import>
