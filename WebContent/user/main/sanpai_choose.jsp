@@ -7,7 +7,7 @@
             <h1 class="page-title">ポケ御朱帳 in 山形</h1>
         </div>
         <div class="senntaku">
-            <a href="sanpai_shrine.jspl" class="sentaku-btn">神社</a>
+            <a href="sanpai_shrine.jsp" class="sentaku-btn">神社</a>
             <a href="sanpai_temple_choose.jsp" class="sentaku-btn">お寺</a>
         </div>
 
