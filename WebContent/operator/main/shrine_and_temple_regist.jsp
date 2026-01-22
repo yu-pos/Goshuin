@@ -45,7 +45,7 @@
         <textarea id="info" rows="3" name="areaInfo" placeholder="近くの観光地、駐車場、最寄り駅など" required>${shrineAndTemple.areaInfo}</textarea>
 
         <label for="map">マップ埋め込みリンク:</label>
-        <input type="url" id="map" name="mapLink" value="<c:out value="${shrineAndTemple.mapLink}" />" placeholder="Googleマップ埋め込みURLを入力" required>
+        <input type="text" id="map" name="mapLink" value="<c:out value="${shrineAndTemple.mapLink}" />" placeholder="Googleマップ埋め込みURLを入力" required>
 
         <label for="image">画像アップロード:</label>
         <input type="file" id="image" name="image" accept="image/*" required>

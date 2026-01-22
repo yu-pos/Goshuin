@@ -129,11 +129,7 @@ public class ShrineAndTempleDao extends Dao{
 					haveTagIdList.add(shrineAndTempleTag.getId());
 				}
 
-				//もし所持タグIDリストに検索タグIDが含まれていたら取得
-				List<Integer> intersection = new ArrayList<>(haveTagIdList);
-				intersection.retainAll(shrineAndTempleTagIdList);
-
-				if (!intersection.isEmpty()) {
+				if (haveTagIdList.containsAll(shrineAndTempleTagIdList)) {
 					ShrineAndTemple shrineAndTemple = new ShrineAndTemple();
 
 
@@ -281,11 +277,8 @@ public class ShrineAndTempleDao extends Dao{
 					haveTagIdList.add(shrineAndTempleTag.getId());
 				}
 
-				//もし所持タグIDリストに検索タグIDが含まれていたら取得
-				List<Integer> intersection = new ArrayList<>(haveTagIdList);
-				intersection.retainAll(shrineAndTempleTagIdList);
 
-				if (!intersection.isEmpty()) {
+				if (haveTagIdList.containsAll(shrineAndTempleTagIdList)) {
 					ShrineAndTemple shrineAndTemple = new ShrineAndTemple();
 
 					// 神社仏閣インスタンスに検索結果をセット
