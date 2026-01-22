@@ -22,7 +22,7 @@
 				<label>${tagType.value}タグ:</label>
 
 			    <select name="tag">
-			        <option value="">選択してください</option>
+			        <option value="-1">選択してください</option>
 
 			        <c:forEach var="tag" items="${tagsByType[tagType.key]}">
 			            <option value="${tag.id}"

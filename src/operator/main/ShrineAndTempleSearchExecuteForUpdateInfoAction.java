@@ -126,7 +126,7 @@ public class ShrineAndTempleSearchExecuteForUpdateInfoAction extends Action {
 
 		//JSPへフォワード 7
 		if (errors.isEmpty()) {
-			req.getRequestDispatcher("shrine_and_temple_search_results_for_change_info.jsp").forward(req, res);
+			req.getRequestDispatcher("shrine_and_temple_search_results_for_update_info.jsp").forward(req, res);
 		} else {
 			req.setAttribute("errors", errors);
 			req.getRequestDispatcher("shrine_and_temple_search_for_update_info.jsp").forward(req, res);

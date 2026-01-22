@@ -29,7 +29,7 @@
                     <li class="nav_item" style="--delay:0.2s;"><a href="main.jsp">メインメニュー</a></li>
                     <li class="nav_item" style="--delay:0.3s;"><a href="ShrineAndTempleSearchForRegistGoshuin.action">デジタル御朱印登録</a></li>
                     <li class="nav_item" style="--delay:0.4s;"><a href="ShrineAndTempleRegist.action">神社仏閣情報登録</a></li>
-                    <li class="nav_item" style="--delay:0.5s;"><a href="ShrineAndTempleSearchForChangeInfo.action">神社仏閣情報変更</a></li>
+                    <li class="nav_item" style="--delay:0.5s;"><a href="ShrineAndTempleSearchForUpdateInfo.action">神社仏閣情報変更</a></li>
                     <li class="nav_item" style="--delay:0.6s;"><a href="GoshuinBookDesignList.action">御朱印帳デザイン管理</a></li>
                     <li class="nav_item" style="--delay:0.7s;"><a href="EventListForOperator.action">イベント情報管理</a></li>
                     <c:if test="${sessionScope.operator.isAdmin()}">

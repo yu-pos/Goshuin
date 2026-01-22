@@ -48,7 +48,7 @@ public class ShrineAndTempleRegistAction extends Action {
 
 		//もし登録に失敗して戻ってきた場合、選択中タグ情報を取得
 		if(shrineAndTemple != null) {
-			selectedTagList = shrineAndTemple.getTagList();
+
 			// 1. selectedTagList から選択済みタグIDのセットを作る
 			Set<Integer> selectedIds = new HashSet<>();
 			for (ShrineAndTempleTag selected : selectedTagList) {
@@ -69,6 +69,7 @@ public class ShrineAndTempleRegistAction extends Action {
 		//なし
 
 		//レスポンス値をセット 6
+		req.setAttribute("shrineAndTemple", shrineAndTemple);
 		req.setAttribute("tagsByType", tagsByType);
 		req.setAttribute("tagTypeMap", tagTypeMap);
 

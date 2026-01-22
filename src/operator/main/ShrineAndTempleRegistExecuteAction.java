@@ -2,6 +2,7 @@ package operator.main;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.h2.jdbc.JdbcSQLException;
 
 import bean.ShrineAndTemple;
 import bean.ShrineAndTempleTag;
@@ -63,10 +65,15 @@ public class ShrineAndTempleRegistExecuteAction extends Action {
 
 		//ビジネスロジック 4
 
+        if (Arrays.asList(tagIds).contains("-1")) {
+        	errors.put("1", "タグを指定してください");
+        }
+
         //埋め込みタグからURLを抽出
         String extractedMapLink = IframeSrcExtractor.extractGoogleMapEmbedUrl(mapLink);
         if (extractedMapLink == null) {
-        	errors.put("1", "埋め込みリンクの指定が不正です。");
+        	errors.put("2", "埋め込みリンクの指定が不正です。");
+        	extractedMapLink = mapLink;
         }
 
 	    //アップロードされた画像を保存
@@ -74,55 +81,70 @@ public class ShrineAndTempleRegistExecuteAction extends Action {
 		    imagePath = ImageUtils.saveImage(image, "shrine_and_temple", req);
 
 		    if (imagePath == null) {
-		    	errors.put("2", "画像のアップロードに失敗しました。");
+		    	errors.put("3", "画像のアップロードに失敗しました。");
 		    }
         }
 
 
 
+
+
 		//DBへデータ保存 5
+
+
+        shrineAndTemple.setName(name);
+    	shrineAndTemple.setAddress(address);
+    	shrineAndTemple.setDescription(description);
+    	shrineAndTemple.setTagList(tagList);
+    	shrineAndTemple.setAreaInfo(areaInfo);
+    	shrineAndTemple.setMapLink(extractedMapLink);
+
+    	shrineAndTemple.setImagePath(imagePath);
 
 	    //御朱印情報を登録
 	    if (errors.isEmpty()) {
 
-	    	shrineAndTemple.setName(name);
-	    	shrineAndTemple.setAddress(address);
-	    	shrineAndTemple.setDescription(description);
-	    	shrineAndTemple.setTagList(tagList);
-	    	shrineAndTemple.setAreaInfo(areaInfo);
-	    	shrineAndTemple.setMapLink(extractedMapLink);
+	    	try {
+	    		Pair<Boolean, Integer> result = shrineAndTempleDao.insert(shrineAndTemple);
 
-	    	shrineAndTemple.setImagePath(imagePath);
+	    		if(!result.getLeft()) {
+		    		errors.put("0", "神社仏閣情報の登録に失敗しました");
+		    		ImageUtils.deleteImage("shrine_and_temple", shrineAndTemple.getImagePath(), req);
+		    	} else {
 
-	    	Pair<Boolean, Integer> result = shrineAndTempleDao.insert(shrineAndTemple);
+		    		//QRコード生成URLを取得
 
-	    	if(!result.getLeft()) {
-	    		errors.put("3", "神社仏閣情報の登録に失敗しました");
+		    		int shrineAndTempleId = result.getRight();
+
+		            // サーバ自身のURL取得
+		            String serverUrl = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort();
+
+		            // QRコード化するターゲットURL
+		            String qrTargetUrl = serverUrl + req.getContextPath()
+		                + "/user/main/GoshuinChoose.action?shrineAndTempleId=" + shrineAndTempleId;
+
+		            // JSP に渡す
+		            req.setAttribute("qrTargetUrl", qrTargetUrl);
+
+		            // QRコード画像サーブレットへのURL
+		            String qrImageUrl = req.getContextPath() + "/tool/QrGenerate.action?url="
+		                  + URLEncoder.encode(qrTargetUrl, "UTF-8");
+
+		            req.setAttribute("qrImageUrl", qrImageUrl);
+
+
+		    	}
+
+	    	} catch (JdbcSQLException e) {
+	    		if ("23505".equals(e.getSQLState())) {
+		    		errors.put("4", "神社名が重複しています");
+	    	    } else {
+	    	    	errors.put("0", "神社仏閣情報の登録に失敗しました");;
+	    	    }
 	    		ImageUtils.deleteImage("shrine_and_temple", shrineAndTemple.getImagePath(), req);
-	    	} else {
-
-	    		//QRコード生成URLを取得
-
-	    		int shrineAndTempleId = result.getRight();
-
-	            // サーバ自身のURL取得
-	            String serverUrl = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort();
-
-	            // QRコード化するターゲットURL
-	            String qrTargetUrl = serverUrl + req.getContextPath()
-	                + "/user/main/GoshuinChoose.action?shrineAndTempleId=" + shrineAndTempleId;
-
-	            // JSP に渡す
-	            req.setAttribute("qrTargetUrl", qrTargetUrl);
-
-	            // QRコード画像サーブレットへのURL
-	            String qrImageUrl = req.getContextPath() + "/tool/QrGenerate.action?url="
-	                  + URLEncoder.encode(qrTargetUrl, "UTF-8");
-
-	            req.setAttribute("qrImageUrl", qrImageUrl);
-
-
 	    	}
+
+
 
 
 	    }

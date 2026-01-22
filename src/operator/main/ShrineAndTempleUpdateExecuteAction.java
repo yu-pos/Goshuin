@@ -2,12 +2,16 @@ package operator.main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+
+import org.h2.jdbc.JdbcSQLException;
 
 import bean.ShrineAndTemple;
 import bean.ShrineAndTempleTag;
@@ -27,6 +31,11 @@ public class ShrineAndTempleUpdateExecuteAction extends Action {
 		String imagePath = null;
 		ShrineAndTemple shrineAndTemple = new ShrineAndTemple();
 		List<ShrineAndTempleTag> tagList = new ArrayList<>();
+
+		Map<Integer, String> tagTypeMap = new HashMap<>();
+		Map<Integer, List<ShrineAndTempleTag>> tagsByType = new HashMap<>();
+
+		List<ShrineAndTempleTag> selectedTagList = new ArrayList<>();
 
 		ShrineAndTempleDao shrineAndTempleDao = new ShrineAndTempleDao();
 		ShrineAndTempleTagDao shrineAndTempleTagDao = new ShrineAndTempleTagDao();
@@ -64,6 +73,9 @@ public class ShrineAndTempleUpdateExecuteAction extends Action {
 
 		//DBからデータ取得 3
 		shrineAndTemple = shrineAndTempleDao.getById(shrineAndTempleId);
+		selectedTagList = shrineAndTemple.getTagList();
+
+		tagList = shrineAndTempleTagDao.getall();
 
 		//ビジネスロジック 4
 
@@ -77,7 +89,27 @@ public class ShrineAndTempleUpdateExecuteAction extends Action {
 		    }
 		}
 
+		//タグ種別情報を取得
+		for (ShrineAndTempleTag tag : tagList) {
+			tagTypeMap.put(tag.getTagTypeId(), tag.getTagTypeName());
+		    tagsByType.computeIfAbsent(tag.getTagTypeId(), k -> new ArrayList<>()).add(tag);
+		}
 
+
+		// 1. selectedTagList から選択済みタグIDのセットを作る
+		Set<Integer> selectedIds = new HashSet<>();
+		for (ShrineAndTempleTag selected : selectedTagList) {
+		    selectedIds.add(selected.getId());
+		}
+
+		// 2. tagList のタグが selectedIds に含まれていれば isSelected = true
+		for (ShrineAndTempleTag tag : tagList) {
+		    if (selectedIds.contains(tag.getId())) {
+		        tag.setSelected(true);
+		    } else {
+		        tag.setSelected(false);
+		    }
+		}
 
 		//DBへデータ保存 5
 
@@ -95,13 +127,26 @@ public class ShrineAndTempleUpdateExecuteAction extends Action {
 	    		shrineAndTemple.setImagePath(imagePath);
 	    	}
 
-	    	if(!shrineAndTempleDao.update(shrineAndTemple)) {
-	    		errors.put("3", "神社仏閣情報の更新に失敗しました");
+	    	try {
+
+
+		    	if(!shrineAndTempleDao.update(shrineAndTemple)) {
+		    		errors.put("3", "神社仏閣情報の更新に失敗しました");
+		    	}
+	    	} catch (JdbcSQLException e) {
+	    		if ("23505".equals(e.getSQLState())) {
+		    		errors.put("3", "神社名が重複しています");
+	    	    } else {
+	    	    	errors.put("3", "神社仏閣情報の登録に失敗しました");;
+	    	    }
+	    		ImageUtils.deleteImage("shrine_and_temple", shrineAndTemple.getImagePath(), req);
 	    	}
 	    }
 
 		//レスポンス値をセット 6
 		req.setAttribute("shrineAndTemple", shrineAndTemple);
+		req.setAttribute("tagsByType", tagsByType);
+		req.setAttribute("tagTypeMap", tagTypeMap);
 
 		//JSPへフォワード 7
 		if(errors.isEmpty()) {

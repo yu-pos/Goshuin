@@ -12,7 +12,7 @@ import bean.ShrineAndTempleTag;
 import dao.ShrineAndTempleTagDao;
 import tool.Action;
 
-public class ShrineAndTempleSearchForChangeInfoAction extends Action{
+public class ShrineAndTempleSearchForUpdateInfoAction extends Action{
 
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {

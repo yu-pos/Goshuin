@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:import url="../base.jsp">
 	<c:param name="content">
-      <form action="ShrineAndTempleSearchExecuteForRegistGoshuin.action" method="get" class="search-box">
+      <form action="ShrineAndTempleSearchExecuteForUpdateInfo.action" method="get" class="search-box">
 
 	      <c:forEach var="tagType" items="${tagTypeMap}">
 
