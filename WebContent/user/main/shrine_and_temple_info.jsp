@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:import url="../base.jsp">
 	<c:param name="content">
-		<a href="ShrineAndTempleSearch.action" class="back-btn">← <span>戻る</span></a>
+		<a onclick="history.back()" class="back-btn">← <span>戻る</span></a>
 		<br>
 		<br>
 		<div>
