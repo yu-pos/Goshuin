@@ -66,6 +66,10 @@
   	    showField.checked = savedShow;
   	  }
   	});
+  	document.addEventListener("DOMContentLoaded", () => {
+  	  const today = new Date().toISOString().split("T")[0];
+  	  localStorage.setItem("lastOmikujiDate", today);
+  	});
 	</script>
 	</c:param>
 </c:import>

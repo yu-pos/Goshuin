@@ -16,11 +16,13 @@
     </c:if>
 
     <!-- おみくじボタン -->
-    <section class="omikuji">
-      <a href="omikuji.jsp" class="omikuji-btn left" aria-label="おみくじ">
-        <img src="${pageContext.request.contextPath}/user/images/omikuji.png" alt="おみくじ" class="omikuji-icon">
-      </a>
-    </section>
+    <section class="omikuji" id="omikujiSection">
+  		<a href="omikuji.jsp" class="omikuji-btn left" aria-label="おみくじ">
+    		<img src="${pageContext.request.contextPath}/user/images/omikuji.png"
+         	alt="おみくじ"
+         	class="omikuji-icon">
+  		</a>
+	</section>
 
     <!-- ランク情報 -->
     <section class="card rank-section">
@@ -79,6 +81,19 @@
         </c:if>
       </div>
     </section>
+	<script>
+		document.addEventListener("DOMContentLoaded", () => {
+		  const omikujiSection = document.getElementById("omikujiSection");
+		  if (!omikujiSection) return;
 
+		  const today = new Date().toISOString().split("T")[0];
+		  const lastDate = localStorage.getItem("lastOmikujiDate");
+
+		  // 今日すでに引いていたら非表示
+		  if (lastDate === today) {
+		    omikujiSection.style.display = "none";
+		  }
+		});
+	</script>
   </c:param>
 </c:import>
