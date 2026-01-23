@@ -24,6 +24,8 @@
       <div class="qr-text">QRコードを枠内に合わせてください</div>
     </div>
   </div>
+  <a href="Main.action" class="pr-btn">戻る</a>
+
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
   <script>
   const cameraView = document.getElementById("cameraView");

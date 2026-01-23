@@ -4,6 +4,7 @@
 <c:import url="../base2.jsp">
 	<c:param name="content">
 		<h1>御朱印購入</h1>
+		<a href="Main.action" class="back-btn">戻る</a>
 		<c:choose>
 		<c:when test="${isLegal}">
 	        <h2>${shrineAndTempleName} 御朱印</h2>
