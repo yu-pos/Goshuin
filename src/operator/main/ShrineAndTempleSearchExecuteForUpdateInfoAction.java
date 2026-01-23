@@ -66,11 +66,21 @@ public class ShrineAndTempleSearchExecuteForUpdateInfoAction extends Action {
 
 
 		//tagIdListにId一覧を登録
-	    for (String val : selectedTags) {
-	        if (val != null && !val.isEmpty()) {
-	            tagIdList.add(Integer.parseInt(val));
-	        }
-	    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		//もしどちらも入力されてなかったらエラーを設定し検索画面にフォワード
 		if (tagIdList.isEmpty() && searchStr.equals("")) {
