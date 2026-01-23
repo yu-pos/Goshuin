@@ -37,3 +37,4 @@ public class GoshuinBookDesignRegistAction extends Action {
 	}
 
 }
+

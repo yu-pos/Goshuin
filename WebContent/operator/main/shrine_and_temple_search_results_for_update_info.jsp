@@ -30,6 +30,11 @@
       </form>
 
       <div id="result">
+       <c:if test="${empty results}">
+        <p>検索条件に一致する神社・寺院は見つかりませんでした。</p>
+    </c:if>
+
+
       	<c:forEach var="result" items="${results}">
 	        <div class="result-item">
 	          <div class="info">
