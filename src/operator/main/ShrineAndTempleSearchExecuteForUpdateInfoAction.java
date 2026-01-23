@@ -52,6 +52,14 @@ public class ShrineAndTempleSearchExecuteForUpdateInfoAction extends Action {
 		//入力された値を取得
 		String[] selectedTags = req.getParameterValues("tag");
 		searchStr = req.getParameter("name");
+		if (selectedTags != null) {
+		    for (String val : selectedTags) {
+		        if (val != null && !val.isEmpty()) {
+		            tagIdList.add(Integer.parseInt(val));
+		        }
+		    }
+		}
+
 
 		System.out.println("[DEBUG] searchStr = " + searchStr);
 //		System.out.println("[DEBUG] selectedTags[0] = " + selectedTags[0]);
