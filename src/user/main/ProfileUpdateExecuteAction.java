@@ -15,75 +15,80 @@ import tool.ImageUtils;
 
 public class ProfileUpdateExecuteAction extends Action {
 
-	@Override
-	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+    @Override
+    public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-		//セッションからユーザー情報を取得
-		HttpSession session = req.getSession();
-		User user = (User)session.getAttribute("user");
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            res.sendRedirect("Login.action");
+            return;
+        }
 
+        UserDao userDao = new UserDao();
+        Map<String, String> errors = new HashMap<>();
 
-		User updatedUser = new User();
-		boolean isMyGoshuinBookPublic;
-		String imagePath = "";
+        // 入力取得（ユーザー名＋画像＋My御朱印帳公開フラグ）
+        String userName = req.getParameter("userName");
 
-		UserDao userDao = new UserDao();
+        // ❌これだと hidden の false を拾うことがある
+        // boolean isMyGoshuinBookPublic = Boolean.parseBoolean(req.getParameter("isMyGoshuinBookPublic"));
 
+	     String[] pubValues = req.getParameterValues("isMyGoshuinBookPublic");
+	     boolean isMyGoshuinBookPublic = false;
+	     if (pubValues != null) {
+	         for (String v : pubValues) {
+	             if ("true".equalsIgnoreCase(v) || "on".equalsIgnoreCase(v)) {
+	                 isMyGoshuinBookPublic = true;
+	                 break;
+	             }
+	         }
+	     }
 
-		Map<String, String> errors = new HashMap<>();
+        Part image = req.getPart("image");
+        boolean isImageUploaded = image != null && image.getSize() > 0;
 
-		//リクエストパラメータ―の取得 2
-		String userName = req.getParameter("userName");
+        // DBから最新ユーザー取得
+        User updatedUser = userDao.getById(user.getId());
+        if (updatedUser == null) {
+            res.sendRedirect("Login.action");
+            return;
+        }
 
+        // 画像保存
+        String imagePath = null;
+        if (isImageUploaded) {
+            imagePath = ImageUtils.saveImage(image, "profile", req);
+            if (imagePath == null) {
+                errors.put("1", "画像のアップロードに失敗しました。");
+            }
+        }
 
-		if(req.getParameter("isMyGoshuinBookPublic") != null) {
-			isMyGoshuinBookPublic = true;
-		} else {
-			isMyGoshuinBookPublic = false;
-		};
+        // DB更新
+        if (errors.isEmpty()) {
+            updatedUser.setUserName(userName);
 
-	    Part image = req.getPart("image");
-	    boolean isImageUploaded = image != null && image.getSize() > 0;
+            if (isImageUploaded) {
+                updatedUser.setProfileImagePath(imagePath);
+            }
 
+            // ✅ 追加：公開フラグを反映（DAOがこの列をUPDATEするので、ここで必ずセット）
+            updatedUser.setMyGoshuinBookPublic(isMyGoshuinBookPublic);
 
+            if (!userDao.update(updatedUser)) {
+                errors.put("2", "ユーザー情報の更新に失敗しました");
+            } else {
+                // セッション更新（表示ズレ防止）
+                session.setAttribute("user", userDao.getById(updatedUser.getId()));
 
-		//DBからデータ取得 3
-	    updatedUser = userDao.getById(user.getId());
+                // ✅ 成功 → 完了画面へ
+                req.getRequestDispatcher("profile_update_complete.jsp").forward(req, res);
+                return;
+            }
+        }
 
-
-		//ビジネスロジック 4
-	    if (isImageUploaded && errors.isEmpty()) {
-		    imagePath = ImageUtils.saveImage(image, "profile", req);
-
-		    if (imagePath == null) {
-		    	errors.put("1", "画像のアップロードに失敗しました。");
-		    }
-		}
-
-
-		//DBへデータ保存 5
-	    if (errors.isEmpty()) {
-			updatedUser.setUserName(userName);
-			updatedUser.setMyGoshuinBookPublic(isMyGoshuinBookPublic);
-
-	    	if(isImageUploaded) {
-	    		updatedUser.setProfileImagePath(imagePath);
-	    	}
-
-	    	if(!userDao.update(updatedUser)) {
-	    		errors.put("2", "ユーザー情報の更新に失敗しました");
-	    	}
-
-	    	//セッションにも更新後の情報を保存
-	    	session.setAttribute("user", updatedUser);
-	    }
-
-
-		//レスポンス値をセット 6
-	    //なし
-
-		//JSPへフォワード 7
-		req.getRequestDispatcher("Profile.action").forward(req, res);
-
-	}
+        // 失敗 → 編集画面へ戻す（ページ名は実ファイルに合わせて）
+        req.setAttribute("errors", errors);
+        req.getRequestDispatcher("profile_edit.jsp").forward(req, res);
+    }
 }

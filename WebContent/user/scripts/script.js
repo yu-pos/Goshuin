@@ -219,7 +219,7 @@ document.getElementById("profileImage").addEventListener("change", function (e) 
 document.getElementById("profileForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
-  alert("プロフィールを保存しました！");
+  // alert("プロフィールを保存しました！");
   this.submit();
 });
 

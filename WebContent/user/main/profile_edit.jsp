@@ -3,6 +3,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:import url="../base.jsp">
 	<c:param name="content">
+
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/toggle-fix.css">
+
 		<h2>プロフィールを編集</h2>
 
 
@@ -49,11 +52,9 @@
           <div class="form-group toggle-area">
             <label for="showGoshuin">My御朱印帳の表示</label>
             <label class="switch">
-              <input type="checkbox" name="isMyGoshuinBookPublic" value="true" id="showGoshuin"
-	               <c:if test="${sessionScope.user.isMyGoshuinBookPublic()}">
-	               checked
-	               </c:if>
-	               >
+             <input type="hidden" name="isMyGoshuinBookPublic" value="false">
+			<input type="checkbox" name="isMyGoshuinBookPublic" value="true" id="showGoshuin"
+			  <c:if test="${sessionScope.user.myGoshuinBookPublic}">checked</c:if>>
               <span class="slider"></span>
             </label>
           </div>
@@ -63,6 +64,16 @@
             <button type="submit" class="save-btn">保存</button>
           </div>
         </form>
+
+        <script>
+		  // 戻る/キャッシュ復元（bfcache）でフォーム状態がズレるのを防ぐ
+		  window.addEventListener('pageshow', function () {
+		    const el = document.getElementById('showGoshuin');
+		    if (!el) return;
+		    // HTMLのchecked属性（defaultChecked）を現在値に同期
+		    el.checked = el.defaultChecked;
+		  });
+		</script>
 
 	</c:param>
 </c:import>

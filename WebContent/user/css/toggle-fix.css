@@ -1,0 +1,15 @@
+/* この画面のトグルだけに効かせる */
+.toggle-area .switch input[type="checkbox"] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* ✅ hiddenが間にあっても反応するように ~ を使う */
+.toggle-area .switch input[type="checkbox"]:checked ~ .slider {
+  background-color: #4CAF50;
+}
+
+.toggle-area .switch input[type="checkbox"]:checked ~ .slider:before {
+  transform: translateX(24px);
+}
