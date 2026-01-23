@@ -12,109 +12,123 @@ import bean.User;
 import dao.UserDao;
 import tool.Action;
 
-public class UserRegistExecuteAction extends Action{
+public class UserRegistExecuteAction extends Action {
 
-	@Override
-	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+    @Override
+    public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-				// ローカル変数の指定 1
-				String userName   = ""; // 入力されたユーザー名
-				String realName   = ""; // 入力された氏名
-				String birthDateStr = ""; // 入力された生年月日（文字列）
-				String address    = ""; // 入力された住所
-				String tel        = ""; // 入力された電話番号
-				String password   = ""; // 入力されたパスワード
+        String userName = req.getParameter("userName");
+        String realName = req.getParameter("realName");
+        String birthDateStr = req.getParameter("birthDate");
+        String address = req.getParameter("address");
+        String tel = req.getParameter("tel");
+        String password = req.getParameter("password");
 
-				User user         = new User();
-				UserDao userDao   = new UserDao();
-				Map<String, String> errors = new HashMap<>(); // エラーメッセージ
+        UserDao userDao = new UserDao();
+        Map<String, String> errors = new HashMap<>();
 
-				// リクエストパラメーターの取得 2
-				userName     = req.getParameter("userName");
-				realName     = req.getParameter("realName");
-				birthDateStr = req.getParameter("birthDate");  // JSP 側の name="birthDate" を想定
-				address      = req.getParameter("address");
-				tel          = req.getParameter("tel");
-				password     = req.getParameter("password");
+        // ===== 必須チェック =====
+        if (isEmpty(userName)) errors.put("1", "ユーザー名は必須です");
+        if (isEmpty(realName)) errors.put("2", "氏名は必須です");
+        if (isEmpty(birthDateStr)) errors.put("3", "生年月日は必須です");
+        if (isEmpty(address)) errors.put("4", "住所は必須です");
+        if (isEmpty(tel)) errors.put("5", "電話番号は必須です");
+        if (isEmpty(password)) errors.put("6", "パスワードは必須です");
 
-				// DBからデータ取得 3
-				// なし
+        // ===== 形式チェック（JSPのルールと合わせる）=====
+        if (!isEmpty(userName) && !userName.matches("^[A-Za-z0-9ぁ-んァ-ヶ一-龥ー_]{1,20}$")) {
+            errors.put("7", "ユーザー名は1〜20文字（ひらがな/カタカナ/漢字/英数字/_）で入力してください");
+        }
 
-				// ビジネスロジック 4
+        if (!isEmpty(realName) && !realName.matches("^[A-Za-zぁ-んァ-ヶ一-龥ー\\s]{1,30}$")) {
+            errors.put("8", "氏名は1〜30文字（漢字/かな/英字/スペース）で入力してください");
+        }
 
+        if (!isEmpty(address) && address.length() > 60) {
+            errors.put("9", "住所は60文字以内で入力してください");
+        }
 
-				if (tel == null || !tel.matches("\\d{10,11}")) {
-				    errors.put("1", "電話番号は10桁または11桁の数字で入力してください");
-				}
+        // 電話番号：0から始まる10〜11桁（ハイフンなし）
+        if (!isEmpty(tel) && !tel.matches("^0\\d{9,10}$")) {
+            errors.put("10", "電話番号はハイフンなしで、0から始まる10〜11桁の数字で入力してください");
+        }
 
-				// 電話番号重複チェック（既に登録がある場合）
-				if (errors.isEmpty()) { // 他のエラーがないときだけ DB アクセス
-					if (userDao.getByTel(tel) != null) {
-						errors.put("2", "この電話番号は既に登録されています");
-					}
-				}
+        // パスワード：8〜32、英字+数字（記号なし）
+        if (!isEmpty(password) && !password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,32}$")) {
+            errors.put("11", "パスワードは8〜32文字で、英字と数字を両方含めてください（記号なし）");
+        }
 
-				// 生年月日の形式チェック（"YYYY-MM-DD" を想定）
-				LocalDateTime birthDateTime = null;
-				if (!isEmpty(birthDateStr)) {
-					try {
-						LocalDate birthDate = LocalDate.parse(birthDateStr); // 例：2025-01-01
-						birthDateTime = birthDate.atStartOfDay(); // LocalDateTime に変換（00:00:00）
-					} catch (Exception e) {
-						// パースに失敗したらエラー
-						errors.put("3", "生年月日を正しい形式で入力してください");
-					}
-				}
+        // ===== 生年月日チェック（00日/00月を弾く＋実在日付チェック）=====
+        LocalDateTime birthDateTime = null;
+        if (!isEmpty(birthDateStr)) {
 
-				// エラーがある場合
-				if (!errors.isEmpty()) {
-					// リクエストにエラーメッセージをセット
-					req.setAttribute("errors", errors);
+            // まず形式（YYYY-MM-DD）をチェック
+            if (!birthDateStr.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
+                errors.put("12", "生年月日はYYYY-MM-DD形式で入力してください");
+            } else {
+                try {
+                    String[] parts = birthDateStr.split("-");
+                    int year = Integer.parseInt(parts[0]);
+                    int month = Integer.parseInt(parts[1]);
+                    int day = Integer.parseInt(parts[2]);
 
-					// レスポンス値をセット 6（入力値を戻す）
-					req.setAttribute("userName",   userName);
-					req.setAttribute("realName",   realName);
-					req.setAttribute("birthDate",  birthDateStr);
-					req.setAttribute("address",    address);
-					req.setAttribute("tel",        tel);
+                    // 00月・00日を明示的にNG
+                    if (month == 0 || day == 0) {
+                        errors.put("12", "生年月日は正しい日付を入力してください");
+                    } else {
+                        // 実在する日付かチェック（例：2/30は例外になる）
+                        LocalDate birthDate = LocalDate.of(year, month, day);
+                        birthDateTime = birthDate.atStartOfDay();
+                    }
+                } catch (Exception e) {
+                    errors.put("12", "生年月日は正しい日付を入力してください");
+                }
+            }
+        }
 
-					// JSPへフォワード 7（登録画面に戻る）
-					req.getRequestDispatcher("UserRegist.action").forward(req, res);
-					return;
-				}
+        // 電話番号重複チェック
+        if (errors.isEmpty() && !isEmpty(tel)) {
+            if (userDao.getByTel(tel) != null) {
+                errors.put("13", "この電話番号は既に登録されています");
+            }
+        }
 
-				// エラーが無い場合は user に値をセット
-				user.setUserName(userName);
-				user.setRealName(realName);
-				user.setBirthDate(birthDateTime);  // LocalDateTime
-				user.setAddress(address);
-				user.setTelNumber(tel);
-				user.setPassword(password);
+        // エラーがある場合
+        if (!errors.isEmpty()) {
+            req.setAttribute("errors", errors);
 
-				// save / insert 実行（御朱印帳発行も内部でやってくれる）
-				boolean result = userDao.insert(user);
+            // 入力値を戻す
+            req.setAttribute("userName", userName);
+            req.setAttribute("realName", realName);
+            req.setAttribute("birthDate", birthDateStr);
+            req.setAttribute("address", address);
+            req.setAttribute("tel", tel);
 
-				// レスポンス値をセット 6（成功・失敗どちらでも入力値は保持してもOK）
-				req.setAttribute("userName",   userName);
-				req.setAttribute("realName",   realName);
-				req.setAttribute("birthDate",  birthDateStr);
-				req.setAttribute("address",    address);
-				req.setAttribute("tel",        tel);
+            req.getRequestDispatcher("UserRegist.action").forward(req, res);
+            return;
+        }
 
-				if (result) {
-				    // 登録完了画面にフォワード
-				    req.getRequestDispatcher("user_regist_complete.jsp").forward(req, res);
-				} else {
-				    errors.put("5", "登録に失敗しました");
-				    req.setAttribute("errors", errors);
-				    req.getRequestDispatcher("UserRegist.action").forward(req, res);
-				}
-			}
+        // 登録
+        User user = new User();
+        user.setUserName(userName);
+        user.setRealName(realName);
+        user.setBirthDate(birthDateTime);
+        user.setAddress(address);
+        user.setTelNumber(tel);
+        user.setPassword(password);
 
-			// 空文字チェック用のメソッド（Student版にはなかったけど共通処理として追加）
-			private boolean isEmpty(String s) {
-				return s == null || s.trim().isEmpty();
-			}
+        boolean result = userDao.insert(user);
 
+        if (result) {
+            req.getRequestDispatcher("user_regist_complete.jsp").forward(req, res);
+        } else {
+            errors.put("99", "登録に失敗しました");
+            req.setAttribute("errors", errors);
+            req.getRequestDispatcher("UserRegist.action").forward(req, res);
+        }
+    }
 
+    private boolean isEmpty(String s) {
+        return s == null || s.trim().isEmpty();
+    }
 }
