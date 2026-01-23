@@ -85,6 +85,64 @@ public class RegdGoshuinBookDesignGroupDao extends Dao {
 		return regdGoshuinBookDesignGroup;
 	}
 
+	public RegdGoshuinBookDesignGroup getByName(String name) throws Exception {
+		// 利用者インスタンスを初期化
+		RegdGoshuinBookDesignGroup regdGoshuinBookDesignGroup = new RegdGoshuinBookDesignGroup();
+		// コネクションを確立
+		Connection connection = getConnection();
+		// プリペアードステートメント
+		PreparedStatement statement = null;
+
+		try {
+			// プリペアードステートメントにSQL文をセット
+			statement = connection.prepareStatement("SELECT id, name, updated_at, created_at"
+					+ " FROM regd_goshuin_book_design_group WHERE name = ?");
+			// プリペアードステートメントにステッカーIDをバインド
+			statement.setString(1, name);
+			// プリペアードステートメントを実行
+			ResultSet resultSet = statement.executeQuery();
+
+			//DAO宣言
+			RegdGoshuinBookDesignDao designDao = new RegdGoshuinBookDesignDao();
+
+			if (resultSet.next()) {
+				// リザルトセットが存在する場合
+				// 利用者インスタンスに検索結果をセット
+				regdGoshuinBookDesignGroup.setId(resultSet.getInt("id"));
+				regdGoshuinBookDesignGroup.setName(resultSet.getString("name"));
+				regdGoshuinBookDesignGroup.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
+				regdGoshuinBookDesignGroup.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
+
+			} else {
+				// リザルトセットが存在しない場合
+				// 利用者インスタンスにnullをセット
+				regdGoshuinBookDesignGroup = null;
+			}
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			// プリペアードステートメントを閉じる
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+			// コネクションを閉じる
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+		}
+
+		return regdGoshuinBookDesignGroup;
+	}
+
 	/*御朱印帳登録一覧デザイングループ一覧を取得():list<goshuinBookDesignGroup>*/
 
 	/**

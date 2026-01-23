@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.h2.jdbc.JdbcSQLException;
+
 import bean.RegdGoshuinBookSticker;
 import dao.RegdGoshuinBookStickerDao;
 import tool.Action;
@@ -47,15 +49,25 @@ public class GoshuinBookStickerRegistExecuteAction extends Action {
 
 		//DBへデータ保存 5
 
-	    //御朱印情報を登録
+	    //ステッカー情報を登録
 	    if (errors.isEmpty()) {
 			RegdGoshuinBookSticker sticker = new RegdGoshuinBookSticker();
 			sticker.setName(name);
 			sticker.setImagePath(savedFilename);
 
-			if(!stickerDao.insert(sticker)) {
-				errors.put("1", "ステッカーの登録に失敗しました。");
-			};
+			try {
+				if(!stickerDao.insert(sticker)) {
+					errors.put("0", "ステッカーの登録に失敗しました。");
+					ImageUtils.deleteImage("sticker", sticker.getImagePath(), req);
+				}
+			} catch (JdbcSQLException e) {
+				if ("23505".equals(e.getSQLState())) {
+		    		errors.put("4", "ステッカー名が重複しています");
+	    	    } else {
+	    	    	errors.put("0", "ステッカーの登録に失敗しました");;
+	    	    }
+				ImageUtils.deleteImage("sticker", sticker.getImagePath(), req);
+			}
 	    }
 
 		//レスポンス値をセット 6
@@ -66,7 +78,7 @@ public class GoshuinBookStickerRegistExecuteAction extends Action {
 			req.getRequestDispatcher("goshuin_book_design_regist_complete.jsp").forward(req, res);
 		} else {
 			req.setAttribute("errors", errors);
-			req.getRequestDispatcher("goshuin_book_design_regist.jsp?type=sticker").forward(req, res);
+			req.getRequestDispatcher("GoshuinBookDesignRegist.action?type=sticker").forward(req, res);
 		}
 
 

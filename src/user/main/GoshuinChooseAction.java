@@ -31,12 +31,15 @@ public class GoshuinChooseAction extends Action {
 		User user = (User)session.getAttribute("user");
 
 		String from = req.getHeader("REFERER");
+
 		System.out.println(from);
 
-		boolean isLegal = true;
+		boolean isLegal = false;
 
-		if (from == null || !from.matches(".*QrCodeScan\\.action")) {
-		    isLegal = false;
+		if (from != null) {
+			if (from.matches(".*QrCodeScan\\.action") || from.matches(".*GoshuinOrderConfirm\\.action")) {
+			    isLegal = true;
+			}
 		}
 
 		//ローカル変数の宣言 1

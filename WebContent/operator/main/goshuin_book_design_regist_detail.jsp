@@ -15,7 +15,7 @@
 		          		<input type="file" accept="image/*" name="image${i}" required>
 
 		          		<label>色：</label>
-		          		<input type="text" name="color${i}" >
+		          		<input type="text" name="color${i}" maxlength="40" required>
 	          		</div>
 	          	</c:forEach>
 	          	<input type="hidden" name="groupName" value="${groupName}">

@@ -19,7 +19,7 @@
 	     	<form action="GoshuinBookDesignRegistDetail.action" method="POST" class="temple-form">
 
 		       	<label for="name">デザイン名：</label>
-		       	<input type="text" id="name" name="groupName" placeholder="例：桜と鳥居" value="${groupName}" required>
+		       	<input type="text" id="name" name="groupName" placeholder="例：桜と鳥居" value="${groupName}" maxlength="40" required>
 
 				<label for="count">登録するデザイン数：</label>
 		       	<input type="number" id="amount" name="amount" min="1" max="10" value="1" value="${amount}" required>
@@ -37,7 +37,7 @@
 	     	<h3>ステッカー新規登録</h3>
 	     	<form action="GoshuinBookStickerRegistExecute.action" method="POST" enctype="multipart/form-data" class="temple-form">
 		       	<label for="name">ステッカー名：</label>
-		       	<input type="text" id="name" name="name" placeholder="例：狐ステッカー" default="${name}" required>
+		       	<input type="text" id="name" name="name" placeholder="例：狐ステッカー" default="${name}" maxlength="40" required>
 
 		       	<label for="image">ステッカー画像：</label>
 		       	<input type="file" id="image" name="image" accept="image/*" required>
