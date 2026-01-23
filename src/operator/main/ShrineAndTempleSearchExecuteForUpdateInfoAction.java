@@ -86,9 +86,6 @@ public class ShrineAndTempleSearchExecuteForUpdateInfoAction extends Action {
 
 
 		//もしどちらも入力されてなかったらエラーを設定し検索画面にフォワード
-		if (tagIdList.isEmpty() && searchStr.equals("")) {
-			errors.put("1", "タグ・名称のいずれかを入力してください");
-		}
 
 
 
