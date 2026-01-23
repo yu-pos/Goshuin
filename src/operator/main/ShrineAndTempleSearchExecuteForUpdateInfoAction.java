@@ -59,6 +59,9 @@ public class ShrineAndTempleSearchExecuteForUpdateInfoAction extends Action {
 		        }
 		    }
 		}
+      if (tagIdList.isEmpty() && (searchStr == null || searchStr.isEmpty())) {
+    errors.put("1", "タグ・名称のいずれかを入力してください");
+}
 
 
 		System.out.println("[DEBUG] searchStr = " + searchStr);
