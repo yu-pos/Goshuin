@@ -52,6 +52,11 @@ public class ShrineAndTempleSearchExecuteForUpdateInfoAction extends Action {
 		//入力された値を取得
 		String[] selectedTags = req.getParameterValues("tag");
 		searchStr = req.getParameter("name");
+		if (searchStr == null) {
+		    searchStr = "";
+		}
+
+		// ★ selectedTags の null チェック
 		if (selectedTags != null) {
 		    for (String val : selectedTags) {
 		        if (val != null && !val.isEmpty()) {
@@ -59,9 +64,21 @@ public class ShrineAndTempleSearchExecuteForUpdateInfoAction extends Action {
 		        }
 		    }
 		}
-      if (tagIdList.isEmpty() && (searchStr == null || searchStr.isEmpty())) {
-    errors.put("1", "タグ・名称のいずれかを入力してください");
-}
+
+		// ★★★ ここに置く（これが正しい位置）★★★
+		if (tagIdList.isEmpty() && searchStr.isEmpty()) {
+		    errors.put("1", "タグ・名称のいずれかを入力してください");
+		}
+
+		if (selectedTags != null) {
+		    for (String val : selectedTags) {
+		        if (val != null && !val.isEmpty()) {
+		            tagIdList.add(Integer.parseInt(val));
+		        }
+		    }
+		}
+
+
 
 
 		System.out.println("[DEBUG] searchStr = " + searchStr);
