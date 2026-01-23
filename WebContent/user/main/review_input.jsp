@@ -4,6 +4,10 @@
 <c:import url="../base.jsp">
 	<c:param name="content">
 		<h1>口コミを投稿する</h1>
+		<c:if test="${not empty error}">
+    <p style="color:red; font-weight:bold;">${error}</p>
+        </c:if>
+
 
           <form action="ReviewPostExecute.action"  method="POST" id="review-form" enctype="multipart/form-data">
             <!-- ユーザー名（自動入力） -->
@@ -15,7 +19,8 @@
             <!-- 口コミ内容 -->
             <div class="form-group">
               <label for="text">口コミ内容</label>
-              <textarea id="text" name="text" rows="4" placeholder="例：雰囲気がとても良かったです。" required></textarea>
+             <textarea id="text" name="text" rows="4" placeholder="例：雰囲気がとても良かったです。" required>${text}</textarea>
+
             </div>
 			<input type="hidden"name="shrineAndTempleId" id="shrineAndTempleId" value="${shrineAndTempleId}">
 

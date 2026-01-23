@@ -23,6 +23,13 @@ public class ReviewPostExecuteAction extends Action {
             // パラメータ取得
 
             User user = (User) request.getSession().getAttribute("user");
+            if (user == null) {
+                request.setAttribute("error", "ログインしてください。");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+                return;
+            }
+
+
             int shrineAndTempleId = Integer.parseInt(request.getParameter("shrineAndTempleId"));
             String text = request.getParameter("text");
             String imagePath = null; // ファイルアップロード処理が別途必要
@@ -30,6 +37,8 @@ public class ReviewPostExecuteAction extends Action {
             // バリデーション①：未入力チェック
             if (text == null || text.trim().isEmpty()) {
                 request.setAttribute("error", "口コミ内容を入力してください。");
+                request.setAttribute("text", text);
+                request.setAttribute("shrineAndTempleId", shrineAndTempleId);
                 request.getRequestDispatcher("review_input.jsp").forward(request, response);
                 return;
             }
@@ -37,9 +46,12 @@ public class ReviewPostExecuteAction extends Action {
             // バリデーション②：NGワードチェック
             for (String ng : NG_WORDS) {
                 if (text.contains(ng)) {
-                    request.setAttribute("error", "投稿できない単語が含まれています。");
+                	request.setAttribute("error", "投稿できない単語が含まれています。");
+                    request.setAttribute("shrineAndTempleId", shrineAndTempleId);
+                    request.setAttribute("text", text); // 入力内容を保持
                     request.getRequestDispatcher("review_input.jsp").forward(request, response);
                     return;
+
                 }
             }
 
@@ -75,11 +87,17 @@ public class ReviewPostExecuteAction extends Action {
             e.printStackTrace();
             try {
                 request.setAttribute("error", "システムエラーが発生しました。");
+
+                // ★ 追加：入力内容を保持
+                request.setAttribute("text", request.getParameter("text"));
+                request.setAttribute("shrineAndTempleId", request.getParameter("shrineAndTempleId"));
+
                 request.getRequestDispatcher("review_input.jsp").forward(request, response);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
+
     }
 }
 

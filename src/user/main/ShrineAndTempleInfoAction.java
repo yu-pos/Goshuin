@@ -40,11 +40,11 @@ public  class ShrineAndTempleInfoAction extends Action  {
 
     // 口コミ一覧を取得
     List<Review> reviewList = reviewDao.searchByShrineAndTempleId(shrineAndTempleId);
-    
+
     // 口コミをログイン中ユーザーがいいねしてるかどうか
     List<Integer> likedReviewIdList = reviewDao.searchIdBySATIdAndisLiked(shrineAndTempleId, user.getId());
     for (Review review : reviewList) {
-    	review.setLiked(likedReviewIdList.contains(review.getId())); 
+    	review.setLiked(likedReviewIdList.contains(review.getId()));
     }
 
     //お気に入り登録済みか確認
@@ -62,6 +62,9 @@ public  class ShrineAndTempleInfoAction extends Action  {
     req.setAttribute("shrineAndTemple", shrineAndTemple);
     req.setAttribute("reviewList", reviewList);
     req.setAttribute("isFavorited", isFavorited);
+
+
+    req.setAttribute("shrineAndTempleId", shrineAndTempleId);
 
     // JSPへフォワード
     req.getRequestDispatcher("shrine_and_temple_info.jsp").forward(req, res);
