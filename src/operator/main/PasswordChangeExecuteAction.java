@@ -13,12 +13,13 @@ import tool.Action;
 
 public class PasswordChangeExecuteAction extends Action {
 
-	@Override
-	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		// TODO 自動生成されたメソッド・スタブ
+    @Override
+    public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-		String url = "";
+        String url = "";
         String newPassword = req.getParameter("newPassword");
+        String newPasswordConfirm = req.getParameter("newPasswordConfirm");
+
         OperatorDao operatorDao = new OperatorDao();
         List<String> errors = new ArrayList<>();
 
@@ -26,7 +27,6 @@ public class PasswordChangeExecuteAction extends Action {
         Operator operator = (Operator) (session != null ? session.getAttribute("operator") : null);
 
         if (operator == null) {
-            // セッション切れなど → ログイン画面へ戻す
             errors.add("ログイン情報が失われました。再度ログインしてください。");
             req.setAttribute("errors", errors);
             url = "login.jsp";
@@ -37,6 +37,18 @@ public class PasswordChangeExecuteAction extends Action {
         // 未入力チェック
         if (newPassword == null || newPassword.isEmpty()) {
             errors.add("このフィールドに入力してください（新しいパスワード）");
+        }
+        if (newPasswordConfirm == null || newPasswordConfirm.isEmpty()) {
+            errors.add("このフィールドに入力してください（新しいパスワード（確認））");
+        }
+
+        // パスワード一致チェック
+        if (errors.isEmpty() && !newPassword.equals(newPasswordConfirm)) {
+            errors.add("パスワードが一致しません");
+        }
+
+        // エラーがあれば戻す
+        if (!errors.isEmpty()) {
             req.setAttribute("errors", errors);
             url = "password_change.jsp";
             req.getRequestDispatcher(url).forward(req, res);
@@ -46,32 +58,25 @@ public class PasswordChangeExecuteAction extends Action {
         try {
             // パスワード更新
             operator.setPassword(newPassword);
-            operator.setFirstLoginCompleted(true); // 初回ログイン完了フラグを更新
+            operator.setFirstLoginCompleted(true);
 
             boolean success = operatorDao.update(operator);
 
             if (success) {
-                // 変更完了 → 完了画面へ
-                session.setAttribute("operator", operator); // 更新後の情報をセッションに反映
+                session.setAttribute("operator", operator);
                 url = "password_change_complete.jsp";
             } else {
-                // 更新失敗
                 errors.add("パスワードの変更に失敗しました");
                 req.setAttribute("errors", errors);
                 url = "password_change.jsp";
             }
 
         } catch (Exception e) {
-            // 更新失敗
             errors.add("パスワードの変更に失敗しました");
             req.setAttribute("errors", errors);
             url = "password_change.jsp";
         }
 
         req.getRequestDispatcher(url).forward(req, res);
-
-
-
-	}
-
+    }
 }
