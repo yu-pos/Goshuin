@@ -8,23 +8,20 @@
 
     <h1>メイン画面</h1>
 
-    <!-- ログインポイントメッセージ -->
     <c:if test="${not empty loginPointMessage}">
       <div class="info-message">
         ${loginPointMessage}
       </div>
     </c:if>
 
-    <!-- おみくじボタン -->
     <section class="omikuji" id="omikujiSection">
-  		<a href="omikuji.jsp" class="omikuji-btn left" aria-label="おみくじ">
-    		<img src="${pageContext.request.contextPath}/user/images/omikuji.png"
-         	alt="おみくじ"
-         	class="omikuji-icon">
-  		</a>
-	</section>
+      <a href="omikuji.jsp" class="omikuji-btn left" aria-label="おみくじ">
+        <img src="${pageContext.request.contextPath}/user/images/omikuji.png"
+             alt="おみくじ"
+             class="omikuji-icon">
+      </a>
+    </section>
 
-    <!-- ランク情報 -->
     <section class="card rank-section">
       <h2>
         ランク
@@ -32,6 +29,7 @@
       </h2>
 
       <c:choose>
+
         <c:when test="${currentRank > 0}">
           <form action="Rank.action" method="get">
             <button class="btn" type="submit">
@@ -39,27 +37,31 @@
             </button>
           </form>
         </c:when>
+
         <c:otherwise>
-		  <p>最高ランク(零)です！</p>
-		  <p>御朱印 ${goshuinCount} 個 → 商品券 ${couponCount} 枚獲得済み</p>
-		  <c:choose>
-		    <c:when test="${nextCouponRemaining > 0}">
-		      <p>次の商品券まであと ${nextCouponRemaining} 個の御朱印が必要です。</p>
-		    </c:when>
-		    <c:otherwise>
-		      <!-- ここだけ Rank.action に飛ぶ -->
-		      <form action="Rank.action" method="get">
-		        <button class="btn" type="submit">
-		          ちょうど区切りです。次は30個で商品券
-		        </button>
-		      </form>
-		    </c:otherwise>
-		  </c:choose>
-		</c:otherwise>
+          <p>最高ランク(零)です！</p>
+          <p>御朱印 ${goshuinCount} 個 → 商品券 ${couponCount} 枚獲得済み</p>
+
+          <c:choose>
+
+            <c:when test="${goshuinCount == 0}">
+              <!-- 何も表示しない -->
+            </c:when>
+
+            <c:when test="${nextCouponRemaining > 0}">
+              <p>次の商品券まであと ${nextCouponRemaining} 個の御朱印が必要です。</p>
+            </c:when>
+
+            <c:otherwise>
+              <p>ちょうど区切りです。次は30個で商品券</p>
+            </c:otherwise>
+
+          </c:choose>
+        </c:otherwise>
+
       </c:choose>
     </section>
 
-    <!-- イベント情報 -->
     <section class="event-section">
       <h2>⛩️ イベント情報</h2>
       <div class="event-list">
@@ -81,19 +83,20 @@
         </c:if>
       </div>
     </section>
-	<script>
-		document.addEventListener("DOMContentLoaded", () => {
-		  const omikujiSection = document.getElementById("omikujiSection");
-		  if (!omikujiSection) return;
 
-		  const today = new Date().toISOString().split("T")[0];
-		  const lastDate = localStorage.getItem("lastOmikujiDate");
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const omikujiSection = document.getElementById("omikujiSection");
+        if (!omikujiSection) return;
 
-		  // 今日すでに引いていたら非表示
-		  if (lastDate === today) {
-		    omikujiSection.style.display = "none";
-		  }
-		});
-	</script>
+        const today = new Date().toISOString().split("T")[0];
+        const lastDate = localStorage.getItem("lastOmikujiDate");
+
+        if (lastDate === today) {
+          omikujiSection.style.display = "none";
+        }
+      });
+    </script>
+
   </c:param>
 </c:import>
