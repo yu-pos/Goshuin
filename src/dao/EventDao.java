@@ -50,6 +50,7 @@ public class EventDao extends Dao{
 				event.setId(resultSet.getInt("id"));
 				event.setTitle(resultSet.getString("title"));
 				event.setText(resultSet.getString("text"));
+				event.setImagePath(resultSet.getString("image_path"));
 	            event.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
 				event.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
 

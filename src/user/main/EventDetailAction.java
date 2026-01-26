@@ -25,7 +25,7 @@ public class EventDetailAction extends Action {
 
 	    Event event = dao.getById(Integer.parseInt(eventId));
 	    req.setAttribute("event", event);
-	    req.getRequestDispatcher("/user/main/event_detail.jsp").forward(req, res);
+	    req.getRequestDispatcher("event_detail.jsp").forward(req, res);
 
 
 	}
