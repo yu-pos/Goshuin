@@ -83,7 +83,7 @@ public class MainAction extends Action {
             vm.put("id", e.getId());
             vm.put("title", e.getTitle());
             vm.put("text", e.getText());
-            vm.put("imagePath", req.getContextPath() + "/" + e.getImagePath());
+            vm.put("imagePath", e.getImagePath());
 
             Date createdAtDate = Date.from(e.getCreatedAt()
                 .atZone(ZoneId.systemDefault())
