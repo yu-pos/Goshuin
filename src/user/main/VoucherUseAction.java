@@ -4,9 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import bean.OwnedVoucher;
 import bean.User;
-import bean.Voucher;
-import dao.VoucherDao;
+import dao.OwnedVoucherDao;
 import tool.Action;
 
 public class VoucherUseAction extends Action {
@@ -19,7 +19,7 @@ public class VoucherUseAction extends Action {
             return;
         }
 
-        
+
         User user = (User) session.getAttribute("user");
         String voucherIdStr = req.getParameter("voucherId");
         if (voucherIdStr == null) {
@@ -29,8 +29,8 @@ public class VoucherUseAction extends Action {
         }
 
         int voucherId = Integer.parseInt(voucherIdStr);
-        VoucherDao dao = new VoucherDao();
-        Voucher voucher = dao.getById(voucherId);
+        OwnedVoucherDao dao = new OwnedVoucherDao();
+        OwnedVoucher voucher = dao.getById(voucherId);
 
         if (voucher == null || voucher.getUserId() != user.getId()) {
             req.setAttribute("errorMessage", "指定された商品券が見つからないか、利用できません。");

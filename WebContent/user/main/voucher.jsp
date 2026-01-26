@@ -24,7 +24,7 @@
                   </c:if>
                 </div>
               </div>
-              <input type="hidden" name="voucherId" value="${voucher.id}" />
+              <input type="hidden" name="voucherId" value="${voucher.voucherId}" />
               <input type="submit" value="この商品券を使用する" class="nav-btn" />
             </form>
           </c:forEach>

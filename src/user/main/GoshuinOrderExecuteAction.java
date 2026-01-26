@@ -13,9 +13,9 @@ import bean.OwnedGoshuin;
 import bean.Rank;
 import bean.RegdGoshuin;
 import bean.User;
-import bean.Voucher;
 import dao.GoshuinBookDao;
 import dao.OwnedGoshuinDao;
+import dao.OwnedVoucherDao;
 import dao.RankDao;
 import dao.RegdGoshuinDao;
 import dao.UserDao;
@@ -44,6 +44,7 @@ public class GoshuinOrderExecuteAction extends Action {
 		RankDao rankDao = new RankDao();
 		UserDao userDao = new UserDao();
 		VoucherDao voucherDao = new VoucherDao();
+		OwnedVoucherDao ownedVoucherDao = new OwnedVoucherDao();
 		GoshuinBookDao goshuinBookDao = new GoshuinBookDao();
 
 		Map<String, String> messages = new HashMap<>();
@@ -68,7 +69,12 @@ public class GoshuinOrderExecuteAction extends Action {
 		//DBへデータ保存 5
 		if (!ownedGoshuinDao.insert(ownedGoshuin)) {
 			errors.put("1", "御朱印の購入に失敗しました。");
+
+
 		}
+
+		user.setPoint(user.getPoint() + 1);
+		userDao.update(user);
 
 		user.setGoshuinCount(user.getGoshuinCount() + 1); //御朱印カウントを増やす
 
@@ -93,13 +99,8 @@ public class GoshuinOrderExecuteAction extends Action {
 		//ランクアップ・商品券付与処理
 		if (user.getGoshuinCount() >= rank.getRankUpQuantity()) {
 
-			//商品券付与（仮置き）
-			Voucher voucher = new Voucher();
-			voucher.setUserId(user.getId());
-			voucher.setDescription("付与テスト用商品券");
-			voucher.setImagePath("voucher_test.png");
-
-			voucherDao.insert(voucher);
+			//商品券付与
+			ownedVoucherDao.insert(rank.getGiveVoucherId(), user.getId());
 
 			messages.put("2", "御朱印を30個集めたため、商品券が発行されました！");
 			System.out.println(user.getGoshuinCount());

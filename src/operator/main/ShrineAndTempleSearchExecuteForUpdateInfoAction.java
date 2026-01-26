@@ -64,8 +64,14 @@ public class ShrineAndTempleSearchExecuteForUpdateInfoAction extends Action {
         // エラーがあれば検索画面へ戻す（return で処理を止める）
         if (!errors.isEmpty()) {
             req.setAttribute("errors", errors);
-            req.getRequestDispatcher("shrine_and_temple_search_for_update_info.jsp").forward(req, res);
+
+            // ★ここを追加する（results を空リストとして渡す）
+            req.setAttribute("results", new ArrayList<>());
+
+            // ★検索結果 JSP に forward する
+            req.getRequestDispatcher("shrine_and_temple_search_results_for_update_info.jsp").forward(req, res);
             return;
+
         }
 
         // --- DBからタグ一覧取得 ---

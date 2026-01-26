@@ -23,7 +23,7 @@
                 <p>登録日: ${event.createdAt} ／ 更新日: ${event.updatedAt}</p>
               </div>
               <input type="hidden" name="eventId" value="${event.id}" />
-              <input type="submit" value="変更" class="nav-btn" />
+              <input type="submit" value="編集" class="nav-btn" />
             </form>
           </c:forEach>
         </c:when>

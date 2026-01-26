@@ -12,7 +12,7 @@
 		    <input type="hidden" name="id" value="${event.id}">
 
 		    <label>名称：</label>
-		    <input type="text" name="title" value="${event.title}" required>
+		    <input type="text" name="title" value="${event.title}">
 
 		    <label>説明：</label>
 		    <textarea name="text">${event.text}</textarea>
@@ -20,7 +20,7 @@
 		    <label>画像：</label>
 		    <input type="file" name="image">
 
-    		<button type="submit">更新</button>
+    		<button type="submit"class="register-btn">更新</button>
 		</form>
 
 

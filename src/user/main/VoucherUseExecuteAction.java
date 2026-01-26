@@ -4,8 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-//import bean.User;
-import dao.VoucherDao;
+import dao.OwnedVoucherDao;
 import tool.Action;
 
 public class VoucherUseExecuteAction extends Action {
@@ -24,7 +23,7 @@ public class VoucherUseExecuteAction extends Action {
 //      	session.setAttribute("user", userDao.login("111-1111-1111", "test"));
 
         //User user = (User) session.getAttribute("user");
-        VoucherDao dao = new VoucherDao();
+        OwnedVoucherDao dao = new OwnedVoucherDao();
 
         try {
             int voucherId = Integer.parseInt(req.getParameter("voucherId"));

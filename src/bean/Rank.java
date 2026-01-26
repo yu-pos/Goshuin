@@ -8,6 +8,7 @@ public class Rank implements Serializable {
 	private String name; //ランク名
 	private int rankUpQuantity; //ランクアップ（商品券付与）に必要な御朱印数
 	private String imagePath; //画像パス
+	private int giveVoucherId; //次にランクが上がった際にもらえる商品券ID
 	private LocalDateTime updatedAt; //データ更新日時
 	private LocalDateTime createdAt; //データ登録日時
 
@@ -37,6 +38,12 @@ public class Rank implements Serializable {
 		this.imagePath = imagePath;
 	}
 
+	public int getGiveVoucherId() {
+		return giveVoucherId;
+	}
+	public void setGiveVoucherId(int giveVoucherId) {
+		this.giveVoucherId = giveVoucherId;
+	}
 	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
