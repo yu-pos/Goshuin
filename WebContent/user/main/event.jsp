@@ -14,7 +14,7 @@
           <c:forEach var="event" items="${events}">
             <form action="EventDetail.action" method="post">
               <div class="event-info">
-                <img src="${event.imagePath}" alt="イベント画像" class="event-img" />
+                <img src="${sessionScope.basePath}/event/${event.imagePath}" alt="イベント画像" class="event-img" />
                 <div class="event-info">
                   <h3>${event.title}</h3>
                 </div>

@@ -10,7 +10,7 @@
           	<h1>${event.title}</h1>
         </div>
 
-		<img src="${event.imagePath}" alt="イベント画像" class="temple-img-large" />
+		<img src="${sessionScope.basePath}/event/${event.imagePath}" alt="イベント画像" class="temple-img-large" />
 
 		<section class="temple-info">
          <p>${event.text}</p>

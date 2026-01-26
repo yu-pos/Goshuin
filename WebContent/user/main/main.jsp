@@ -67,7 +67,7 @@
       <div class="event-list">
         <c:forEach var="event" items="${eventsView}">
           <a href="Event.action?eventId=${event.id}" class="event-card">
-            <img src="${event.imagePath}" alt="${event.title}" class="event-img">
+            <img src="${sessionScope.basePath}/event/${event.imagePath}" alt="${event.title}" class="event-img">
             <div class="event-info">
               <h3>${event.title}</h3>
               <p>${event.text}</p>
