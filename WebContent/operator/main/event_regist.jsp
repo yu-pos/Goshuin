@@ -4,7 +4,7 @@
 
 <c:import url="../base.jsp">
   <c:param name="content">
-    <h3>イベント情報変更</h3>
+    <h3>イベント情報登録</h3>
 
     <!-- エラーメッセージ表示 -->
     <c:if test="${not empty errorMessage}">
