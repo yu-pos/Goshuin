@@ -15,7 +15,7 @@
           <c:forEach var="voucher" items="${vouchers}">
             <form action="VoucherUse.action" method="post">
               <div class="coupon-card ${voucher.usedAt != null ? 'used' : ''}">
-                <img src="${voucher.imagePath}" alt="商品券画像" class="coupon-img" />
+                <img src="${sessionScope.basePath}/voucher/${voucher.imagePath}" alt="商品券画像" class="coupon-img" />
                 <div class="coupon-info">
                   <h3>${voucher.description}</h3>
                   <p>発行日: ${voucher.createdAt}</p>

@@ -10,7 +10,7 @@
 
     <c:if test="${not empty voucher}">
       <div class="coupon-detail">
-        <img src="${voucher.imagePath}" alt="商品券画像" class="coupon-detail-img" />
+        <img src="${sessionScope.basePath}/voucher/${voucher.imagePath}" alt="商品券画像" class="coupon-detail-img" />
         <h2>${voucher.description}</h2>
         <p>発行日：${voucher.createdAt}</p>
         <c:if test="${voucher.usedAt != null}">
