@@ -31,6 +31,7 @@ public class ShrineAndTempleUpdateExecuteAction extends Action {
 		String imagePath = null;
 		ShrineAndTemple shrineAndTemple = new ShrineAndTemple();
 		List<ShrineAndTempleTag> tagList = new ArrayList<>();
+		List<ShrineAndTempleTag> chooseTagList = new ArrayList<>();
 
 		Map<Integer, String> tagTypeMap = new HashMap<>();
 		Map<Integer, List<ShrineAndTempleTag>> tagsByType = new HashMap<>();
@@ -59,7 +60,7 @@ public class ShrineAndTempleUpdateExecuteAction extends Action {
 
         for (String tagId : tagIds) {
         	if (!tagId.isEmpty()) {
-        		tagList.add(shrineAndTempleTagDao.getById(Integer.parseInt(tagId)));
+        		chooseTagList.add(shrineAndTempleTagDao.getById(Integer.parseInt(tagId)));
         	}
 
         }
@@ -119,7 +120,7 @@ public class ShrineAndTempleUpdateExecuteAction extends Action {
 	    	shrineAndTemple.setName(name);
 	    	shrineAndTemple.setAddress(address);
 	    	shrineAndTemple.setDescription(description);
-	    	shrineAndTemple.setTagList(tagList);
+	    	shrineAndTemple.setTagList(chooseTagList);
 	    	shrineAndTemple.setAreaInfo(areaInfo);
 	    	shrineAndTemple.setMapLink(extractedMapLink);
 
