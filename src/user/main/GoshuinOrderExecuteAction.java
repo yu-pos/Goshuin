@@ -69,7 +69,12 @@ public class GoshuinOrderExecuteAction extends Action {
 		//DBへデータ保存 5
 		if (!ownedGoshuinDao.insert(ownedGoshuin)) {
 			errors.put("1", "御朱印の購入に失敗しました。");
+
+
 		}
+
+		user.setPoint(user.getPoint() + 1);
+		userDao.update(user);
 
 		user.setGoshuinCount(user.getGoshuinCount() + 1); //御朱印カウントを増やす
 

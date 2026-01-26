@@ -239,12 +239,12 @@ public class OwnedVoucherDao extends Dao {
 
 	        try {
 	            statement = connection.prepareStatement(
-	            		"INSERT INTO ownedVoucher (voucher_id, user_id) " +
-	            	    "VALUES (?, ?, ?)"
+	            		"INSERT INTO owned_voucher (voucher_id, user_id) " +
+	            	    "VALUES (?, ?)"
 	            );
 
 	            statement.setInt(1, voucherId);
-	            statement.setInt(1, userId);
+	            statement.setInt(2, userId);
 
 	            count = statement.executeUpdate();
 	            return count > 0;
