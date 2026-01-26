@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import bean.OwnedVoucher;
 import bean.User;
-import bean.Voucher;
-import dao.VoucherDao;
+import dao.OwnedVoucherDao;
 import tool.Action;
 
 public class VoucherAction extends Action {
@@ -29,8 +29,8 @@ public class VoucherAction extends Action {
 
 		User user = (User) session.getAttribute("user");
 
-        VoucherDao dao = new VoucherDao();
-        List<Voucher> vouchers = dao.searchByUserId(user.getId());
+        OwnedVoucherDao dao = new OwnedVoucherDao();
+        List<OwnedVoucher> vouchers = dao.searchByUserId(user.getId());
 
         req.setAttribute("vouchers", vouchers);
         req.setAttribute("hasVoucher", !vouchers.isEmpty());
