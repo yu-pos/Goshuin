@@ -52,6 +52,9 @@
 	          </form>
 	        </div>
         </c:forEach>
+        <c:if test="${empty results}">
+<p class="no-result">該当する神社仏閣は見つかりませんでした。</p>
+</c:if>
 
         <!-- 結果が多い場合は自動でスクロール -->
       </div>
