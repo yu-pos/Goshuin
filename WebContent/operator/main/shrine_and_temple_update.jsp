@@ -16,7 +16,7 @@
 
       <form action="ShrineAndTempleUpdateExecute.action" method="POST" enctype="multipart/form-data" class="temple-form">
         <label for="name">名称:</label>
-        <input type="text" id="name" name="name" value="${shrineAndTemple.name}" maxlength="50" placeholder="例：熊野大社" required>
+        <input type="text" id="name" name="name" value="${shrineAndTemple.name}" maxlength="50" placeholder="例：熊野大社">
 
 
 		<c:forEach var="tagType" items="${tagTypeMap}">
@@ -24,7 +24,7 @@
 				<label>タグ（${tagType.value}）:</label>
 
 			    <select name="tag">
-			        <option value="">選択してください</option>
+
 
 			        <c:forEach var="tag" items="${tagsByType[tagType.key]}">
 			            <option value="${tag.id}"
@@ -38,22 +38,22 @@
        	</c:forEach>
 
         <label for="address">住所:</label>
-        <input type="text" id="address" name="address" value="${shrineAndTemple.address}"  placeholder="例：山形県南陽市宮内3476-1" maxlength="100" required>
+        <input type="text" id="address" name="address" value="${shrineAndTemple.address}"   maxlength="100">
 
         <label for="description">説明:</label>
-        <textarea id="description" rows="4" name="description"  placeholder="神社・寺の簡単な説明を入力" maxlength="2000" required>${shrineAndTemple.description}</textarea>
+        <textarea id="description" rows="4" name="description" maxlength="2000">${shrineAndTemple.description}</textarea>
 
         <label for="info">周辺情報:</label>
-        <textarea id="info" rows="3" name="areaInfo" placeholder="近くの観光地、駐車場、最寄り駅など" maxlength="1000" required>${shrineAndTemple.areaInfo}</textarea>
+        <textarea id="info" rows="3" name="areaInfo" maxlength="1000">${shrineAndTemple.areaInfo}</textarea>
 
         <label for="map">マップ埋め込みリンク:</label>
-        <input type="text" id="map" name="mapLink" value="<c:out value="${shrineAndTemple.mapLink}" />" placeholder="Googleマップ埋め込みURLを入力" maxlength="1000" required>
+        <input type="text" id="map" name="mapLink" value="<c:out value="${shrineAndTemple.mapLink}" />" maxlength="1000">
 
         <label for="image">画像変更:</label>
         <input type="file" id="image" name="image" accept="image/*">
 
 		<input type="hidden" name="shrineAndTempleId" value="${shrineAndTemple.id}">
-        <input type="submit" value="登録" class="register-btn">
+        <input type="submit" value="変更" class="register-btn">
       </form>
 	</c:param>
 </c:import>
