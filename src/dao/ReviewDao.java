@@ -99,7 +99,6 @@ public class ReviewDao extends Dao {
 			);
 			// プリペアードステートメントに神社仏閣IDをバインド
 			statement.setInt(1, reviewId);
-			statement.setInt(2, reviewId);
 
 			// プリペアードステートメントを実行
 			ResultSet resultSet = statement.executeQuery();
@@ -114,7 +113,15 @@ public class ReviewDao extends Dao {
 	            review.setUserName(resultSet.getString("user_name"));
 	            review.setUserImagePath(resultSet.getString("user_image_path"));
 	            review.setShrineAndTempleId(resultSet.getInt("shrine_and_temple_id"));
-	            review.setImagePath(resultSet.getString("image_path"));
+
+	            String imagePath = resultSet.getString("image_path");
+
+	            System.out.println(imagePath);
+	            if (imagePath.isEmpty()) {
+	            	imagePath = "default.png";
+	            }
+
+	            review.setImagePath(imagePath);
 	            review.setText(resultSet.getString("text"));
 	            review.setLikeCount(resultSet.getInt("like_count"));
 
@@ -183,7 +190,12 @@ public class ReviewDao extends Dao {
 	            review.setId(resultSet.getInt("review_id"));
 	            review.setUserId(resultSet.getInt("user_id"));
 	            review.setUserName(resultSet.getString("user_name"));
-	            review.setUserImagePath(resultSet.getString("user_image_path"));
+
+	            String imagePath = resultSet.getString("image_path");
+	            if (imagePath == null) {
+	            	imagePath = "default.png";
+	            }
+	            review.setUserImagePath(imagePath);
 	            review.setShrineAndTempleId(resultSet.getInt("shrine_and_temple_id"));
 	            review.setImagePath(resultSet.getString("image_path"));
 	            review.setText(resultSet.getString("text"));
