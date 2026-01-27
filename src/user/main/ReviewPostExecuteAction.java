@@ -16,7 +16,8 @@ import tool.ImageUtils;
 public class ReviewPostExecuteAction extends Action {
 
     // 投稿できないNGワード一覧（例）
-    private static final List<String> NG_WORDS = Arrays.asList("死ね", "バカ", "差別", "禁止語");
+    private static final List<String> NG_WORDS = Arrays.asList("殺す", "バカ", "差別", "死ね","炎上確定笑笑"
+    		+ "うんこ","潰れてしまえ");
 
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
