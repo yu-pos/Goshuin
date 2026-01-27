@@ -1,5 +1,6 @@
 package operator.main;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class LoginExecuteAction extends Action {
 
         List<String> errors = new ArrayList<>();
 
-        // 入力チェック（未入力）
+        // ===== 入力チェック =====
         if (idStr == null || idStr.isEmpty()) {
             errors.add("このフィールドに入力してください（運営者番号）");
         }
@@ -41,9 +42,19 @@ public class LoginExecuteAction extends Action {
             return;
         }
 
-        // IDを数値に変換
-        int id = Integer.parseInt(idStr);
+        // IDを数値に変換（ここは NumberFormatException が起きうるが、今回はDB系とは分ける）
+        int id;
+        try {
+            id = Integer.parseInt(idStr);
+        } catch (NumberFormatException e) {
+            errors.add("運営者番号は数値で入力してください");
+            req.setAttribute("errors", errors);
+            req.setAttribute("id", idStr);
+            req.getRequestDispatcher("login.jsp").forward(req, res);
+            return;
+        }
 
+        // ===== DBアクセスが絡むので try-catch =====
         try {
             // 認証処理
             operator = operatorDao.login(id, password);
@@ -54,30 +65,44 @@ public class LoginExecuteAction extends Action {
 
                 // 初回ログイン判定
                 if (!operator.isFirstLoginCompleted()) {
-                    // 初回ログイン → パスワード変更画面へ
+                    // 初回ログイン → パスワード変更画面
                     url = "password_change.jsp";
                 } else {
-                    // 通常ログイン成功 → メイン画面へ
+                    // 通常ログイン成功 → メイン画面
                     url = "main.jsp";
                 }
 
             } else {
-                // 認証失敗
+                // 認証失敗（ID/PW違い or 無効ユーザー）
                 errors.add("運営者番号またはパスワードが間違っています");
                 req.setAttribute("errors", errors);
                 req.setAttribute("id", idStr);
                 url = "login.jsp";
             }
 
+            req.getRequestDispatcher(url).forward(req, res);
+            return;
+
         } catch (Exception e) {
-            // 例外発生 → ログイン失敗
-            errors.add("ログインに失敗しました");
+            // ===== DB未起動などの例外をここで捕まえる =====
+
+            // （任意）SQLExceptionかどうかを辿る（ログ用途）
+            Throwable cause = e;
+            while (cause != null && !(cause instanceof SQLException)) {
+                cause = cause.getCause();
+            }
+
+            // 利用者向けメッセージは固定でOK
+            errors.add("データベースが起動していません。管理者に連絡するか、しばらくしてから再度お試しください。");
+
+            // デバッグ用ログ（画面には出さない）
+            System.out.println("[DEBUG](OperatorLoginExecute) DB error: "
+                    + e.getClass().getName() + " / " + e.getMessage());
+
             req.setAttribute("errors", errors);
             req.setAttribute("id", idStr);
-            url = "login.jsp";
+            req.getRequestDispatcher("login.jsp").forward(req, res);
+            return;
         }
-
-
-        req.getRequestDispatcher(url).forward(req, res);
     }
 }
