@@ -1,6 +1,8 @@
 package tool;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -28,7 +30,10 @@ public class FrontController extends HttpServlet {
 
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			StringWriter sw = new StringWriter();
+	        PrintWriter pw = new PrintWriter(sw);
+	        e.printStackTrace(pw); // スタックトレースをPrintWriterに書き込む
+	        req.setAttribute("e", sw.toString()); ; // 文字列に変換 [1]
 			// エラーページへリダイレクト
 			req.getRequestDispatcher("error.jsp").forward(req, res);
 		}

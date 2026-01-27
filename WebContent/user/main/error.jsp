@@ -5,5 +5,7 @@
 <c:import url="../base.jsp">
   <c:param name="content">
 	不明なエラーが発生しました。
+
+	<!-- ${e} -->
   </c:param>
 </c:import>
