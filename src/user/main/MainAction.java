@@ -16,6 +16,7 @@ import bean.Event;
 import bean.Rank;
 import bean.User;
 import dao.EventDao;
+import dao.OwnedVoucherDao;
 import dao.RankDao;
 import tool.Action;
 
@@ -61,7 +62,11 @@ public class MainAction extends Action {
             remaining = requiredForNext - goshuinCount;
             if (remaining < 0) remaining = 0;
         } else {
-            couponCount = goshuinCount / 30;
+
+        	OwnedVoucherDao ownedVoucherDao = new OwnedVoucherDao();
+
+
+            couponCount = ownedVoucherDao.searchByUserId(user.getId()).size();
             nextCouponRemaining = 30 - (goshuinCount % 30);
             if (nextCouponRemaining == 30) {
                 nextCouponRemaining = 0;
