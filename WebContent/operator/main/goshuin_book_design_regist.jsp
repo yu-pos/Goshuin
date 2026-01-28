@@ -46,7 +46,7 @@
 
 				<input type="hidden" name="type" value="sticker">
 				<div class="button">
-	         		<a type="button" class="button1">戻る</a>
+	         		<a href="GoshuinBookDesignList.action" class="button1">戻る</a>
 	         		<input type="submit" value="登録" class="button2">
          		</div>
          		<!--ステッカー登録の場合登録ボタンを押したら完了画面に飛ぶ。-->
