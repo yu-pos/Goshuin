@@ -26,8 +26,8 @@
 
 				<input type="hidden" name="type" value="design">
 				<div class="button">
-	         		<a type="button" class="button1">戻る</a>
 	         		<a href="GoshuinBookDesignList.action" class="button1">戻る</a>
+
 
 	         		<input type="submit" value="詳細登録へ" class="button2">
          		</div>
