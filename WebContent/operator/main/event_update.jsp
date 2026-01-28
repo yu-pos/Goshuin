@@ -12,10 +12,10 @@
 		    <input type="hidden" name="id" value="${event.id}">
 
 		    <label>名称：</label>
-		    <input type="text" name="title" value="${event.title}">
+		    <input type="text" name="title" value="${event.title}" required>
 
 		    <label>説明：</label>
-		    <textarea name="text">${event.text}</textarea>
+		    <textarea name="text" required>${event.text}</textarea>
 
 		    <label>画像：</label>
 		    <input type="file" name="image">
