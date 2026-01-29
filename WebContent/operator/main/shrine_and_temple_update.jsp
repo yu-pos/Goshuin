@@ -16,7 +16,7 @@
 
       <form action="ShrineAndTempleUpdateExecute.action" method="POST" enctype="multipart/form-data" class="temple-form">
         <label for="name">名称:</label>
-        <input type="text" id="name" name="name" value="${shrineAndTemple.name}" maxlength="50" placeholder="例：熊野大社">
+        <input type="text" id="name" name="name" value="${shrineAndTemple.name}" maxlength="50" placeholder="例：熊野大社" required>
 
 
 		<c:forEach var="tagType" items="${tagTypeMap}">
@@ -38,19 +38,19 @@
        	</c:forEach>
 
         <label for="address">住所:</label>
-        <input type="text" id="address" name="address" value="${shrineAndTemple.address}"   maxlength="100">
+        <input type="text" id="address" name="address" value="${shrineAndTemple.address}"   maxlength="100" required>
 
         <label for="description">説明:</label>
         <textarea id="description" rows="4" name="description" maxlength="2000">${shrineAndTemple.description}</textarea>
 
         <label for="info">周辺情報:</label>
-        <textarea id="info" rows="3" name="areaInfo" maxlength="1000">${shrineAndTemple.areaInfo}</textarea>
+        <textarea id="info" rows="3" name="areaInfo" maxlength="1000" required>${shrineAndTemple.areaInfo}</textarea>
 
         <label for="map">マップ埋め込みリンク:</label>
-        <input type="text" id="map" name="mapLink" value="<c:out value="${shrineAndTemple.mapLink}" />" maxlength="1000">
+        <input type="text" id="map" name="mapLink" value="<c:out value="${shrineAndTemple.mapLink}" />" maxlength="1000" required>
 
         <label for="image">画像変更:</label>
-        <input type="file" id="image" name="image" accept="image/*">
+        <input type="file" id="image" name="image" accept="image/*" required>
 
 		<input type="hidden" name="shrineAndTempleId" value="${shrineAndTemple.id}">
         <input type="submit" value="変更" class="register-btn">
