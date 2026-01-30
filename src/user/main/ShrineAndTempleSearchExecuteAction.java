@@ -38,6 +38,8 @@ public class ShrineAndTempleSearchExecuteAction extends Action {
 	            Map<String, String> errors = new HashMap<>();
 
 	            // タグIDを整数リストに変換
+	            ShrineAndTempleTagDao shrineAndTempleTagDao = new ShrineAndTempleTagDao();
+	            tagList = shrineAndTempleTagDao.getall();
 	            List<Integer> tagIdList = new ArrayList<>();
 	            if(tagIds != null) {
 
