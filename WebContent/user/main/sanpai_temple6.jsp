@@ -9,7 +9,7 @@
         </div>
 
         <!-- 📸 神社画像 -->
-        <img src="images/133.jpg" alt="" class="temple-img-large">
+        <img src="images/133.jpg" alt="" class="temple-img">
 
         <!-- 📖 情報 -->
         <section class="temple-info">
