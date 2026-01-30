@@ -6,7 +6,7 @@
 		<div class="card">
       		<h3>ログアウトしました</h3>
       		<div class="row">
-       			<a class="btn primary" href="login.jsp">ログイン画面へ</a>
+       			<a class="btn primary" href="Login.action">ログイン画面へ</a>
       		</div>
     	</div>
 	</c:param>

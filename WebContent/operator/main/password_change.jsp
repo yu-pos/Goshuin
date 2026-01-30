@@ -9,14 +9,12 @@
 
             <!-- エラーメッセージ表示 -->
             <c:if test="${not empty errors}">
-                <div class="error">
-                    <ul>
-                        <c:forEach var="err" items="${errors}">
-                            <li>${err}</li>
-                        </c:forEach>
-                    </ul>
-                </div>
-            </c:if>
+    			<div class="error">
+        			<c:forEach var="err" items="${errors}">
+            			<p>${err}</p>
+        			</c:forEach>
+    			</div>
+			</c:if>
 
             <!-- 対象ユーザー表示 -->
             <p id="targetUser" class="row">

@@ -23,7 +23,7 @@ public class LogoutExecuteAction extends Action{
         }
 
         // ログアウト完了画面へフォワード
-        req.getRequestDispatcher("operator_logout_complete.jsp").forward(req, res);
+        req.getRequestDispatcher("logout.jsp").forward(req, res);
 
 
 	}
