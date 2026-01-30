@@ -24,6 +24,11 @@ public class UserRegistExecuteAction extends Action {
         String tel = req.getParameter("tel");
         String password = req.getParameter("password");
 
+        // ✅ telは念のためtrim（半角のみでも、末尾空白事故を防げる）
+        if (tel != null) {
+            tel = tel.trim();
+        }
+
         UserDao userDao = new UserDao();
         Map<String, String> errors = new HashMap<>();
 
@@ -48,12 +53,22 @@ public class UserRegistExecuteAction extends Action {
             errors.put("9", "住所は60文字以内で入力してください");
         }
 
+        // ===== 電話番号（形式チェック）=====
+        boolean telFormatOk = !isEmpty(tel) && tel.matches("^0\\d{9,10}$");
+
         // 電話番号：0から始まる10〜11桁（ハイフンなし）
-        if (!isEmpty(tel) && !tel.matches("^0\\d{9,10}$")) {
-            errors.put("10", "電話番号はハイフンなしで、0から始まる10〜11桁の数字で入力してください");
+        if (!isEmpty(tel) && !telFormatOk) {
+            errors.put("10", "電話番号は0から始まる10〜11桁の数字で入力してください");
         }
 
-        // パスワード：8〜32、英字+数字（記号なし）
+        // ✅ 重要：telが形式OKなら、他の項目にエラーがあっても重複チェックを必ず実行
+        if (telFormatOk) {
+            if (userDao.getByTel(tel) != null) {
+                errors.put("13", "この電話番号は既に登録されています");
+            }
+        }
+
+        // ===== パスワード：8〜32、英字+数字（記号なし）=====
         if (!isEmpty(password) && !password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,32}$")) {
             errors.put("11", "パスワードは8〜32文字で、英字と数字を両方含めてください（記号なし）");
         }
@@ -83,13 +98,6 @@ public class UserRegistExecuteAction extends Action {
                 } catch (Exception e) {
                     errors.put("12", "生年月日は正しい日付を入力してください");
                 }
-            }
-        }
-
-        // 電話番号重複チェック
-        if (errors.isEmpty() && !isEmpty(tel)) {
-            if (userDao.getByTel(tel) != null) {
-                errors.put("13", "この電話番号は既に登録されています");
             }
         }
 

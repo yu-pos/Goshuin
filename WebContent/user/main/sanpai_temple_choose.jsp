@@ -4,7 +4,7 @@
 <c:import url="../base.jsp">
 	<c:param name="content">
 		<div class="page-header">
-          <a href="sanpai.html" class="back-btn">← <span>戻る</span></a>
+          <a href="sanpai_choose.jsp" class="back-btn">← <span>戻る</span></a>
           <h1 class="page-title">宗派選択</h1>
         </div>
         <div class="nara">

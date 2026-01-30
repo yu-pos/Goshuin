@@ -71,10 +71,11 @@
                inputmode="numeric"
                maxlength="11"
                pattern="^0\d{9,10}$"
-               title="ハイフンなし。0から始まる10〜11桁の数字で入力してください。"
+               title="電話番号は0から始まる10〜11桁の数字で入力してください。"
                placeholder="例：09012345678"
                required>
-        <small class="hint">ハイフンなし、0から始まる10〜11桁入力してください。</small>
+        <small class="hint">0から始まる10〜11桁で入力してください。
+        なお、半角数字のみ使用できます。</small>
 
         <!-- パスワード -->
         <label for="password">パスワード <span class="required">※</span></label>
@@ -82,9 +83,9 @@
                required minlength="8" maxlength="32"
                pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,32}$"
                title="8〜32文字。英字と数字を両方含めてください（記号なし）。"
-               placeholder="8〜32文字、英字＋数字を含める">
+               placeholder="8〜32文字、英字と数字を含める">
         <small class="hint">8〜32文字で入力してください。
-        英字＋数字を両方含め、記号なしで入力してください。</small>
+        英字と数字を両方含め、記号なしで入力してください。</small>
 
         <div class="password-row">
           <label class="showpass">

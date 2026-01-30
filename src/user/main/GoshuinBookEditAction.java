@@ -1,5 +1,6 @@
 package user.main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,9 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import bean.GoshuinBook;
+import bean.OwnedGoshuinBookDesignGroup;
 import bean.RegdGoshuinBookDesign;
 import bean.User;
 import dao.GoshuinBookDao;
+import dao.OwnedGoshuinBookDesignGroupDao;
 import dao.RegdGoshuinBookDesignDao;
 import tool.Action;
 
@@ -61,8 +64,17 @@ public class GoshuinBookEditAction extends Action {
         }
 
         // 登録済み表紙デザイン一覧
-        RegdGoshuinBookDesignDao ddao = new RegdGoshuinBookDesignDao();
-        List<RegdGoshuinBookDesign> designList = ddao.getAll();
+        OwnedGoshuinBookDesignGroupDao ownedGoshuinBookDesignGroupDao = new OwnedGoshuinBookDesignGroupDao();
+        List<OwnedGoshuinBookDesignGroup> designGroupList = ownedGoshuinBookDesignGroupDao.getByUser(user.getId());
+
+        List<RegdGoshuinBookDesign> designList = new ArrayList<>();
+
+        RegdGoshuinBookDesignDao regdGoshuinBookDesignDao = new RegdGoshuinBookDesignDao();
+
+        for (OwnedGoshuinBookDesignGroup designGroup : designGroupList) {
+        	designList.addAll(regdGoshuinBookDesignDao.searchByGroup(designGroup.getGoshuinBookDesignGroup().getId()));
+        }
+
         req.setAttribute("designList", designList);
 
         req.getRequestDispatcher(url).forward(req, res);

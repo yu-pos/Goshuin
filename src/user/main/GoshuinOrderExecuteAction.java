@@ -74,7 +74,7 @@ public class GoshuinOrderExecuteAction extends Action {
 		}
 
 		user.setPoint(user.getPoint() + 1);
-		userDao.update(user);
+		
 
 		user.setGoshuinCount(user.getGoshuinCount() + 1); //御朱印カウントを増やす
 
