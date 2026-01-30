@@ -1,6 +1,5 @@
 package user.main;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,22 +27,7 @@ public class PastGoshuinBookListAction extends Action {
         List<GoshuinBook> allBooks = bookDao.searchByUser(user.getId());
         System.out.println("[DEBUG] allBooks.size = " + allBooks.size());
 
-        List<GoshuinBook> pastBooks = new ArrayList<>();
-
-        int activeBookId = -1;
-        if (user.getActiveGoshuinBook() != null) {
-            activeBookId = user.getActiveGoshuinBook().getId();
-            System.out.println("[DEBUG] activeBookId = " + activeBookId);
-        }
-
-        for (GoshuinBook b : allBooks) {
-            System.out.println("[DEBUG] loop bookId = " + b.getId());
-                pastBooks.add(b);
-                System.out.println("[DEBUG]  -> added as past");
-
-        }
-
-        req.setAttribute("bookList", pastBooks);
+        req.setAttribute("bookList", allBooks);
         req.getRequestDispatcher("past_goshuin_book_list.jsp").forward(req, res);
     }
 }
