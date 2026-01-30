@@ -16,23 +16,44 @@ public class GoshuinBookEditExecuteAction extends Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-        int bookId   = Integer.parseInt(req.getParameter("bookId"));
-        int designId = Integer.parseInt(req.getParameter("designId"));
+        Integer bookId = parseIntOrNull(req.getParameter("bookId"));
+        if (bookId == null) {
+            req.setAttribute("error", "御朱印帳が特定できませんでした（bookIdがありません）");
+            req.getRequestDispatcher("GoshuinBookView.action").forward(req, res);
+            return;
+        }
+
+        Integer designId = parseIntOrNull(req.getParameter("designId")); // ← nullでもOK
 
         GoshuinBookDao bookDao = new GoshuinBookDao();
         RegdGoshuinBookDesignDao designDao = new RegdGoshuinBookDesignDao();
 
-        // 元の御朱印帳（DBの状態）
         GoshuinBook book = bookDao.getById(bookId);
+        if (book == null) {
+            req.setAttribute("error", "御朱印帳が見つかりませんでした");
+            req.getRequestDispatcher("GoshuinBookView.action").forward(req, res);
+            return;
+        }
 
-        // 選択したデザインをセット（まだDBには書かない）
-        book.setGoshuinBookDesign(designDao.getById(designId));
+        // designId が指定されている時だけデザインを差し替える
+        if (designId != null) {
+            book.setGoshuinBookDesign(designDao.getById(designId));
+        }
 
-        // セッションに「編集中御朱印帳」として保持
         HttpSession session = req.getSession();
         session.setAttribute(EDITING_BOOK_KEY, book);
 
-        // このあとステッカー配置画面のActionに投げる想定
         res.sendRedirect("GoshuinBookStickerEdit.action?bookId=" + bookId);
+    }
+
+    private Integer parseIntOrNull(String s) {
+        if (s == null) return null;
+        s = s.trim();
+        if (s.isEmpty()) return null;
+        try {
+            return Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 }
