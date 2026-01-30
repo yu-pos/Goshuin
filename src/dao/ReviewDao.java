@@ -99,6 +99,7 @@ public class ReviewDao extends Dao {
 			);
 			// プリペアードステートメントに神社仏閣IDをバインド
 			statement.setInt(1, reviewId);
+			statement.setInt(2, reviewId);
 
 			// プリペアードステートメントを実行
 			ResultSet resultSet = statement.executeQuery();
@@ -116,8 +117,7 @@ public class ReviewDao extends Dao {
 
 	            String imagePath = resultSet.getString("image_path");
 
-	            System.out.println(imagePath);
-	            if (imagePath.isEmpty()) {
+	            if (imagePath == null) {
 	            	imagePath = "default.png";
 	            }
 
