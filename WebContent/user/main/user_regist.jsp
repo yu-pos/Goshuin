@@ -71,7 +71,7 @@
                inputmode="numeric"
                maxlength="11"
                pattern="^0\d{9,10}$"
-               title="電話番号は0から始まる10〜11桁の数字で入力してください。"
+               title="電話番号は0から始まる10〜11桁の半角数字で入力してください。"
                placeholder="例：09012345678"
                required>
         <small class="hint">0から始まる10〜11桁で入力してください。
