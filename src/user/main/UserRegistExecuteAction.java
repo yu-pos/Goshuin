@@ -58,7 +58,7 @@ public class UserRegistExecuteAction extends Action {
 
         // 電話番号：0から始まる10〜11桁（ハイフンなし）
         if (!isEmpty(tel) && !telFormatOk) {
-            errors.put("10", "電話番号は0から始まる10〜11桁の数字で入力してください");
+            errors.put("10", "電話番号は0から始まる10〜11桁の半角数字で入力してください");
         }
 
         // ✅ 重要：telが形式OKなら、他の項目にエラーがあっても重複チェックを必ず実行
