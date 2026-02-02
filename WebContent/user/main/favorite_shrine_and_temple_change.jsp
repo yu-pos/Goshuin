@@ -32,7 +32,7 @@
         </div>
 
         <div class="btn-area">
-          <a href="Main.action">キャンセル</a>
+          <a href="ShrineAndTempleSearch.action">キャンセル</a>
         </div>
 	</c:param>
 </c:import>
