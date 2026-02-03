@@ -6,7 +6,7 @@
   <c:param name="content">
     <div class="main-header">
       <h3>イベント情報一覧</h3>
-      <a href="EventRegist.action" class="addt-btn">＋ イベント登録</a>
+      <a href="EventRegist.action" class="edit-btn">＋ イベント登録</a>
     </div>
 
     <div id="result" class="scroll-area">
