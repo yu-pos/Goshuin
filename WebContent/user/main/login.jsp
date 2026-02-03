@@ -22,7 +22,6 @@
 
 
             <form action="LoginExecute.action" method="POST">
-            <h1>ログイン画面</h1>
 
 
                 <label for="tel">電話番号</label>
