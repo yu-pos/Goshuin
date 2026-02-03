@@ -17,7 +17,7 @@
 
 
 
-    <main id="main">
+    <main id="main" class="center-narrow">
       ${param.content}
     </main>
   </div>

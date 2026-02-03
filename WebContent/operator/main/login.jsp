@@ -6,7 +6,6 @@
 <c:import url="../base2.jsp">
     <c:param name="content">
         <div class="card">
-            <h3>ログイン</h3>
 
 
             <!-- エラーメッセージ表示 -->
@@ -18,21 +17,22 @@
    				</div>
 			</c:if>
 
+			<h3>ログイン</h3>
 
             <!-- ログインフォーム -->
-            <form id="loginForm" action="LoginExecute.action" method="post">
-                <label>ID</label>
+            <form id="loginForm" action="LoginExecute.action" method="post" class="center-narrow">
+	                <label>ID</label>
 
-                <input id="loginId" name="id" type="text" value="${id}" required>
-
-
-                <label>パスワード</label>
-                <input id="loginPassword" name="password" type="password" required>
+	                <input id="loginId" name="id" type="text" value="${id}" required>
 
 
-                <div>
-                    <button class="btn primary" type="submit">ログイン</button>
-                </div>
+	                <label>パスワード</label>
+	                <input id="loginPassword" name="password" type="password" required>
+
+
+	                <div>
+	                    <button class="btn primary" type="submit">ログイン</button>
+	                </div>
             </form>
         </div>
     </c:param>
