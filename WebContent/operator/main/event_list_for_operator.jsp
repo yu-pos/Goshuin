@@ -6,7 +6,7 @@
   <c:param name="content">
     <div class="main-header">
       <h3>イベント情報一覧</h3>
-      <a href="EventRegist.action" class="addt-btn">＋ イベント登録</a>
+      <a href="EventRegist.action" class="edit-btn">＋ イベント登録</a>
     </div>
 
     <div id="result" class="scroll-area">
@@ -14,16 +14,18 @@
         <c:when test="${hasEvent}">
           <c:forEach var="event" items="${events}">
             <form action="EventUpdate.action" method="post">
-              <div class="event-info">
+              <div class="event-card">
                 <!-- basePath を利用して画像パスを組み立て -->
                 <img src="${sessionScope.basePath}/event/${event.imagePath}"
                      alt="${event.title}" class="event-img" />
-                <h3>${event.title}</h3>
-                <p>${event.text}</p>
-                <p>登録日: ${event.createdAt} ／ 更新日: ${event.updatedAt}</p>
+                <div class="event-info">
+	                <h3>${event.title}</h3>
+	                <p>${event.text}</p>
+	                <p>登録日: ${event.createdAt} ／ 更新日: ${event.updatedAt}</p>
+	                <input type="hidden" name="eventId" value="${event.id}" />
+	              	<input type="submit" value="編集" class="edit-btn" />
+              	</div>
               </div>
-              <input type="hidden" name="eventId" value="${event.id}" />
-              <input type="submit" value="編集" class="nav-btn" />
             </form>
           </c:forEach>
         </c:when>

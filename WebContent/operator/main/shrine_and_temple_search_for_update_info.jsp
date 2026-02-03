@@ -34,7 +34,7 @@
 	        <label for="name">名称:</label>
 	        <input type="text" name="name" id="name" placeholder="神社・寺名を入力">
 
-	        <input type="submit" value="検索">
+	        <input type="submit" value="検索" class="edit-btn">
       </form>
 
       <div id="result">

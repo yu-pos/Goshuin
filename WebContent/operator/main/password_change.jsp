@@ -17,12 +17,13 @@
 			</c:if>
 
             <!-- 対象ユーザー表示 -->
-            <p id="targetUser" class="row">
-                対象アカウントID：<c:out value="${operator.id}" default="未指定"/>
-            </p>
+
 
             <!-- パスワード変更フォーム -->
-            <form id="pwForm" action="PasswordChangeExecute.action" method="post">
+            <form id="pwForm" action="PasswordChangeExecute.action" method="post"  class="center-narrow">
+            	<p id="targetUser" class="row">
+                対象アカウントID：<c:out value="${operator.id}" default="未指定"/>
+            	</p>
                 <label>新しいパスワード</label>
                 <input id="p1" name="newPassword" type="password" minlength="8" required>
 

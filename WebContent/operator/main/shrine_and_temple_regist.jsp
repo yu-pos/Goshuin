@@ -48,7 +48,7 @@
         <input type="text" id="map" name="mapLink" value="<c:out value="${shrineAndTemple.mapLink}" />" placeholder="Googleマップ埋め込みURLを入力" maxlength="1000" required>
 
         <label for="image">画像アップロード:</label>
-        <input type="file" id="image" name="image" accept="image/*" required>
+        <input type="file" id="image" name="image" accept="image/*" required >
 
         <input type="submit" value="登録" class="register-btn">
       </form>

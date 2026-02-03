@@ -21,21 +21,22 @@
                     <c:otherwise>無効</c:otherwise>
                 </c:choose>
             </div>
+            <!-- 無効化ボタン（有効な場合のみ表示） -->
+	        <c:if test="${operator.enable}">
+	            <a class="btn danger" href="OperatorDisableConfirm.action?id=${operator.id}">無効化</a>
+	        </c:if>
+
+	        <!-- アカウントがすでに無効だった場合 -->
+	        <c:if test="${!operator.enable}">
+	            <div class="muted">このアカウントは無効です。</div>
+	        </c:if>
+
+	        <!-- ログイン中のアカウントだった場合 -->
+	        <c:if test="${sessionScope.operator.id == operator.id}">
+	            <div class="muted">※ 現在ログイン中のアカウントは無効化できません。</div>
+	        </c:if>
         </div>
 
-        <!-- 無効化ボタン（有効な場合のみ表示） -->
-        <c:if test="${operator.enable}">
-            <a class="btn danger" href="OperatorDisableConfirm.action?id=${operator.id}">無効化</a>
-        </c:if>
 
-        <!-- アカウントがすでに無効だった場合 -->
-        <c:if test="${!operator.enable}">
-            <div class="muted">このアカウントは無効です。</div>
-        </c:if>
-
-        <!-- ログイン中のアカウントだった場合 -->
-        <c:if test="${sessionScope.operator.id == operator.id}">
-            <div class="muted">※ 現在ログイン中のアカウントは無効化できません。</div>
-        </c:if>
     </c:param>
 </c:import>

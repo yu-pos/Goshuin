@@ -3,6 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:import url="../base.jsp">
 	<c:param name="content">
+		<h3>神社仏閣検索</h3>
       <form action="ShrineAndTempleSearchExecuteForUpdateInfo.action" method="get" class="search-box">
 
 	      <c:forEach var="tagType" items="${tagTypeMap}">
@@ -26,7 +27,7 @@
 	        <label for="name">名称:</label>
 	        <input type="text" value="${searchStr}" name="name" id="name" placeholder="神社・寺名を入力">
 
-	        <input type="submit" value="検索">
+	        <input type="submit" value="検索" class="edit-btn">
       </form>
 
       <div id="result">

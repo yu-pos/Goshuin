@@ -11,24 +11,50 @@ import tool.Action;
 public class OperatorAccountManageAction extends Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-    	HttpSession session = req.getSession(false);
+        HttpSession session = req.getSession(false);
         Operator loginUser = (Operator) session.getAttribute("operator");
 
         // 管理者権限チェック
         if (loginUser == null || !loginUser.isAdmin()) {
-            // 権限がない場合はメイン画面へリダイレクト
             session.setAttribute("errorMessage", "ページを表示する権限がありません。");
             res.sendRedirect("main.jsp");
             return;
         }
 
-    	// リクエストパラメータから対象の運営者IDを取得
+        // リクエストパラメータから対象の運営者IDを取得
         String idStr = req.getParameter("id");
-        int id = Integer.parseInt(idStr);
+        if (idStr == null || idStr.trim().isEmpty()) {
+            session.setAttribute("errorMessage", "不正なリクエストです。");
+            res.sendRedirect("OperatorAccountList.action");
+            return;
+        }
+
+        int id;
+        try {
+            id = Integer.parseInt(idStr.trim());
+        } catch (NumberFormatException e) {
+            session.setAttribute("errorMessage", "不正なリクエストです。");
+            res.sendRedirect("OperatorAccountList.action");
+            return;
+        }
+
+        // ✅ 追加：ログイン中の自分自身は管理画面を開けない
+        if (id == loginUser.getId()) {
+            session.setAttribute("errorMessage", "ログイン中のアカウントは管理できません。");
+            res.sendRedirect("OperatorAccountList.action");
+            return;
+        }
 
         // 対象の運営者アカウントを取得
         OperatorDao dao = new OperatorDao();
         Operator operator = dao.getById(id);
+
+        // 対象が存在しない場合
+        if (operator == null) {
+            session.setAttribute("errorMessage", "指定された運営者アカウントが見つかりません。");
+            res.sendRedirect("OperatorAccountList.action");
+            return;
+        }
 
         // JSPに渡すためリクエスト属性にセット
         req.setAttribute("operator", operator);
