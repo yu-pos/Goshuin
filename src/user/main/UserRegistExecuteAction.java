@@ -24,75 +24,67 @@ public class UserRegistExecuteAction extends Action {
         String tel = req.getParameter("tel");
         String password = req.getParameter("password");
 
-        // ✅ telは念のためtrim（半角のみでも、末尾空白事故を防げる）
-        if (tel != null) {
-            tel = tel.trim();
-        }
+        // ✅ 念のため trim（空白事故対策）
+        if (userName != null) userName = userName.trim();
+        if (realName != null) realName = realName.trim();
+        if (address != null) address = address.trim();
+        if (tel != null) tel = tel.trim();
+        if (password != null) password = password.trim();
 
         UserDao userDao = new UserDao();
         Map<String, String> errors = new HashMap<>();
 
-        // ===== 必須チェック =====
-        if (isEmpty(userName)) errors.put("1", "ユーザー名は必須です");
-        if (isEmpty(realName)) errors.put("2", "氏名は必須です");
-        if (isEmpty(birthDateStr)) errors.put("3", "生年月日は必須です");
-        if (isEmpty(address)) errors.put("4", "住所は必須です");
-        if (isEmpty(tel)) errors.put("5", "電話番号は必須です");
-        if (isEmpty(password)) errors.put("6", "パスワードは必須です");
-
-        // ===== 形式チェック（JSPのルールと合わせる）=====
+        // ユーザー名：1〜20文字（ひら/カタ/漢字/英数字/_）
         if (!isEmpty(userName) && !userName.matches("^[A-Za-z0-9ぁ-んァ-ヶ一-龥ー_]{1,20}$")) {
             errors.put("7", "ユーザー名は1〜20文字（ひらがな/カタカナ/漢字/英数字/_）で入力してください");
         }
 
+        // 氏名：1〜30文字（漢字/かな/英字/スペース）
         if (!isEmpty(realName) && !realName.matches("^[A-Za-zぁ-んァ-ヶ一-龥ー\\s]{1,30}$")) {
             errors.put("8", "氏名は1〜30文字（漢字/かな/英字/スペース）で入力してください");
         }
 
+        // 住所：60文字以内
         if (!isEmpty(address) && address.length() > 60) {
             errors.put("9", "住所は60文字以内で入力してください");
         }
 
-        // ===== 電話番号（形式チェック）=====
-        boolean telFormatOk = !isEmpty(tel) && tel.matches("^0\\d{9,10}$");
-
         // 電話番号：0から始まる10〜11桁（ハイフンなし）
+        boolean telFormatOk = !isEmpty(tel) && tel.matches("^0\\d{9,10}$");
         if (!isEmpty(tel) && !telFormatOk) {
             errors.put("10", "電話番号は0から始まる10〜11桁の半角数字で入力してください");
         }
 
-        // ✅ 重要：telが形式OKなら、他の項目にエラーがあっても重複チェックを必ず実行
+        // ✅ telが形式OKなら、他の項目がエラーでも必ず重複チェック
         if (telFormatOk) {
             if (userDao.getByTel(tel) != null) {
                 errors.put("13", "この電話番号は既に登録されています");
             }
         }
 
-        // ===== パスワード：8〜32、英字+数字（記号なし）=====
+        // パスワード：8〜32、英字+数字（記号なし）
         if (!isEmpty(password) && !password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,32}$")) {
             errors.put("11", "パスワードは8〜32文字で、英字と数字を両方含めてください（記号なし）");
         }
 
-        // ===== 生年月日チェック（00日/00月を弾く＋実在日付チェック）=====
+        // 生年月日チェック（00日/00月を弾く＋実在日付チェック）
         LocalDateTime birthDateTime = null;
         if (!isEmpty(birthDateStr)) {
 
-            // まず形式（YYYY-MM-DD）をチェック
+            // 形式（YYYY-MM-DD）
             if (!birthDateStr.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
                 errors.put("12", "生年月日はYYYY-MM-DD形式で入力してください");
             } else {
                 try {
                     String[] parts = birthDateStr.split("-");
-                    int year = Integer.parseInt(parts[0]);
+                    int year  = Integer.parseInt(parts[0]);
                     int month = Integer.parseInt(parts[1]);
-                    int day = Integer.parseInt(parts[2]);
+                    int day   = Integer.parseInt(parts[2]);
 
-                    // 00月・00日を明示的にNG
                     if (month == 0 || day == 0) {
                         errors.put("12", "生年月日は正しい日付を入力してください");
                     } else {
-                        // 実在する日付かチェック（例：2/30は例外になる）
-                        LocalDate birthDate = LocalDate.of(year, month, day);
+                        LocalDate birthDate = LocalDate.of(year, month, day); // 実在チェック
                         birthDateTime = birthDate.atStartOfDay();
                     }
                 } catch (Exception e) {
@@ -101,7 +93,9 @@ public class UserRegistExecuteAction extends Action {
             }
         }
 
+        // ==========================
         // エラーがある場合
+        // ==========================
         if (!errors.isEmpty()) {
             req.setAttribute("errors", errors);
 
@@ -116,7 +110,9 @@ public class UserRegistExecuteAction extends Action {
             return;
         }
 
+        // ==========================
         // 登録
+        // ==========================
         User user = new User();
         user.setUserName(userName);
         user.setRealName(realName);
