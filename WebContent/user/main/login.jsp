@@ -9,9 +9,8 @@
 	<script src="/goshuin/user/scripts/password_toggle.js?v=1"></script>
 	<script src="/goshuin/user/scripts/phone_numeric_only.js"></script>
 
-        <div class="login">
-            <h1>ログイン画面</h1>
-
+        <div>
+        <h1>ログイン画面</h1>
             <!-- 🔻ここでエラーを表示する -->
             <c:if test="${not empty errors}">
                 <div class="error" style="color:red;">
@@ -21,7 +20,10 @@
                 </div>
             </c:if>
 
+
             <form action="LoginExecute.action" method="POST">
+
+
                 <label for="tel">電話番号</label>
 				<input
 				  type="tel"
@@ -38,14 +40,15 @@
 				<input type="password" id="password" name="password"
 				       placeholder="パスワードを入力してください" required>
 
-				<label class="showpass">
-				  <input type="checkbox" id="togglePassword">
-				  パスワードを表示
-				</label>
+				 <div class="password-row">
+		          <label class="showpass">
+		            パスワードを表示<input type="checkbox" id="togglePassword">
+		          </label>
+		        </div>
 
 				<input type="submit" value="ログイン">
+				<a href="UserRegist.action">新規登録はこちら</a>
             </form>
         </div>
-        <a href="UserRegist.action">新規登録はこちら</a>
     </c:param>
 </c:import>

@@ -17,3 +17,13 @@ input[type="tel"] {
   -webkit-appearance: none;
   line-height: normal;
 }
+
+#password {
+  width: 100%;
+  padding: 8px;
+  font-size: 0.8rem;
+  line-height: normal;
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+}
