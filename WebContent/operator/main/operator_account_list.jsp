@@ -17,7 +17,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- OperatorAccountListAction でセットされた operators をループ -->
                 <c:forEach var="op" items="${operators}">
                     <tr>
                         <td>${op.id}</td>
@@ -37,17 +36,14 @@
                                 </c:otherwise>
                             </c:choose>
                         </td>
+                        <td>${op.createdAt}</td>
+                        <td>${op.updatedAt}</td>
+
                         <td>
-                            <!-- LocalDateTime -->
-                            ${op.createdAt}
-                        </td>
-                        <td>
-                            <!-- LocalDateTime -->
-                            ${op.updatedAt}
-                        </td>
-                        <td>
-                            <!-- 管理メニューへ遷移 -->
-                            <a class="btn secondary" href="OperatorAccountManage.action?id=${op.id}">管理</a>
+                            <!-- ✅ ログイン中のユーザーは「管理」ボタンを出さない -->
+                            <c:if test="${sessionScope.operator != null && op.id != sessionScope.operator.id}">
+                                <a class="btn secondary" href="OperatorAccountManage.action?id=${op.id}">管理</a>
+                            </c:if>
                         </td>
                     </tr>
                 </c:forEach>
