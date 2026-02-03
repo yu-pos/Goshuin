@@ -27,7 +27,7 @@
       </c:if>
 
       <!-- ★ 判定は Action のみ -->
-      <form action="UserRegistExecute.action" method="POST" novalidate>
+      <form action="UserRegistExecute.action" method="POST">
 
         <!-- ユーザー名 -->
         <label for="userName">ユーザー名 <span class="required">※</span></label>
