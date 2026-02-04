@@ -14,13 +14,15 @@
       </div>
     </c:if>
 
-    <section class="omikuji" id="omikujiSection">
-      <a href="omikuji.jsp" class="omikuji-btn left" aria-label="おみくじ">
-        <img src="${pageContext.request.contextPath}/user/images/omikuji.png"
-             alt="おみくじ"
-             class="omikuji-icon">
-      </a>
-    </section>
+	<c:if test="${isCanDrawOmikuji}">
+	    <section class="omikuji" id="omikujiSection">
+	      <a href="Omikuji.action" class="omikuji-btn left" aria-label="おみくじ">
+	        <img src="${pageContext.request.contextPath}/user/images/omikuji.png"
+	             alt="おみくじ"
+	             class="omikuji-icon">
+	      </a>
+	    </section>
+    </c:if>
 
     <section class="card rank-section">
       <h2>
@@ -83,20 +85,6 @@
         </c:if>
       </div>
     </section>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const omikujiSection = document.getElementById("omikujiSection");
-        if (!omikujiSection) return;
-
-        const today = new Date().toISOString().split("T")[0];
-        const lastDate = localStorage.getItem("lastOmikujiDate");
-
-        if (lastDate === today) {
-          omikujiSection.style.display = "none";
-        }
-      });
-    </script>
 
   </c:param>
 </c:import>

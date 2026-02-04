@@ -35,6 +35,8 @@ public class User implements Serializable {
 
 	private LocalDateTime lastLoginAt;
 
+	private LocalDateTime lastOmikujiAt;
+
 	private LocalDateTime updatedAt;
 
 	private LocalDateTime createdAt;
@@ -161,6 +163,15 @@ public class User implements Serializable {
 
 	public void setLastLoginAt(LocalDateTime lastLoginAt) {
 		this.lastLoginAt = lastLoginAt;
+	}
+
+
+	public LocalDateTime getLastOmikujiAt() {
+		return lastOmikujiAt;
+	}
+
+	public void setLastOmikujiAt(LocalDateTime lastOmikujiAt) {
+		this.lastOmikujiAt = lastOmikujiAt;
 	}
 
 	public LocalDateTime getUpdatedAt() {

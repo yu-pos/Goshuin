@@ -1,6 +1,5 @@
 package user.main;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -51,7 +50,7 @@ public class LoginExecuteAction extends Action {
         }
 
         // ✅ ここから下が DBアクセスが絡むので try-catch で囲う
-        try {
+//        try {
             // 🔹 認証処理
             user = userDao.login(telNumber, password);
 
@@ -103,25 +102,25 @@ public class LoginExecuteAction extends Action {
             req.getRequestDispatcher(url).forward(req, res);
             return;
 
-        } catch (Exception e) {
-            // ✅ DB未起動などの例外をここで拾って「ログイン画面」に表示する
-
-            // より丁寧にしたい場合：SQLException系を優先判定
-            Throwable cause = e;
-            while (cause != null && !(cause instanceof SQLException)) {
-                cause = cause.getCause();
-            }
-
-            // ここはメッセージ固定でOK（推奨ではないけど要件通り）
-            errors.add("データベースが起動していません。管理者に連絡するか、しばらくしてから再度お試しください。");
-
-            // （任意）デバッグ用：サーバログにだけ出す
-            System.out.println("[DEBUG](LoginExecute) DB error: " + e.getClass().getName() + " / " + e.getMessage());
-
-            req.setAttribute("errors", errors);
-            req.setAttribute("tel", telNumber);
-            req.getRequestDispatcher("login.jsp").forward(req, res);
-            return;
-        }
+//        } catch (Exception e) {
+//            // ✅ DB未起動などの例外をここで拾って「ログイン画面」に表示する
+//
+//            // より丁寧にしたい場合：SQLException系を優先判定
+//            Throwable cause = e;
+//            while (cause != null && !(cause instanceof SQLException)) {
+//                cause = cause.getCause();
+//            }
+//
+//            // ここはメッセージ固定でOK（推奨ではないけど要件通り）
+//            errors.add("データベースが起動していません。管理者に連絡するか、しばらくしてから再度お試しください。");
+//
+//            // （任意）デバッグ用：サーバログにだけ出す
+//            System.out.println("[DEBUG](LoginExecute) DB error: " + e.getClass().getName() + " / " + e.getMessage());
+//
+//            req.setAttribute("errors", errors);
+//            req.setAttribute("tel", telNumber);
+//            req.getRequestDispatcher("login.jsp").forward(req, res);
+//            return;
+//        }
     }
 }

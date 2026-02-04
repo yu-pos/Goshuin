@@ -24,7 +24,7 @@ public class UserDao extends Dao {
             statement = connection.prepareStatement(
                 "SELECT id, user_name, real_name, birth_date, address, tel_number, password, " +
                 "active_goshuin_book_id, point, user_rank, goshuin_count, profile_image_path, " +
-                "my_goshuin_book_id, is_my_goshuin_book_public, last_login_at, updated_at, created_at " +
+                "my_goshuin_book_id, is_my_goshuin_book_public, last_login_at, last_omikuji_at, updated_at, created_at " +
                 "FROM user WHERE id = ?"
             );
 
@@ -66,6 +66,11 @@ public class UserDao extends Dao {
                 if (resultSet.getTimestamp("last_login_at") != null) {
                     user.setLastLoginAt(resultSet.getTimestamp("last_login_at").toLocalDateTime());
                 }
+
+                if (resultSet.getTimestamp("last_omikuji_at") != null) {
+                    user.setLastOmikujiAt(resultSet.getTimestamp("last_omikuji_at").toLocalDateTime());
+                }
+
                 if (resultSet.getTimestamp("updated_at") != null) {
                     user.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
                 }
@@ -100,7 +105,7 @@ public class UserDao extends Dao {
                 "SELECT id, user_name, real_name, birth_date, address, tel_number, password, " +
                 "       active_goshuin_book_id, point, user_rank, goshuin_count, profile_image_path, " +
                 "       my_goshuin_book_id, is_my_goshuin_book_public, " +
-                "       last_login_at, updated_at, created_at " +
+                "       last_login_at, last_omikuji_at, updated_at, created_at " +
                 "FROM user WHERE tel_number = ?"
             );
             statement.setString(1, telNumber);
@@ -140,6 +145,9 @@ public class UserDao extends Dao {
 
                 Timestamp lastLoginTs = rs.getTimestamp("last_login_at");
                 if (lastLoginTs != null) user.setLastLoginAt(lastLoginTs.toLocalDateTime());
+
+                Timestamp lastOmikujiTs = rs.getTimestamp("last_omikuji_at");
+                if (lastOmikujiTs != null) user.setLastOmikujiAt(lastOmikujiTs.toLocalDateTime());
 
                 Timestamp updatedTs = rs.getTimestamp("updated_at");
                 if (updatedTs != null) user.setUpdatedAt(updatedTs.toLocalDateTime());
@@ -277,10 +285,11 @@ public class UserDao extends Dao {
         int count = 0;
 
         try {
+
             statement = connection.prepareStatement(
                 "UPDATE user SET user_name = ?, active_goshuin_book_id = ?, user_rank = ?, goshuin_count = ?, " +
                 "profile_image_path = ?, my_goshuin_book_id = ?, is_my_goshuin_book_public = ?, " +
-                "last_login_at = ?, point = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?"
+                "last_login_at = ?, last_omikuji_at = ?, point = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?"
             );
 
             statement.setString(1, user.getUserName());
@@ -297,9 +306,22 @@ public class UserDao extends Dao {
 
             statement.setInt(6, user.getMyGoshuinBook().getId());
             statement.setBoolean(7, user.isMyGoshuinBookPublic());
-            statement.setTimestamp(8, Timestamp.valueOf(user.getLastLoginAt()));
-            statement.setInt(9, user.getPoint());
-            statement.setInt(10, user.getId());
+
+            if (user.getLastLoginAt() != null) {
+                statement.setTimestamp(8, Timestamp.valueOf(user.getLastLoginAt()));
+            } else {
+                statement.setTimestamp(8, null);
+
+            }
+
+            if (user.getLastOmikujiAt() != null) {
+                statement.setTimestamp(9, Timestamp.valueOf(user.getLastOmikujiAt()));
+            } else {
+                statement.setTimestamp(9, null);
+            }
+
+            statement.setInt(10, user.getPoint());
+            statement.setInt(11, user.getId());
 
             count = statement.executeUpdate();
 

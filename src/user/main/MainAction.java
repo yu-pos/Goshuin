@@ -1,5 +1,7 @@
 package user.main;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -98,6 +100,23 @@ public class MainAction extends Action {
             eventsView.add(vm);
         }
 
+        // おみくじ
+        LocalDateTime nowDateTime = LocalDateTime.now();
+        LocalDate today = nowDateTime.toLocalDate();
+
+        LocalDateTime oldDateTime = user.getLastOmikujiAt();
+        boolean isCanDrawOmikuji = false;
+
+        if (oldDateTime == null) {
+        	isCanDrawOmikuji = true;
+        } else {
+            LocalDate oldDate = oldDateTime.toLocalDate();
+            if (!oldDate.isEqual(today)) {
+            	isCanDrawOmikuji = true;
+            }
+        }
+
+
         // JSPに渡す属性を設定
         req.setAttribute("rankName", rankName);
         req.setAttribute("rankImagePath", rankImagePath);
@@ -107,6 +126,7 @@ public class MainAction extends Action {
         req.setAttribute("nextCouponRemaining", nextCouponRemaining);
         req.setAttribute("goshuinCount", goshuinCount);
         req.setAttribute("eventsView", eventsView);
+        req.setAttribute("isCanDrawOmikuji", isCanDrawOmikuji);
 
         // メイン画面へフォワード
         req.getRequestDispatcher("/user/main/main.jsp").forward(req, res);
