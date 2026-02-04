@@ -9,10 +9,16 @@
           <!-- 交換対象アイテム表示 -->
           <c:choose>
           <c:when test="${type=='design'}">
+
 	          <div class="confirm-item">
-	            <img src="${sessionScope.basePath}/goshuin_book_design/${designGroup.imagePath}" alt="御朱印帳表紙" class="confirm-img">
+	          	<div class="review-slider">
+	          		<c:forEach var="design" items="${designList}">
+		            	<img src="${sessionScope.basePath}/goshuin_book_design/${design.imagePath}" alt="${design.name}" class="confirm-img">
+					</c:forEach>
+	            </div>
 	            <h3>${designGroup.name}</h3>
 	            <p>必要ポイント：<span class="need-point">5 pt</span></p>
+
 	          </div>
           	  <!-- ボタン配置 -->
 	          <form action="PointExchangeExecute.action" method="POST" class="confirm-buttons">
