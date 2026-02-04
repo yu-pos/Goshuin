@@ -41,7 +41,7 @@
         <input type="text" id="address" name="address" value="${shrineAndTemple.address}"   maxlength="100" required>
 
         <label for="description">説明:</label>
-        <textarea id="description" rows="4" name="description" maxlength="2000">${shrineAndTemple.description}</textarea>
+        <textarea id="description" rows="4" name="description" maxlength="2000" required>${shrineAndTemple.description}</textarea>
 
         <label for="info">周辺情報:</label>
         <textarea id="info" rows="3" name="areaInfo" maxlength="1000" required>${shrineAndTemple.areaInfo}</textarea>
