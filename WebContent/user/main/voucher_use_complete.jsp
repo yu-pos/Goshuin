@@ -9,9 +9,7 @@
       ご利用ありがとうございました。
     </p>
 
-    <div class="complete-icon">
-      <img src="images/checkmark.png" alt="完了アイコン" class="check-icon" />
-    </div>
+
 
     <div class="back-btn-area">
       <form action="Main.action" method="get">
