@@ -4,7 +4,7 @@
 <c:import url="../base.jsp">
 	<c:param name="content">
 		<div class="page-header">
-            <h1 class="page-title">ポケ御朱帳 in 山形</h1>
+            <h1 class="page-title">神社仏閣選択</h1>
         </div>
         <div class="senntaku">
             <a href="sanpai_shrine.jsp" class="sentaku-btn">神社</a>
