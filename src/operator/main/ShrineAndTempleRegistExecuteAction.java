@@ -2,7 +2,6 @@ package operator.main;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,142 +23,148 @@ import tool.ImageUtils;
 
 public class ShrineAndTempleRegistExecuteAction extends Action {
 
-	@Override
-	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+    @Override
+    public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
+        String imagePath = null;
 
-		//ローカル変数の宣言 1
-		String imagePath = null;
-		ShrineAndTemple shrineAndTemple = new ShrineAndTemple();
-		List<ShrineAndTempleTag> tagList = new ArrayList<>();
+        ShrineAndTemple shrineAndTemple = new ShrineAndTemple();
+        List<ShrineAndTempleTag> chooseTagList = new ArrayList<>();
 
-		List<ShrineAndTempleTag> selectedTagList = new ArrayList<>();
+        Map<Integer, String> tagTypeMap = new HashMap<>();
+        Map<Integer, List<ShrineAndTempleTag>> tagsByType = new HashMap<>();
 
-		ShrineAndTempleDao shrineAndTempleDao = new ShrineAndTempleDao();
-		ShrineAndTempleTagDao shrineAndTempleTagDao = new ShrineAndTempleTagDao();
+        ShrineAndTempleDao shrineDao = new ShrineAndTempleDao();
+        ShrineAndTempleTagDao tagDao = new ShrineAndTempleTagDao();
 
-		Map<String, String> errors = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
 
+        // ===== パラメータ取得 =====
+        String name = req.getParameter("name");
+        String address = req.getParameter("address");
+        String[] tagIds = req.getParameterValues("tag"); // ★編集画面と同じ
+        String description = req.getParameter("description");
+        String areaInfo = req.getParameter("areaInfo");
+        String mapLink = req.getParameter("mapLink");
+        Part image = req.getPart("image");
 
-		//リクエストパラメータ―の取得 2
+        // ===== タグ一覧取得（画面再表示用）=====
+        List<ShrineAndTempleTag> allTags = tagDao.getall();
 
-		String name = req.getParameter("name");
-		String address = req.getParameter("address");
-		String[] tagIds = req.getParameterValues("tag");
-		String description = req.getParameter("description");
-		String areaInfo = req.getParameter("areaInfo");
-		String mapLink = req.getParameter("mapLink");
-
-
-	    Part image = req.getPart("image");
-
-        for (String tagId : tagIds) {
-        	if (!tagId.isEmpty()) {
-        		tagList.add(shrineAndTempleTagDao.getById(Integer.parseInt(tagId)));
-        	}
-
+        // タグ種別のマップ化
+        for (ShrineAndTempleTag tag : allTags) {
+            tagTypeMap.put(tag.getTagTypeId(), tag.getTagTypeName());
+            tagsByType.computeIfAbsent(tag.getTagTypeId(), k -> new ArrayList<>()).add(tag);
         }
 
+        // ===== タグ必須チェック（種別の数だけ選ばれてる必要がある想定）=====
+        int requiredTypeCount = tagTypeMap.size();
 
-		//DBからデータ取得 3
-
-		//ビジネスロジック 4
-
-        if (Arrays.asList(tagIds).contains("-1")) {
-        	errors.put("1", "タグを指定してください");
+        if (tagIds == null || tagIds.length != requiredTypeCount) {
+            errors.put("1", "タグを指定してください");
+        } else {
+            // 選択されたタグをBean化
+            for (String tagId : tagIds) {
+                if (tagId == null || tagId.isEmpty()) {
+                    errors.put("1", "タグを指定してください");
+                    break;
+                }
+                try {
+                    chooseTagList.add(tagDao.getById(Integer.parseInt(tagId)));
+                } catch (Exception e) {
+                    errors.put("1", "タグを指定してください");
+                    break;
+                }
+            }
         }
 
-        //埋め込みタグからURLを抽出
+        // ===== エラー時のselected復元（編集画面方式）=====
+        if (tagIds != null) {
+            for (ShrineAndTempleTag tag : allTags) {
+                tag.setSelected(false);
+                for (String tagId : tagIds) {
+                    if (tagId != null && !tagId.isEmpty() && tag.getId() == Integer.parseInt(tagId)) {
+                        tag.setSelected(true);
+                        break;
+                    }
+                }
+            }
+        }
+
+        // ===== Google Map URL抽出 =====
         String extractedMapLink = IframeSrcExtractor.extractGoogleMapEmbedUrl(mapLink);
+
+        // embed URL 直貼りも許可
+        if (extractedMapLink == null && mapLink != null && mapLink.contains("www.google.com/maps/embed")) {
+            extractedMapLink = mapLink;
+        }
+
         if (extractedMapLink == null) {
-        	errors.put("2", "埋め込みリンクの指定が不正です。");
-        	extractedMapLink = mapLink;
+            errors.put("2", "埋め込みリンクの指定が不正です。");
+            extractedMapLink = mapLink; // 入力保持
         }
 
-	    //アップロードされた画像を保存
-        if(errors.isEmpty()) {
-		    imagePath = ImageUtils.saveImage(image, "shrine_and_temple", req);
-
-		    if (imagePath == null) {
-		    	errors.put("3", "画像のアップロードに失敗しました。");
-		    }
+        // ===== 画像保存（エラーがない時だけ）=====
+        if (errors.isEmpty()) {
+            imagePath = ImageUtils.saveImage(image, "shrine_and_temple", req);
+            if (imagePath == null) {
+                errors.put("3", "画像のアップロードに失敗しました。");
+            }
         }
 
-
-
-
-
-		//DBへデータ保存 5
-
-
+        // ===== Beanにセット（エラーでも保持）=====
         shrineAndTemple.setName(name);
-    	shrineAndTemple.setAddress(address);
-    	shrineAndTemple.setDescription(description);
-    	shrineAndTemple.setTagList(tagList);
-    	shrineAndTemple.setAreaInfo(areaInfo);
-    	shrineAndTemple.setMapLink(extractedMapLink);
+        shrineAndTemple.setAddress(address);
+        shrineAndTemple.setDescription(description);
+        shrineAndTemple.setAreaInfo(areaInfo);
+        shrineAndTemple.setMapLink(extractedMapLink);
+        shrineAndTemple.setImagePath(imagePath);
+        shrineAndTemple.setTagList(chooseTagList);
 
-    	shrineAndTemple.setImagePath(imagePath);
+        // ===== DB登録 =====
+        if (errors.isEmpty()) {
+            try {
+                Pair<Boolean, Integer> result = shrineDao.insert(shrineAndTemple);
 
-	    //御朱印情報を登録
-	    if (errors.isEmpty()) {
+                if (!result.getLeft()) {
+                    errors.put("0", "神社仏閣情報の登録に失敗しました");
+                    ImageUtils.deleteImage("shrine_and_temple", imagePath, req);
+                } else {
+                    int id = result.getRight();
 
-	    	try {
-	    		Pair<Boolean, Integer> result = shrineAndTempleDao.insert(shrineAndTemple);
+                    String serverUrl = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort();
+                    String qrTargetUrl = serverUrl + req.getContextPath()
+                            + "/user/main/GoshuinChoose.action?shrineAndTempleId=" + id;
 
-	    		if(!result.getLeft()) {
-		    		errors.put("0", "神社仏閣情報の登録に失敗しました");
-		    		ImageUtils.deleteImage("shrine_and_temple", shrineAndTemple.getImagePath(), req);
-		    	} else {
+                    req.setAttribute("qrTargetUrl", qrTargetUrl);
+                    req.setAttribute("qrImageUrl",
+                            req.getContextPath() + "/tool/QrGenerate.action?url="
+                                    + URLEncoder.encode(qrTargetUrl, "UTF-8"));
+                }
 
-		    		//QRコード生成URLを取得
+            } catch (JdbcSQLException e) {
+                if ("23505".equals(e.getSQLState())) {
+                    errors.put("4", "神社名が重複しています");
+                } else {
+                    errors.put("0", "神社仏閣情報の登録に失敗しました");
+                }
+                ImageUtils.deleteImage("shrine_and_temple", imagePath, req);
+            }
+        }
 
-		    		int shrineAndTempleId = result.getRight();
+        // ===== 画面へ返す =====
+        req.setAttribute("shrineAndTemple", shrineAndTemple);
+        req.setAttribute("tagTypeMap", tagTypeMap);
+        req.setAttribute("tagsByType", tagsByType);
 
-		            // サーバ自身のURL取得
-		            String serverUrl = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort();
+        if (errors.isEmpty()) {
+            req.getRequestDispatcher("shrine_and_temple_regist_complete.jsp").forward(req, res);
+        } else {
+           req.setAttribute("errors", errors);
 
-		            // QRコード化するターゲットURL
-		            String qrTargetUrl = serverUrl + req.getContextPath()
-		                + "/user/main/GoshuinChoose.action?shrineAndTempleId=" + shrineAndTempleId;
-
-		            // JSP に渡す
-		            req.setAttribute("qrTargetUrl", qrTargetUrl);
-
-		            // QRコード画像サーブレットへのURL
-		            String qrImageUrl = req.getContextPath() + "/tool/QrGenerate.action?url="
-		                  + URLEncoder.encode(qrTargetUrl, "UTF-8");
-
-		            req.setAttribute("qrImageUrl", qrImageUrl);
-
-
-		    	}
-
-	    	} catch (JdbcSQLException e) {
-	    		if ("23505".equals(e.getSQLState())) {
-		    		errors.put("4", "神社名が重複しています");
-	    	    } else {
-	    	    	errors.put("0", "神社仏閣情報の登録に失敗しました");;
-	    	    }
-	    		ImageUtils.deleteImage("shrine_and_temple", shrineAndTemple.getImagePath(), req);
-	    	}
-
-
-
-
-	    }
-
-		//レスポンス値をセット 6
-		req.setAttribute("shrineAndTemple", shrineAndTemple);
-
-		//JSPへフォワード 7
-		if(errors.isEmpty()) {
-			req.getRequestDispatcher("shrine_and_temple_regist_complete.jsp").forward(req, res);
-		} else {
-
-			req.setAttribute("errors", errors);
-			req.getRequestDispatcher("ShrineAndTempleRegist.action").forward(req, res);
-		}
-	}
-
+           // ★ tagsByType/tagTypeMap は ExecuteAction 側で selected 付きで作ってあるので
+           // ★ そのまま JSP に戻す（Regist.action を経由しない）
+           req.getRequestDispatcher("shrine_and_temple_regist.jsp").forward(req, res);
+        }
+    }
 }

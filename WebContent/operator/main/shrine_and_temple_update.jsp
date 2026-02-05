@@ -50,7 +50,7 @@
         <input type="text" id="map" name="mapLink" value="<c:out value="${shrineAndTemple.mapLink}" />" maxlength="1000" required>
 
         <label for="image">画像変更:</label>
-        <input type="file" id="image" name="image" accept="image/*" required>
+        <input type="file" id="image" name="image" accept="image/*">
 
 		<input type="hidden" name="shrineAndTempleId" value="${shrineAndTemple.id}">
         <input type="submit" value="変更" class="register-btn">
