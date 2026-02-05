@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:import url="../base.jsp">
 	<c:param name="content">
-		<h3>表紙デザイン新規登録</h3>
+
 
 		<c:if test="${not empty errors}">
                 <div class="error" style="color:red;">
@@ -15,6 +15,7 @@
 
 		<c:choose>
 		<c:when test = "${type == 'design' }">
+		<h3>表紙デザイン新規登録</h3>
 	       	<!--前のページで御朱印帳デザイン登録が選ばれた場合はこっち。-->
 	     	<form action="GoshuinBookDesignRegistDetail.action" method="POST" class="temple-form">
 
