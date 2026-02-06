@@ -9,7 +9,7 @@
         </div>
 
         <!-- 📸 神社画像 -->
-        <img src="images/133.jpg" alt="黄檗宗" class="temple-img-large">
+        <img src="/goshuin/user/images/oubaku.jpg" alt="黄檗宗" class="temple-img-large">
 
         <!-- 📖 情報 -->
         <section class="temple-info">

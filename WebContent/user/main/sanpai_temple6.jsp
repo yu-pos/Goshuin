@@ -9,7 +9,7 @@
         </div>
 
         <!-- 📸 神社画像 -->
-        <img src="/goshuin/user/images/132.jpg" alt="" class="temple-img">
+        <img src="/goshuin/user/images/joudo.jpg" alt="" class="temple-img-large">
 
         <!-- 📖 情報 -->
         <section class="temple-info">

@@ -9,7 +9,7 @@
         </div>
 
         <!-- 📸 神社画像 -->
-        <img src="images/200.jpg" alt="法相宗" class="temple-img-large">
+        <img src="/goshuin/user/images/housou.jpg" alt="法相宗" class="temple-img-large">
 
         <!-- 📖 情報 -->
         <section class="temple-info">
