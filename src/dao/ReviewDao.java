@@ -175,7 +175,8 @@ public class ReviewDao extends Dao {
 		            + " review.updated_at AS updated_at, review.created_at AS created_at"
 		            + " FROM review"
 		            + " JOIN user ON review.user_id = user.id "
-		            + " WHERE review.shrine_and_temple_id = ?"
+		            + " WHERE review.shrine_and_temple_id = ? "
+		            + " ORDER BY review.created_by DESC"
 			);
 
 			// 神社仏閣IDをバインド
