@@ -176,7 +176,7 @@ public class ReviewDao extends Dao {
 		            + " FROM review"
 		            + " JOIN user ON review.user_id = user.id "
 		            + " WHERE review.shrine_and_temple_id = ? "
-		            + " ORDER BY review.created_by DESC"
+		            + " ORDER BY review.created_at DESC"
 			);
 
 			// 神社仏閣IDをバインド
@@ -192,7 +192,8 @@ public class ReviewDao extends Dao {
 	            review.setUserId(resultSet.getInt("user_id"));
 	            review.setUserName(resultSet.getString("user_name"));
 
-	            String imagePath = resultSet.getString("image_path");
+	            String imagePath = resultSet.getString("user_image_path");
+	            System.out.println("(ReviewDao.java)[DEBUG]imagePath = " + imagePath);
 	            if (imagePath == null) {
 	            	imagePath = "default.png";
 	            }
