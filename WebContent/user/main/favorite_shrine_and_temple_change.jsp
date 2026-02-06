@@ -32,7 +32,7 @@
         </div>
 
         <div class="btn-area">
-          <a href="ShrineAndTempleSearch.action">キャンセル</a>
+          <button type="button" onclick="history.back()" class="back-btn">キャンセル</button>
         </div>
 	</c:param>
 </c:import>
