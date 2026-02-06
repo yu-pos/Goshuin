@@ -37,7 +37,7 @@
 	        </c:if>
 	        <!-- キャンセルは一覧へ戻る -->
                 <a class="btn secondary" href="OperatorAccountList.action">一覧へ</a>
-        </div>
+        	</div>
 
 
     </c:param>
