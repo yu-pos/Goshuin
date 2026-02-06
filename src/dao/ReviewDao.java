@@ -193,7 +193,6 @@ public class ReviewDao extends Dao {
 	            review.setUserName(resultSet.getString("user_name"));
 
 	            String imagePath = resultSet.getString("user_image_path");
-	            System.out.println("(ReviewDao.java)[DEBUG]imagePath = " + imagePath);
 	            if (imagePath == null) {
 	            	imagePath = "default.png";
 	            }
