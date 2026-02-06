@@ -57,7 +57,10 @@
       <label for="image">画像アップロード:</label>
       <input type="file" id="image" name="image" accept="image/*" required>
 
-      <input type="submit" value="登録" class="register-btn">
+      <div class="button">
+	       <a href="main.jsp" class="button1">戻る</a>
+	       <input type="submit" value="登録" class="button2">
+       </div>
     </form>
   </c:param>
 </c:import>

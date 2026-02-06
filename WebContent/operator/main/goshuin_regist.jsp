@@ -27,7 +27,10 @@
         <input type="file" id="image" name="image" accept="image/*" required>
 
 		<input type="hidden" name="shrineAndTempleId" value="${shrineAndTempleId}">
-        <button type="submit" class="register-btn">登録</button>
+        <div class="button">
+	         <button type="button" onclick="history.back()" class="button1">戻る</button>
+	         <input type="submit" value="登録" class="button2">
+         </div>
       </form>
 	</c:param>
 </c:import>

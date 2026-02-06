@@ -20,7 +20,10 @@
 		    <label>画像：</label>
 		    <input type="file" name="image">
 
-    		<button type="submit"class="register-btn">更新</button>
+    		<div class="button">
+	         	<button type="button" onclick="history.back()" class="button1">戻る</button>
+	         	<input type="submit" value="更新" class="button2">
+        	</div>
 		</form>
 
 

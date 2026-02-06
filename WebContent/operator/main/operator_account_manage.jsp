@@ -35,6 +35,8 @@
 	        <c:if test="${sessionScope.operator.id == operator.id}">
 	            <div class="muted">※ 現在ログイン中のアカウントは無効化できません。</div>
 	        </c:if>
+	        <!-- キャンセルは一覧へ戻る -->
+                <a class="btn secondary" href="OperatorAccountList.action">一覧へ</a>
         </div>
 
 

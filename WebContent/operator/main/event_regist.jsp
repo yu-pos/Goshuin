@@ -22,7 +22,10 @@
       <label for="description">説明:</label>
       <textarea id="description" name="text" rows="4" placeholder="イベント情報を入力" required></textarea>
 
-      <button type="submit" class="register-btn">登録</button>
+      <div class="button">
+	       <button type="button" onclick="history.back()" class="button1">戻る</button>
+	       <input type="submit" value="登録" class="button2">
+      </div>
     </form>
   </c:param>
 </c:import>
