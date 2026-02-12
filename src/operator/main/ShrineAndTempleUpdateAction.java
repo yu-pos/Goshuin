@@ -19,6 +19,12 @@ import tool.Action;
 
 public class ShrineAndTempleUpdateAction extends Action {
 
+	//実行中環境がローカルかEC2上か判定
+	private static boolean isProd() {
+	    String env = System.getenv("APP_ENV");
+	    return "prod".equalsIgnoreCase(env);
+	}
+
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
@@ -79,16 +85,25 @@ public class ShrineAndTempleUpdateAction extends Action {
         // サーバ自身のURL取得
         String serverUrl = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort();
 
+
+
         // QRコード化するターゲットURL
-        String qrTargetUrl = serverUrl + req.getContextPath()
-            + "/user/main/GoshuinChoose.action?shrineAndTempleId=" + shrineAndTempleId;
+        // 正常動作しなくなったので応急処置しています
+        String qrTargetUrl = "";
+        if (isProd()) {
+        	qrTargetUrl = "https://goshuin.ddns.net/goshuin"
+        		+ "/user/main/GoshuinChoose.action?shrineAndTempleId=" + shrineAndTempleId;
+        } else {
+        	qrTargetUrl = serverUrl + req.getContextPath()
+    			+ "/user/main/GoshuinChoose.action?shrineAndTempleId=" + shrineAndTempleId;
+        }
 
         // JSP に渡す
         req.setAttribute("qrTargetUrl", qrTargetUrl);
 
         // QRコード画像サーブレットへのURL
         String qrImageUrl = req.getContextPath() + "/tool/QrGenerate.action?url="
-              + URLEncoder.encode(qrTargetUrl, "UTF-8");
+    			+ URLEncoder.encode(qrTargetUrl, "UTF-8");
 
         req.setAttribute("qrImageUrl", qrImageUrl);
 

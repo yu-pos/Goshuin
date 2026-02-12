@@ -23,6 +23,12 @@ import tool.ImageUtils;
 
 public class ShrineAndTempleRegistExecuteAction extends Action {
 
+	//実行中環境がローカルかEC2上か判定
+	private static boolean isProd() {
+	    String env = System.getenv("APP_ENV");
+	    return "prod".equalsIgnoreCase(env);
+	}
+
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
@@ -133,8 +139,17 @@ public class ShrineAndTempleRegistExecuteAction extends Action {
                     int id = result.getRight();
 
                     String serverUrl = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort();
-                    String qrTargetUrl = serverUrl + req.getContextPath()
-                            + "/user/main/GoshuinChoose.action?shrineAndTempleId=" + id;
+
+                    // QRコード
+                    // 正常動作しなくなったので応急処置しています
+                    String qrTargetUrl = "";
+                    if (isProd()) {
+                    	qrTargetUrl = "https://goshuin.ddns.net/goshuin"
+                    		+ "/user/main/GoshuinChoose.action?shrineAndTempleId=" + id;
+                    } else {
+                    	qrTargetUrl = serverUrl + req.getContextPath()
+                			+ "/user/main/GoshuinChoose.action?shrineAndTempleId=" + id;
+                    }
 
                     req.setAttribute("qrTargetUrl", qrTargetUrl);
                     req.setAttribute("qrImageUrl",
