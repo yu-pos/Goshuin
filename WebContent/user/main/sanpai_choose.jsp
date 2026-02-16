@@ -11,6 +11,7 @@
             <a href="sanpai_temple_choose.jsp" class="sentaku-btn">お寺</a>
         </div>
 
+		<a href="Main.action">メイン画面へ</a>
 
 	</c:param>
 </c:import>
