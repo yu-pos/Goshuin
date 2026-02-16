@@ -16,7 +16,7 @@
 
         <div class="confirm-details">
           <p>価格：<strong>150円</strong></p>
-          <p>支払い方法：ポイント支払い</p>
+          <p>支払い方法：クレジットカード支払い</p>
         </div>
 
         <div class="purchase-btn-area">
